@@ -1,0 +1,77 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("FILELIA__DATABASE__URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["extendedWhereUnique", "orderByNulls", "filteredRelationCount"]
+}
+
+model Site {
+  type     String
+  id       String
+  name     String?
+  url      String?
+  personId String  @map("person_id")
+
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@id([id, type])
+  @@map("site")
+}
+
+model Person {
+  id    String @id @default(uuid())
+  name  String
+  sites Site[]
+
+  @@map("person")
+}
+
+model Tag {
+  id         String     @id @default(uuid())
+  categoryId String     @map("category_id")
+  alias      TagAlias[]
+  projects   Project[]
+
+  tagCategory TagCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@map("tag")
+}
+
+model TagAlias {
+  id   String
+  name String
+
+  tag Tag @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@unique([id, name])
+  @@map("tag_alias")
+}
+
+model TagCategory {
+  id    String             @id @default(uuid())
+  alias TagCategoryAlias[]
+  tags  Tag[]
+
+  @@map("tag_category")
+}
+
+model TagCategoryAlias {
+  id   String
+  name String @unique
+
+  tagCategory TagCategory @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@unique([id, name])
+  @@map("tag_category_alias")
+}
+
+model Project {
+  id   String @id @default(uuid())
+  path String
+  tags Tag[]
+
+  @@map("project")
+}

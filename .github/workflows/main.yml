@@ -1,0 +1,31 @@
+name: main
+on:
+  - push
+  - pull_request
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run lint
+  page:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+      - run: npm run json:generate
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: public
+      - uses: actions/deploy-pages@v2

@@ -1,0 +1,141 @@
+{
+  "name": "@joshuaavalon/filelia",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "start": "node ./dist/index.js | pino-pretty",
+    "lint": "eslint src",
+    "precodegen": "node gql.js",
+    "codegen": "graphql-codegen-esm --config codegen.yml",
+    "pretest": "npm run db:reset",
+    "test": "mocha",
+    "db:dev": "prisma migrate dev --name dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "db:reset": "prisma migrate reset --force --skip-generate",
+    "web:build": "npm run --workspace @joshuaavalon/web build",
+    "web:start": "npm run --workspace @joshuaavalon/web start",
+    "json:generate": "node dist/json-schema/utils/print-schema.js"
+  },
+  "keywords": [],
+  "homepage": "https://github.com/joshuaavalon/filelia#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshuaavalon/filelia.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joshuaavalon/filelia/issues"
+  },
+  "author": "Joshua Avalon",
+  "license": "Apache-2.0",
+  "imports": {
+    "#json-schema/*": {
+      "types": "./src/json-schema/*/index.schema.ts",
+      "import": "./dist/json-schema/*/index.schema.js"
+    },
+    "#json-schema/utils/*": {
+      "types": "./src/json-schema/utils/*.ts",
+      "import": "./dist/json-schema/utils/*.js"
+    },
+    "#plugin": {
+      "types": "./src/plugin/index.ts",
+      "import": "./dist/plugin/index.js"
+    },
+    "#plugin/*": {
+      "types": "./src/plugin/*/index.ts",
+      "import": "./dist/plugin/*/index.js"
+    },
+    "#plugin/graphql/schema/*": {
+      "types": "./src/plugin/graphql/schema/*.ts",
+      "import": "./dist/plugin/graphql/schema/*.js"
+    },
+    "#plugin/graphql/schema/type": {
+      "types": "./src/plugin/graphql/schema/type/index.ts",
+      "import": "./dist/plugin/graphql/schema/type/index.js"
+    },
+    "#sdk": {
+      "types": "./src/sdk/index.ts",
+      "import": "./dist/sdk/index.js"
+    },
+    "#provider/*": {
+      "types": "./src/provider/*/index.ts",
+      "import": "./dist/provider/*/index.js"
+    },
+    "#component/*": {
+      "types": "./src/component/*/index.ts",
+      "import": "./dist/component/*/index.js"
+    },
+    "#utils/*": {
+      "types": "./src/utils/*.ts",
+      "import": "./dist/utils/*.js"
+    },
+    "#utils": {
+      "types": "./src/utils/index.ts",
+      "import": "./dist/utils/index.js"
+    },
+    "#server": {
+      "types": "./src/server.ts",
+      "import": "./dist/server.js"
+    },
+    "#test/sdk": {
+      "types": "./src/__tests__/sdk/index.ts",
+      "import": "./dist/__tests__/sdk/index.js"
+    },
+    "#test/constant": {
+      "types": "./src/__tests__/constant.ts",
+      "import": "./dist/__tests__/constant.js"
+    },
+    "#test/server": {
+      "types": "./src/__tests__/server.ts",
+      "import": "./dist/__tests__/server.js"
+    }
+  },
+  "devDependencies": {
+    "@garoudev/eslint-config": "^1.0.1",
+    "@types/node": "^18.16.8",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "@types/uuid": "^9.0.1",
+    "dotenv": "^16.0.3",
+    "eslint-config-next": "^13.4.2",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prisma": "^4.14.0",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@emotion/react": "11.11.0",
+    "@emotion/server": "11.11.0",
+    "@emotion/styled": "11.11.0",
+    "@fastify/cookie": "8.3.0",
+    "@fastify/helmet": "10.1.1",
+    "@fastify/nextjs": "9.2.0",
+    "@fastify/static": "6.10.1",
+    "@fastify/type-provider-typebox": "3.2.0",
+    "@mantine/core": "6.0.10",
+    "@mantine/form": "6.0.10",
+    "@mantine/hooks": "6.0.10",
+    "@mantine/next": "6.0.10",
+    "@prisma/client": "4.14.0",
+    "@sinclair/typebox": "0.28.9",
+    "argon2": "0.30.3",
+    "fastify": "4.17.0",
+    "fastify-plugin": "4.5.0",
+    "http-proxy-middleware": "2.0.6",
+    "image-type": "5.2.0",
+    "next": "13.4.2",
+    "pino-pretty": "10.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "4.8.0",
+    "read-env-vars": "1.0.0",
+    "sharp": "0.32.1",
+    "uuid": "9.0.0"
+  }
+}

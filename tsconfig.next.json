@@ -1,0 +1,28 @@
+{
+  "extends": ["./tsconfig.json"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true,
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "#sdk": ["src/sdk/index.ts"],
+      "#utils/*": ["src/utils/*.ts"],
+      "#component/*": ["src/component/*/index.tsx"],
+      "#provider/*": ["src/provider/*/index.tsx"]
+    },
+    "module": "esnext",
+    "moduleResolution": "node"
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}
