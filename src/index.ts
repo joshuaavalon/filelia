@@ -15,6 +15,13 @@ async function main(): Promise<void> {
   const { config } = cfgResult;
   const { port } = config;
   const fastify = await createServer(config);
+  fastify.addHook("onReady", async function () {
+    this.indexJson();
+  });
+
+  fastify.addHook("onClose", async instance => {
+    await instance.db.keyValue.delete({ where: { key: "index" } });
+  });
   fastify.listen({ port }, err => {
     if (err) {
       fastify.log.fatal(err);

@@ -3,7 +3,6 @@ import { Type } from "@sinclair/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { optionsSchema as database } from "#plugin/database";
-import { optionsSchema as storage } from "#plugin/storage";
 
 import type { Static } from "@sinclair/typebox";
 import type { ValueError } from "@sinclair/typebox/compiler";
@@ -11,18 +10,18 @@ import type { ValueError } from "@sinclair/typebox/compiler";
 const userConfigSchema = Type.Object({
   port: Type.Optional(Type.Number()),
   logging: Type.Optional(Type.Boolean()),
-  storage,
   database: Type.Optional(database),
-  next: Type.Optional(Type.Boolean())
+  next: Type.Optional(Type.Boolean()),
+  path: Type.String()
 });
 const userConfigSchemaValidator = TypeCompiler.Compile(userConfigSchema);
 
 const configSchema = Type.Object({
   port: Type.Number({ default: 8080 }),
   logging: Type.Boolean({ default: true }),
-  storage,
   database: Type.Optional(database),
-  next: Type.Boolean({ default: true })
+  next: Type.Boolean({ default: true }),
+  path: Type.String()
 });
 
 export type Config = Static<typeof configSchema>;

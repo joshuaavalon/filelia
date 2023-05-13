@@ -13,8 +13,21 @@ const name = "@garoudev/plugin-index";
 const plugin = createPlugin(
   async fastify => {
     const pluginLogger = fastify.log.child({ plugin: name });
-    fastify.decorate("indexJson", async (path: string): Promise<void> => {
-      await indexJson({ fastify, path, logger: pluginLogger });
+    fastify.decorate("indexJson", async function (): Promise<void> {
+      const { path } = this.config;
+      const index = await this.db.keyValue.findUnique({
+        where: { key: "index" }
+      });
+      if (index) {
+        return;
+      }
+      try {
+        await indexJson({ fastify, path, logger: pluginLogger });
+      } catch (err) {
+        pluginLogger.error({ err });
+      } finally {
+        await this.db.keyValue.delete({ where: { key: "index" } });
+      }
     });
   },
   {
@@ -30,6 +43,6 @@ export default plugin;
 
 declare module "fastify" {
   interface FastifyInstance {
-    indexJson: (path: string) => Promise<void>;
+    indexJson: () => Promise<void>;
   }
 }

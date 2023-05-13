@@ -3,7 +3,6 @@ import cookiePlugin from "@fastify/cookie";
 import helmetPlugin from "@fastify/helmet";
 import nextPlugin from "@fastify/nextjs";
 import imagePlugin from "#plugin/image";
-import storagePlugin from "#plugin/storage";
 import databasePlugin from "#plugin/database";
 import { initRoutes } from "./route/index.js";
 
@@ -12,7 +11,7 @@ import type { Config } from "./config.js";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function createServer(config: Config) {
-  const { storage, database, logging, next } = config;
+  const { database, logging, next } = config;
   const isDev = process.env.NODE_ENV !== "production";
   const fastify = createFastify({
     logger: logging,
@@ -20,6 +19,7 @@ export async function createServer(config: Config) {
     pluginTimeout: isDev ? 120000 : undefined
   }).withTypeProvider<TypeBoxTypeProvider>();
 
+  fastify.decorate("config", config);
   await fastify.register(cookiePlugin, {
     secret: "TODO",
     parseOptions: {
@@ -31,7 +31,6 @@ export async function createServer(config: Config) {
   });
   await fastify.register(helmetPlugin, { global: false });
   await fastify.register(databasePlugin, database);
-  await fastify.register(storagePlugin, storage);
   await fastify.register(imagePlugin);
   if (next) {
     await fastify.register(nextPlugin);
@@ -45,3 +44,9 @@ export async function createServer(config: Config) {
 }
 
 export type Server = Exclude<Awaited<ReturnType<typeof createServer>>, null>;
+
+declare module "fastify" {
+  interface FastifyInstance {
+    config: Config;
+  }
+}

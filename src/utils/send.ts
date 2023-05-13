@@ -75,25 +75,14 @@ export async function sendText(
 export async function sendJson(
   req: FastifyRequest,
   res: FastifyReply,
-  json: Record<string, unknown>,
-  opts: SendImageOptions = {}
+  json: Record<string, unknown>
 ): Promise<void> {
-  const { cache = true } = opts;
   const data = JSON.stringify(json);
   const etag = createHash("sha256").update(data, "utf-8").digest("hex");
-  if (cache) {
-    if (req.headers["if-none-match"] === etag) {
-      res.status(304).send();
-      return;
-    }
-  }
   res
     .code(200)
     .header("Content-Type", "application/json; charset=utf-8")
-    .header(
-      "Cache-Control",
-      cache ? "public, max-age=3600" : "public, no-cache"
-    )
+    .header("Cache-Control", "public, no-cache")
     .header("ETag", etag)
     .send(json);
 }

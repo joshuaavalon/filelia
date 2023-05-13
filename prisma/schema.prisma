@@ -75,3 +75,10 @@ model Project {
 
   @@map("project")
 }
+
+model KeyValue {
+  key   String @id
+  value String
+
+  @@map("key_value")
+}

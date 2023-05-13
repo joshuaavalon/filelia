@@ -1,3 +1,4 @@
+import { validate as isUUID } from "uuid";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import schema, { $id } from "#json-schema/tag/v1";
 
@@ -20,15 +21,27 @@ export async function insertTag(
   }
 
   await fastify.db.$transaction(async tx => {
+    const tagCategories = await tx.tagCategory.findMany({
+      where: isUUID(value.category)
+        ? {
+            id: value.category
+          }
+        : {
+            alias: { some: { name: value.category } }
+          }
+    });
+    if (tagCategories.length !== 1) {
+      throw new Error(`Invalid tag category ${value.category}`);
+    }
     await tx.tagAlias.deleteMany({ where: { id: value.id } });
     await tx.tag.upsert({
       where: { id: value.id },
       update: {
-        categoryId: value.categoryId,
+        categoryId: tagCategories[0].id,
         alias: { create: value.alias.map(name => ({ name })) }
       },
       create: {
-        categoryId: value.categoryId,
+        categoryId: tagCategories[0].id,
         alias: { create: value.alias.map(name => ({ name })) }
       }
     });
