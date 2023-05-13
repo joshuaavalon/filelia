@@ -50,18 +50,6 @@
       "types": "./src/plugin/*/index.ts",
       "import": "./dist/plugin/*/index.js"
     },
-    "#plugin/graphql/schema/*": {
-      "types": "./src/plugin/graphql/schema/*.ts",
-      "import": "./dist/plugin/graphql/schema/*.js"
-    },
-    "#plugin/graphql/schema/type": {
-      "types": "./src/plugin/graphql/schema/type/index.ts",
-      "import": "./dist/plugin/graphql/schema/type/index.js"
-    },
-    "#sdk": {
-      "types": "./src/sdk/index.ts",
-      "import": "./dist/sdk/index.js"
-    },
     "#provider/*": {
       "types": "./src/provider/*/index.ts",
       "import": "./dist/provider/*/index.js"
@@ -81,18 +69,6 @@
     "#server": {
       "types": "./src/server.ts",
       "import": "./dist/server.js"
-    },
-    "#test/sdk": {
-      "types": "./src/__tests__/sdk/index.ts",
-      "import": "./dist/__tests__/sdk/index.js"
-    },
-    "#test/constant": {
-      "types": "./src/__tests__/constant.ts",
-      "import": "./dist/__tests__/constant.js"
-    },
-    "#test/server": {
-      "types": "./src/__tests__/server.ts",
-      "import": "./dist/__tests__/server.js"
     }
   },
   "devDependencies": {

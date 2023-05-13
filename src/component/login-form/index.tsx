@@ -9,7 +9,6 @@ import {
 } from "@mantine/core";
 import { hasLength, useForm } from "@mantine/form";
 import { MdLockOutline } from "react-icons/md/index.js";
-import { useLoginMutation } from "#sdk";
 import ErrorMessage from "./error-message.jsx";
 
 import type { FC } from "react";
@@ -22,8 +21,9 @@ interface FormValues {
 export interface Props {}
 
 const Component: FC<Props> = () => {
-  const [login, { loading }] = useLoginMutation();
-  const [formError, setFormError] = useState("");
+  // const [login, { loading }] = useLoginMutation();
+  const loading = false;
+  const [formError] = useState("");
   const form = useForm<FormValues>({
     initialValues: {
       loginName: "",
@@ -40,24 +40,21 @@ const Component: FC<Props> = () => {
       )
     }
   });
-  const onSubmit = useCallback(
-    (values: FormValues): void => {
-      login({
-        variables: { input: { ...values } },
-        onCompleted: (res, errors) => {
-          if (!res.login || errors) {
-            setFormError("Invalid login name or password");
-            return;
-          }
-          console.log(res);
-        },
-        onError: () => {
-          setFormError("Failed to login. Please try again");
-        }
-      });
-    },
-    [login]
-  );
+  const onSubmit = useCallback((_values: FormValues): void => {
+    // login({
+    //   // variables: { input: { ...values } },
+    //   // onCompleted: (res, errors) => {
+    //   //   if (!res.login || errors) {
+    //   //     setFormError("Invalid login name or password");
+    //   //     return;
+    //   //   }
+    //   //   console.log(res);
+    //   // },
+    //   // onError: () => {
+    //   //   setFormError("Failed to login. Please try again");
+    //   // }
+    // });
+  }, []);
   return (
     <Card shadow="xs" padding="md" w="100%" maw="30rem">
       <form onSubmit={form.onSubmit(onSubmit)} autoComplete="off">
