@@ -17,6 +17,9 @@ jobs:
     permissions:
       pages: write
       id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -29,4 +32,5 @@ jobs:
         with:
           path: public
       # https://github.com/actions/deploy-pages/issues/168
-      - uses: actions/deploy-pages@v1
+      - id: deployment
+        uses: actions/deploy-pages@v2
