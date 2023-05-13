@@ -28,4 +28,5 @@ jobs:
       - uses: actions/upload-pages-artifact@v1
         with:
           path: public
-      - uses: actions/deploy-pages@v2
+      # https://github.com/actions/deploy-pages/issues/168
+      - uses: actions/deploy-pages@v1
