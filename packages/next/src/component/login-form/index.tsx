@@ -8,8 +8,8 @@ import {
   TextInput
 } from "@mantine/core";
 import { hasLength, useForm } from "@mantine/form";
-import { MdLockOutline } from "react-icons/md/index.js";
-import ErrorMessage from "./error-message.jsx";
+import { MdLockOutline } from "react-icons/md";
+import ErrorMessage from "./error-message";
 
 import type { FC } from "react";
 

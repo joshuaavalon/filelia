@@ -4,8 +4,8 @@
     "outDir": "dist",
     "target": "es2021",
     "module": "es2022",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "jsx": "preserve",
+    "moduleResolution": "nodenext",
+    "lib": ["esnext"],
     "declaration": true,
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
@@ -17,7 +17,6 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "moduleResolution": "bundler",
     "allowJs": false,
     "isolatedModules": true
   },

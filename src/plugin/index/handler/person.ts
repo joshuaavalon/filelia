@@ -1,10 +1,11 @@
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import schema, { $id } from "#json-schema/person/v1";
+import site from "#json-schema/common/site/v1";
 
 import type { IndexJsonOptions } from "./options.js";
 import type { FileIndexResult } from "./file-indexer.js";
 
-const personChecker = TypeCompiler.Compile(schema);
+const personChecker = TypeCompiler.Compile(schema, [site]);
 
 export async function insertPerson(
   opts: IndexJsonOptions,
@@ -15,7 +16,7 @@ export async function insertPerson(
   const value = result.data;
   if (!personChecker.Check(value)) {
     const errors = [...personChecker.Errors(value)];
-    logger.warn({ path: result.path, errors }, "Invalid data");
+    logger.warn({ path: result.path, errors, value }, "Invalid data");
     return;
   }
 
@@ -28,6 +29,7 @@ export async function insertPerson(
         sites: { create: value.sites }
       },
       create: {
+        id: value.id,
         name: value.name,
         sites: { create: value.sites }
       }

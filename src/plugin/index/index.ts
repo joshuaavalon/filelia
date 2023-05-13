@@ -4,17 +4,18 @@ import { indexJson } from "./handler/index.js";
 
 import type { Static } from "@sinclair/typebox";
 
-export const optionsSchema = Type.Object({});
+export const optionsSchema = Type.Object({
+  path: Type.String()
+});
 
-export type DatabasePluginOptions = Static<typeof optionsSchema>;
-export type { PrismaClient as Database } from "@prisma/client";
+export type IndexPluginOptions = Static<typeof optionsSchema>;
 
 const name = "@garoudev/plugin-index";
 const plugin = createPlugin(
-  async fastify => {
+  async (fastify, opts) => {
+    const { path } = opts;
     const pluginLogger = fastify.log.child({ plugin: name });
     fastify.decorate("indexJson", async function (): Promise<void> {
-      const { path } = this.config;
       const index = await this.db.keyValue.findUnique({
         where: { key: "index" }
       });
@@ -26,7 +27,7 @@ const plugin = createPlugin(
       } catch (err) {
         pluginLogger.error({ err });
       } finally {
-        await this.db.keyValue.delete({ where: { key: "index" } });
+        await this.db.keyValue.deleteMany({ where: { key: "index" } });
       }
     });
   },

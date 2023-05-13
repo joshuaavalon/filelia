@@ -1,5 +1,5 @@
 {
-  "name": "@joshuaavalon/filelia",
+  "name": "@filelia/filelia",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -22,6 +22,9 @@
     "web:start": "npm run --workspace @joshuaavalon/web start",
     "json:generate": "node dist/json-schema/utils/print-schema.js"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "keywords": [],
   "homepage": "https://github.com/joshuaavalon/filelia#readme",
   "repository": {
@@ -73,43 +76,25 @@
   },
   "devDependencies": {
     "@garoudev/eslint-config": "^1.0.1",
-    "@types/node": "^18.16.8",
-    "@types/react": "^18.2.6",
-    "@types/react-dom": "^18.2.4",
+    "@types/node": "^20.1.4",
     "@types/uuid": "^9.0.1",
     "dotenv": "^16.0.3",
-    "eslint-config-next": "^13.4.2",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "prisma": "^4.14.0",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@emotion/react": "11.11.0",
-    "@emotion/server": "11.11.0",
-    "@emotion/styled": "11.11.0",
     "@fastify/cookie": "8.3.0",
     "@fastify/helmet": "10.1.1",
     "@fastify/nextjs": "9.2.0",
     "@fastify/static": "6.10.1",
     "@fastify/type-provider-typebox": "3.2.0",
-    "@mantine/core": "6.0.10",
-    "@mantine/form": "6.0.10",
-    "@mantine/hooks": "6.0.10",
-    "@mantine/next": "6.0.10",
     "@prisma/client": "4.14.0",
     "@sinclair/typebox": "0.28.9",
-    "argon2": "0.30.3",
     "fastify": "4.17.0",
     "fastify-plugin": "4.5.0",
-    "http-proxy-middleware": "2.0.6",
     "image-type": "5.2.0",
-    "next": "13.4.2",
     "pino-pretty": "10.0.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-icons": "4.8.0",
     "read-env-vars": "1.0.0",
     "sharp": "0.32.1",
     "uuid": "9.0.0"

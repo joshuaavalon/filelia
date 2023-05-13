@@ -17,7 +17,7 @@ export async function insertProject(
   const value = result.data;
   if (!projectChecker.Check(value)) {
     const errors = [...projectChecker.Errors(value)];
-    logger.warn({ path: result.path, errors }, "Invalid data");
+    logger.warn({ path: result.path, errors, value }, "Invalid data");
     return;
   }
 
@@ -57,6 +57,7 @@ export async function insertProject(
         }
       },
       create: {
+        id: value.id,
         path: result.path,
         tags: {
           connect: tags

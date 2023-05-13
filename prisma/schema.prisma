@@ -22,7 +22,7 @@ model Site {
 }
 
 model Person {
-  id    String @id @default(uuid())
+  id    String @id
   name  String
   sites Site[]
 
@@ -30,7 +30,7 @@ model Person {
 }
 
 model Tag {
-  id         String     @id @default(uuid())
+  id         String     @id
   categoryId String     @map("category_id")
   alias      TagAlias[]
   projects   Project[]
@@ -51,7 +51,7 @@ model TagAlias {
 }
 
 model TagCategory {
-  id    String             @id @default(uuid())
+  id    String             @id
   alias TagCategoryAlias[]
   tags  Tag[]
 
@@ -69,7 +69,7 @@ model TagCategoryAlias {
 }
 
 model Project {
-  id   String @id @default(uuid())
+  id   String @id
   path String
   tags Tag[]
 

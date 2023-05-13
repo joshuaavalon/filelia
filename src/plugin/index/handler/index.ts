@@ -17,10 +17,14 @@ export async function indexJson(opts: IndexJsonOptions): Promise<void> {
   const projectResult: FileIndexResult[] = [];
 
   for (const result of resultList) {
-    if (!result || typeof result !== "object" || !("$schema" in result)) {
+    if (
+      !result.data ||
+      typeof result.data !== "object" ||
+      !("$schema" in result.data)
+    ) {
       continue;
     }
-    switch (result.$schema) {
+    switch (result.data.$schema) {
       case personId:
         personResult.push(result);
         break;

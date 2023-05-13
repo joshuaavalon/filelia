@@ -16,11 +16,11 @@ async function main(): Promise<void> {
   const { port } = config;
   const fastify = await createServer(config);
   fastify.addHook("onReady", async function () {
-    this.indexJson();
+    await this.indexJson();
   });
 
   fastify.addHook("onClose", async instance => {
-    await instance.db.keyValue.delete({ where: { key: "index" } });
+    await instance.db.keyValue.deleteMany({ where: { key: "index" } });
   });
   fastify.listen({ port }, err => {
     if (err) {

@@ -15,7 +15,7 @@ export async function insertTagCategory(
   const value = result.data;
   if (!tagCategoryChecker.Check(value)) {
     const errors = [...tagCategoryChecker.Errors(value)];
-    logger.warn({ path: result.path, errors }, "Invalid data");
+    logger.warn({ path: result.path, errors, value }, "Invalid data");
     return;
   }
 
@@ -28,6 +28,7 @@ export async function insertTagCategory(
         alias: { create: value.alias.map(name => ({ name })) }
       },
       create: {
+        id: value.id,
         alias: { create: value.alias.map(name => ({ name })) }
       }
     });

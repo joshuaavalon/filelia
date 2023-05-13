@@ -6,7 +6,7 @@ import type { Static } from "@sinclair/typebox";
 
 export const optionsSchema = Type.Object({
   url: Type.Optional(
-    Type.String({ description: "[GAROU__DATABASE__URL] Database Url." })
+    Type.String({ description: "[FILELIA__DATABASE__URL] Database Url." })
   )
 });
 

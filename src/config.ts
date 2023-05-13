@@ -3,6 +3,7 @@ import { Type } from "@sinclair/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { optionsSchema as database } from "#plugin/database";
+import { optionsSchema as index } from "#plugin/index";
 
 import type { Static } from "@sinclair/typebox";
 import type { ValueError } from "@sinclair/typebox/compiler";
@@ -12,7 +13,7 @@ const userConfigSchema = Type.Object({
   logging: Type.Optional(Type.Boolean()),
   database: Type.Optional(database),
   next: Type.Optional(Type.Boolean()),
-  path: Type.String()
+  index
 });
 const userConfigSchemaValidator = TypeCompiler.Compile(userConfigSchema);
 
@@ -21,7 +22,7 @@ const configSchema = Type.Object({
   logging: Type.Boolean({ default: true }),
   database: Type.Optional(database),
   next: Type.Boolean({ default: true }),
-  path: Type.String()
+  index
 });
 
 export type Config = Static<typeof configSchema>;
@@ -35,7 +36,7 @@ export type ReadConfigResult =
     };
 
 export function readConfig(): ReadConfigResult {
-  const values = readEnvVars("GAROU");
+  const values = readEnvVars("FILELIA");
   const errors = [...userConfigSchemaValidator.Errors(values)];
   if (errors.length <= 0) {
     const config = Value.Cast(configSchema, values);

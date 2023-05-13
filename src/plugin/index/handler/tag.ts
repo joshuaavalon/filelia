@@ -16,7 +16,7 @@ export async function insertTag(
   const value = result.data;
   if (!tagChecker.Check(value)) {
     const errors = [...tagChecker.Errors(value)];
-    logger.warn({ path: result.path, errors }, "Invalid data");
+    logger.warn({ path: result.path, errors, value }, "Invalid data");
     return;
   }
 
@@ -41,6 +41,7 @@ export async function insertTag(
         alias: { create: value.alias.map(name => ({ name })) }
       },
       create: {
+        id: value.id,
         categoryId: tagCategories[0].id,
         alias: { create: value.alias.map(name => ({ name })) }
       }

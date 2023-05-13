@@ -1,6 +1,21 @@
 root: true
+parser: "@typescript-eslint/parser"
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+settings:
+  react:
+    version: detect
 extends:
   - "@garoudev/eslint-config"
+  - plugin:react/recommended
+  - plugin:react-hooks/recommended
+  - next/core-web-vitals
+plugins:
+  - "@typescript-eslint"
+  - prettier
+  - react
+  - react-hooks
 env:
   es6: true
   node: true
@@ -8,19 +23,20 @@ ignorePatterns:
   - node_modules
   - "**/dist"
   - "**/*.generated.ts"
-  - "**/generated/index.ts"
   - "**/*.d.ts"
 overrides:
   - files:
       - "**/*.js"
       - "**/*.cjs"
       - "**/*.mjs"
+      - "**/*.jsx"
     rules:
       "@typescript-eslint/no-var-requires": "off"
   - files:
       - "**/*.ts"
       - "**/*.cts"
       - "**/*.mts"
+      - "**/*.tsx"
     rules:
       no-dupe-class-members: "off"
       "@typescript-eslint/explicit-member-accessibility": error
@@ -74,16 +90,15 @@ overrides:
       "@typescript-eslint/consistent-type-imports": error
       "@typescript-eslint/method-signature-style": error
       "@typescript-eslint/no-useless-empty-export": error
-      "no-invalid-this": "off"
   - files:
-      - "src/plugin/graphql/schema/type/index.ts"
+      - "**/*.jsx"
+      - "**/*.tsx"
     rules:
       "@typescript-eslint/naming-convention":
         - error
-        - selector: typeProperty
+        - selector: default
           format:
             - camelCase
-            - PascalCase
           leadingUnderscore: allowSingleOrDouble
         - selector: variable
           format:
@@ -94,9 +109,27 @@ overrides:
         - selector: typeLike
           format:
             - PascalCase
+        - selector: function
+          format:
+            - PascalCase
+            - camelCase
+        - selector: parameter
+          format:
+            - PascalCase
+            - camelCase
+          leadingUnderscore: allowSingleOrDouble
         - selector: variable
           modifiers:
             - destructured
           format:
         - selector: objectLiteralProperty
           format:
+  - files:
+      - "**/*.js"
+      - "**/*.cjs"
+      - "**/*.mjs"
+      - "**/*.ts"
+      - "**/*.cts"
+      - "**/*.mts"
+    rules:
+      react-hooks/rules-of-hooks: "off"
