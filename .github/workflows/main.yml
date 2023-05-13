@@ -26,11 +26,11 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
+      - run: npm run db:generate
       - run: npm run build
       - run: npm run json:generate
       - uses: actions/upload-pages-artifact@v1
         with:
           path: public
-      # https://github.com/actions/deploy-pages/issues/168
       - id: deployment
         uses: actions/deploy-pages@v2
