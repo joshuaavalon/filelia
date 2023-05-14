@@ -34,16 +34,17 @@ export async function insertTag(
       throw new Error(`Invalid tag category ${value.category}`);
     }
     await tx.tagAlias.deleteMany({ where: { id: value.id } });
+    const alias = value.alias.map((name, priority) => ({ name, priority }));
     await tx.tag.upsert({
       where: { id: value.id },
       update: {
         categoryId: tagCategories[0].id,
-        alias: { create: value.alias.map(name => ({ name })) }
+        alias: { create: alias }
       },
       create: {
         id: value.id,
         categoryId: tagCategories[0].id,
-        alias: { create: value.alias.map(name => ({ name })) }
+        alias: { create: alias }
       }
     });
   });

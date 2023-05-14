@@ -23,7 +23,8 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "#component/*": ["src/component/*/index.tsx"],
-      "#provider/*": ["src/provider/*/index.tsx"]
+      "#provider/*": ["src/provider/*/index.tsx"],
+      "#hook": ["src/hook/index.ts"]
     }
   },
   "include": [

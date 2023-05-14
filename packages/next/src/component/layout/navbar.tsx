@@ -1,18 +1,25 @@
+import { createContext, useContext } from "react";
+
 import { Navbar, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
 import type { FC } from "react";
+import type { OpenContext } from "./type";
 
-export interface Props {
-  hidden?: boolean;
-}
+export const NavbarContext = createContext<OpenContext>({
+  opened: false,
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
+  toggleOpened: () => {}
+});
 
-const Component: FC<Props> = props => {
-  const { hidden } = props;
+export interface Props {}
+
+const Component: FC<Props> = () => {
+  const { opened } = useContext(NavbarContext);
   const matches = useMediaQuery("(min-width: 48em)", true, {
     getInitialValueInEffect: false
   });
-  const transform = !matches && hidden ? "translateX(-100%)" : "translateX(0)";
+  const transform = !matches && !opened ? "translateX(-100%)" : "translateX(0)";
   return (
     <Navbar
       p="md"

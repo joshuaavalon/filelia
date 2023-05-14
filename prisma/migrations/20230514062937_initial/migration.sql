@@ -27,18 +27,21 @@ CREATE TABLE "tag" (
 CREATE TABLE "tag_alias" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "priority" INTEGER NOT NULL,
     CONSTRAINT "tag_alias_id_fkey" FOREIGN KEY ("id") REFERENCES "tag" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
 CREATE TABLE "tag_category" (
-    "id" TEXT NOT NULL PRIMARY KEY
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "color" TEXT
 );
 
 -- CreateTable
 CREATE TABLE "tag_category_alias" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "priority" INTEGER NOT NULL,
     CONSTRAINT "tag_category_alias_id_fkey" FOREIGN KEY ("id") REFERENCES "tag_category" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 

@@ -41,8 +41,9 @@ model Tag {
 }
 
 model TagAlias {
-  id   String
-  name String
+  id       String
+  name     String
+  priority Int
 
   tag Tag @relation(fields: [id], references: [id], onDelete: Cascade)
 
@@ -52,6 +53,7 @@ model TagAlias {
 
 model TagCategory {
   id    String             @id
+  color String?
   alias TagCategoryAlias[]
   tags  Tag[]
 
@@ -59,8 +61,9 @@ model TagCategory {
 }
 
 model TagCategoryAlias {
-  id   String
-  name String @unique
+  id       String
+  name     String @unique
+  priority Int
 
   tagCategory TagCategory @relation(fields: [id], references: [id], onDelete: Cascade)
 

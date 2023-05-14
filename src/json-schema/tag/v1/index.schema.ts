@@ -7,7 +7,7 @@ const schema = Type.Object(
     $schema: Type.Literal($id),
     id: Type.String({ format: "uuid" }),
     category: Type.String(),
-    alias: Type.Array(Type.String(), { uniqueItems: true })
+    alias: Type.Array(Type.String(), { uniqueItems: true, minItems: 1 })
   },
   {
     title: "Tag",

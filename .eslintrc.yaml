@@ -10,6 +10,7 @@ ignorePatterns:
   - "**/*.generated.ts"
   - "**/generated/index.ts"
   - "**/*.d.ts"
+  - ".next"
 overrides:
   - files:
       - "**/*.js"

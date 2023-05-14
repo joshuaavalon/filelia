@@ -22,14 +22,17 @@ export async function insertTagCategory(
   await fastify.db.$transaction(async tx => {
     await tx.tag.deleteMany({ where: { categoryId: value.id } });
     await tx.tagCategoryAlias.deleteMany({ where: { id: value.id } });
+    const alias = value.alias.map((name, priority) => ({ name, priority }));
     await tx.tagCategory.upsert({
       where: { id: value.id },
       update: {
-        alias: { create: value.alias.map(name => ({ name })) }
+        alias: { create: alias },
+        color: value.color ? value.color : null
       },
       create: {
         id: value.id,
-        alias: { create: value.alias.map(name => ({ name })) }
+        alias: { create: alias },
+        color: value.color ? value.color : null
       }
     });
   });

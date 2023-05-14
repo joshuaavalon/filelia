@@ -1,34 +1,55 @@
-import { Burger, Header, MediaQuery, Text } from "@mantine/core";
-import styled from "@emotion/styled";
+import { useContext } from "react";
+import { Burger, Flex, Header, MediaQuery } from "@mantine/core";
+import { NavbarContext } from "./navbar";
+import { AsideContext } from "./aside";
+import Logo from "./logo";
 
 import type { FC } from "react";
 
-const Spacer = styled.div({ flex: 1 });
-const StyledHeader = styled(Header)`
-  display: flex;
-  align-items: center;
-`;
-
 export interface Props {
-  opened: boolean;
-  onClick?: () => void;
+  hasAside: boolean;
 }
 
 const Component: FC<Props> = props => {
-  const { opened, onClick } = props;
+  const { hasAside } = props;
+  const aside = useContext(AsideContext);
+  const navbar = useContext(NavbarContext);
   return (
-    <StyledHeader height={50} p="md">
-      <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
+    <Header height={50} p="md" sx={{ display: "flex", alignItems: "center" }}>
+      <Flex
+        gap="xs"
+        justify="flex-start"
+        align="center"
+        direction="row"
+        wrap="wrap"
+        sx={{ width: "100%", position: "relative" }}
+      >
         <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-          <Burger opened={opened} onClick={onClick} size="sm" mr="xl" />
+          <Burger
+            opened={navbar.opened}
+            onClick={navbar.toggleOpened}
+            size="sm"
+            mr="xl"
+            sx={{ position: "absolute" }}
+          />
         </MediaQuery>
-        <Text>Application header</Text>
-      </div>
-      <Spacer />
-      <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-        <div />
+        <Logo />
+      </Flex>
+      <div style={{ flex: 1 }} />
+      <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+        {hasAside ? (
+          <Burger
+            opened={aside.opened}
+            onClick={aside.toggleOpened}
+            size="sm"
+            mr="xl"
+            sx={{ position: "absolute", right: 0 }}
+          />
+        ) : (
+          <></>
+        )}
       </MediaQuery>
-    </StyledHeader>
+    </Header>
   );
 };
 
