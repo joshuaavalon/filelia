@@ -52,12 +52,16 @@ export async function insertProject(
       where: { id: value.id },
       update: {
         path: result.path,
+        title: value.title,
+        type: value.type,
         tags: {
           set: tags
         }
       },
       create: {
         id: value.id,
+        title: value.title,
+        type: value.type,
         path: result.path,
         tags: {
           connect: tags

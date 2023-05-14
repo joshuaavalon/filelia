@@ -6,6 +6,8 @@ const schema = Type.Object(
   {
     $schema: Type.Literal($id),
     id: Type.String({ format: "uuid" }),
+    title: Type.String(),
+    type: Type.String(),
     tags: Type.Array(Type.String(), { uniqueItems: true })
   },
   {

@@ -48,6 +48,8 @@ CREATE TABLE "tag_category_alias" (
 -- CreateTable
 CREATE TABLE "project" (
     "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
     "path" TEXT NOT NULL
 );
 

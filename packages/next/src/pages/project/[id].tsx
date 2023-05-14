@@ -1,27 +1,17 @@
+import { readFile } from "node:fs/promises";
 import Head from "next/head";
 import Layout from "#component/layout";
 import TagPanel from "#component/tag-panel";
+import UnsupportedProjectPanel from "#component/unsupported-project-panel";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { GetServerSideProps } from "next";
-import type {
-  Project,
-  Tag,
-  TagAlias,
-  TagCategory,
-  TagCategoryAlias
-} from "@prisma/client";
+import type { Project } from "#type";
 
 interface Props {
   value: number;
-  project: Project & {
-    tags: (Tag & {
-      alias: TagAlias[];
-      tagCategory: TagCategory & {
-        alias: TagCategoryAlias[];
-      };
-    })[];
-  };
+  project: Project;
+  json: unknown;
 }
 
 interface Query extends ParsedUrlQuery {
@@ -29,14 +19,15 @@ interface Query extends ParsedUrlQuery {
 }
 
 export default function Page(props: Props): JSX.Element {
-  const { project } = props;
-  const { tags, id } = project;
+  const { project, json } = props;
+  const { tags } = project;
   return (
     <Layout aside={<TagPanel tags={tags} />}>
       <Head>
-        <title>TODO | Filelia</title>
+        <title>{project.title} | Filelia</title>
+        <meta property="og:title" content={project.title} key="title" />
       </Head>
-      {id}
+      <UnsupportedProjectPanel project={project} json={json} />
     </Layout>
   );
 }
@@ -72,7 +63,8 @@ export const getServerSideProps: GetServerSideProps<
       notFound: true
     };
   }
+  const data = await readFile(project.path, { encoding: "utf-8" });
   return {
-    props: { value: 1, project }
+    props: { value: 1, project, json: JSON.parse(data) }
   };
 };

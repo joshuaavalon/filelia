@@ -72,9 +72,11 @@ model TagCategoryAlias {
 }
 
 model Project {
-  id   String @id
-  path String
-  tags Tag[]
+  id    String @id
+  title String
+  type  String
+  path  String
+  tags  Tag[]
 
   @@map("project")
 }
