@@ -5,6 +5,7 @@ import TagPanel from "#component/tag-panel";
 import UnsupportedProjectPanel from "#component/unsupported-project-panel";
 
 import type { ParsedUrlQuery } from "querystring";
+import type { ReactNode } from "react";
 import type { GetServerSideProps } from "next";
 import type { Project } from "#type";
 
@@ -21,13 +22,18 @@ interface Query extends ParsedUrlQuery {
 export default function Page(props: Props): JSX.Element {
   const { project, json } = props;
   const { tags } = project;
+  let children: ReactNode;
+  switch (project.type) {
+    default:
+      children = <UnsupportedProjectPanel project={project} json={json} />;
+  }
   return (
     <Layout aside={<TagPanel tags={tags} />}>
       <Head>
         <title>{project.title} | Filelia</title>
         <meta property="og:title" content={project.title} key="title" />
       </Head>
-      <UnsupportedProjectPanel project={project} json={json} />
+      {children}
     </Layout>
   );
 }

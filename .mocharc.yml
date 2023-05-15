@@ -1,3 +1,0 @@
-spec:
-  - ./dist/__tests__/index.js
-require: ./dist/__tests__/mocha.js

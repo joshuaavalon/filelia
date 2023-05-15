@@ -2,7 +2,7 @@ import { Badge, Center } from "@mantine/core";
 import { TbHash } from "react-icons/tb";
 
 import type { FC } from "react";
-import type { Tag } from "./type";
+import type { Tag } from "#type";
 
 export interface Props {
   tag: Tag;

@@ -9,17 +9,12 @@
     "build": "tsc",
     "start": "node ./dist/index.js | pino-pretty",
     "lint": "eslint src",
-    "precodegen": "node gql.js",
-    "codegen": "graphql-codegen-esm --config codegen.yml",
     "pretest": "npm run db:reset",
-    "test": "mocha",
     "db:dev": "prisma migrate dev --name dev",
     "db:deploy": "prisma migrate deploy",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset --force --skip-generate",
-    "web:build": "npm run --workspace @joshuaavalon/web build",
-    "web:start": "npm run --workspace @joshuaavalon/web start",
     "json:generate": "node dist/json-schema/utils/print-schema.js"
   },
   "workspaces": [

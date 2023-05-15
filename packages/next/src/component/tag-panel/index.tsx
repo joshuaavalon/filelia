@@ -4,7 +4,7 @@ import FilterTagInput from "./filter-tag-input";
 import TagCloud from "./tag-cloud";
 
 import type { FC } from "react";
-import type { Tag } from "./type";
+import type { Tag } from "#type";
 
 export interface Props {
   tags: Tag[];

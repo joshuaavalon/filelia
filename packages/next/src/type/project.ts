@@ -1,16 +1,6 @@
-import type {
-  Project as PrismaProject,
-  Tag,
-  TagAlias,
-  TagCategory,
-  TagCategoryAlias
-} from "@prisma/client";
+import type { Project as PrismaProject } from "@prisma/client";
+import type { Tag } from "./tag";
 
 export type Project = PrismaProject & {
-  tags: (Tag & {
-    alias: TagAlias[];
-    tagCategory: TagCategory & {
-      alias: TagCategoryAlias[];
-    };
-  })[];
+  tags: Tag[];
 };

@@ -3,7 +3,7 @@ import { Prism } from "@mantine/prism";
 import Alert from "./alert";
 
 import type { FC } from "react";
-import type { Project } from "@prisma/client";
+import type { Project } from "#type";
 
 export interface Props {
   project: Project;
@@ -11,7 +11,7 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { project, json } = props;
+  const { json } = props;
   return (
     <Flex
       gap="md"
@@ -20,7 +20,7 @@ const Component: FC<Props> = props => {
       direction="column"
       wrap="wrap"
     >
-      <Alert project={project} />
+      <Alert />
       <Title order={2}>Raw JSON</Title>
       <Prism language="json" withLineNumbers>
         {JSON.stringify(json, null, 2)}

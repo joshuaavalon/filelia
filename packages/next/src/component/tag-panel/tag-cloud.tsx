@@ -3,7 +3,7 @@ import { Flex } from "@mantine/core";
 import TagBadge from "./tag-badge";
 
 import type { FC } from "react";
-import type { Tag } from "./type";
+import type { Tag } from "#type";
 
 export interface Props {
   tags: Tag[];
