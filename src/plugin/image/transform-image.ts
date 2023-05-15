@@ -1,8 +1,8 @@
 import sharp from "sharp";
-// import { toImageQuery } from "@garoudev/image-query";
+// import { toImageQuery } from "@filelia/image-query";
 
 import type { Sharp } from "sharp";
-// import type { Operation } from "@garoudev/image-query";
+// import type { Operation } from "@filelia/image-query";
 
 /* eslint-disable complexity */
 const mapOperation = (sharp: Sharp, operation: any): Sharp => {

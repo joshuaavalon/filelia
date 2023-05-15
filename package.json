@@ -67,6 +67,10 @@
     "#server": {
       "types": "./src/server.ts",
       "import": "./dist/server.js"
+    },
+    "#error": {
+      "types": "./src/error/index.ts",
+      "import": "./dist/error/index.js"
     }
   },
   "devDependencies": {

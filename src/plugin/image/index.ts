@@ -9,7 +9,7 @@ const optionsSchema = Type.Object({});
 
 export type ImagePluginOptions = Static<typeof optionsSchema>;
 
-const name = "@garoudev/plugin-image";
+const name = "@filelia/plugin-image";
 const plugin = createPlugin(
   async (fastify, _options) => {
     fastify.decorate("transformImage", transformImage);

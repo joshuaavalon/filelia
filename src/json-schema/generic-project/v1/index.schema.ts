@@ -8,7 +8,10 @@ const schema = Type.Object(
     id: Type.String({ format: "uuid" }),
     title: Type.String(),
     type: Type.Literal("generic"),
-    tags: Type.Array(Type.String(), { uniqueItems: true })
+    tags: Type.Array(Type.String(), { uniqueItems: true }),
+    baseDir: Type.Optional(Type.String({ default: "." })),
+    gallery: Type.Array(Type.String()),
+    files: Type.Array(Type.String())
   },
   {
     title: "Generic Project",

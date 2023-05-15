@@ -27,10 +27,11 @@ export default function Page(props: Props): JSX.Element {
     default:
       children = <UnsupportedProjectPanel project={project} json={json} />;
   }
+  const title = `${project.title} | Filelia`;
   return (
     <Layout aside={<TagPanel tags={tags} />}>
       <Head>
-        <title>{project.title} | Filelia</title>
+        <title>{title}</title>
         <meta property="og:title" content={project.title} key="title" />
       </Head>
       {children}
@@ -48,8 +49,8 @@ export const getServerSideProps: GetServerSideProps<
       notFound: true
     };
   }
-  const fastify = req.fastify();
-  const project = await fastify.db.project.findUnique({
+  const { db } = req.fastify();
+  const project = await db.project.findUnique({
     include: {
       tags: {
         include: {

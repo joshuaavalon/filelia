@@ -10,7 +10,7 @@ export const optionsSchema = Type.Object({
 
 export type IndexPluginOptions = Static<typeof optionsSchema>;
 
-const name = "@garoudev/plugin-index";
+const name = "@filelia/plugin-index";
 const plugin = createPlugin(
   async (fastify, opts) => {
     const { path } = opts;

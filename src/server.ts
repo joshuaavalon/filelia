@@ -1,4 +1,5 @@
 import createFastify from "fastify";
+import { v4 as uuid } from "uuid";
 import "./typebox.js";
 import cookiePlugin from "@fastify/cookie";
 import helmetPlugin from "@fastify/helmet";
@@ -21,7 +22,9 @@ export async function createServer(config: Config) {
   const fastify = createFastify({
     logger: logging,
     trustProxy: true,
-    pluginTimeout: isDev ? 120000 : undefined
+    pluginTimeout: isDev ? 120000 : undefined,
+    genReqId: () => uuid(),
+    disableRequestLogging: true
   }).withTypeProvider<TypeBoxTypeProvider>();
 
   await fastify.register(cookiePlugin, {

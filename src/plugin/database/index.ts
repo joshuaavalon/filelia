@@ -13,7 +13,7 @@ export const optionsSchema = Type.Object({
 export type DatabasePluginOptions = Static<typeof optionsSchema>;
 export type { PrismaClient as Database } from "@prisma/client";
 
-const name = "@garoudev/plugin-database";
+const name = "@filelia/plugin-database";
 const plugin = createPlugin(
   async (fastify, options) => {
     const { url } = options;

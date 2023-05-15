@@ -34,7 +34,7 @@ export async function indexJson(opts: IndexJsonOptions): Promise<void> {
       case tagId:
         tagResult.push(result);
         break;
-      case projectId:
+      default:
         projectResult.push(result);
         break;
     }
