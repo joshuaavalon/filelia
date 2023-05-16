@@ -1,7 +1,7 @@
 import { insertPerson, personId } from "./person.js";
 import { insertTag, tagId } from "./tag.js";
 import { insertTagCategory, tagCategoryId } from "./tag-category.js";
-import { insertProject, projectId } from "./project.js";
+import { insertProject } from "./project.js";
 import FileIndexer from "./file-indexer.js";
 
 import type { FileIndexResult } from "./file-indexer.js";
