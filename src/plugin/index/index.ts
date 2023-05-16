@@ -1,14 +1,6 @@
-import { Type } from "@sinclair/typebox";
 import createPlugin from "#plugin";
+import optionsSchema from "./schema.js";
 import { indexJson } from "./handler/index.js";
-
-import type { Static } from "@sinclair/typebox";
-
-export const optionsSchema = Type.Object({
-  path: Type.String()
-});
-
-export type IndexPluginOptions = Static<typeof optionsSchema>;
 
 const name = "@filelia/plugin-index";
 const plugin = createPlugin(

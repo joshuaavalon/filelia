@@ -8,4 +8,7 @@ export function initRoutes(server: Server): void {
   initApiRoutes(server);
   initFileRoutes(server);
   initImageRoutes(server);
+  server.setNotFoundHandler(async (req, res) =>
+    res.code(404).nextRender("/_error")
+  );
 }

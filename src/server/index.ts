@@ -7,24 +7,23 @@ import nextJs from "@fastify/nextjs";
 import imagePlugin from "#plugin/image";
 import databasePlugin from "#plugin/database";
 import indexPlugin from "#plugin/index";
-import { initRoutes } from "./route/index.js";
+import jsonSchemaPlugin from "#plugin/json-schema";
+import { initRoutes } from "#route";
 
 import type { FastifyInstance } from "fastify";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
-import type { Config } from "./config.js";
+import type { Config } from "#config";
 
 const nextPlugin = nextJs.default;
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function createServer(config: Config) {
-  const { database, logging, next, index } = config;
-  const isDev = process.env.NODE_ENV !== "production";
+  const { database, server, index, jsonSchema } = config;
   const fastify = createFastify({
-    logger: logging,
-    trustProxy: true,
-    pluginTimeout: isDev ? 120000 : undefined,
+    logger: server.logger,
+    trustProxy: server.trustProxy,
     genReqId: () => uuid(),
-    disableRequestLogging: true
+    disableRequestLogging: !server.requestLog
   }).withTypeProvider<TypeBoxTypeProvider>();
 
   await fastify.register(cookiePlugin, {
@@ -40,7 +39,8 @@ export async function createServer(config: Config) {
   await fastify.register(databasePlugin, database);
   await fastify.register(imagePlugin);
   await fastify.register(indexPlugin, index);
-  if (next) {
+  await fastify.register(jsonSchemaPlugin, jsonSchema);
+  if (!server.testing) {
     fastify.addHook("onRequest", async req => {
       req.raw.fastify = () => req.server;
     });

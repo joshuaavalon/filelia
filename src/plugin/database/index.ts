@@ -1,16 +1,7 @@
-import { Type } from "@sinclair/typebox";
 import { PrismaClient } from "@prisma/client";
 import createPlugin from "#plugin";
+import optionsSchema from "./schema.js";
 
-import type { Static } from "@sinclair/typebox";
-
-export const optionsSchema = Type.Object({
-  url: Type.Optional(
-    Type.String({ description: "[FILELIA__DATABASE__URL] Database Url." })
-  )
-});
-
-export type DatabasePluginOptions = Static<typeof optionsSchema>;
 export type { PrismaClient as Database } from "@prisma/client";
 
 const name = "@filelia/plugin-database";
@@ -18,7 +9,7 @@ const plugin = createPlugin(
   async (fastify, options) => {
     const { url } = options;
     const db = new PrismaClient({
-      datasources: url ? { db: { url } } : undefined,
+      datasources: { db: { url } },
       log: [
         { emit: "event", level: "query" },
         { emit: "event", level: "error" },

@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { pino } from "pino";
-import { createServer } from "./server.js";
-import { readConfig } from "./config.js";
+import { createServer } from "#server";
+import { readConfig } from "#config";
 
 async function main(): Promise<void> {
   dotenv.config();
@@ -13,7 +13,9 @@ async function main(): Promise<void> {
     return;
   }
   const { config } = cfgResult;
-  const { port } = config;
+  const {
+    server: { port }
+  } = config;
   const fastify = await createServer(config);
   fastify.addHook("onReady", async function () {
     await this.indexJson();

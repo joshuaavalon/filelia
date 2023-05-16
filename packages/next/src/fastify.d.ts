@@ -8,7 +8,7 @@ declare module "http" {
 }
 
 declare module "fastify" {
-  interface FastifyInstance {
-    db: PrismaClient;
-  }
+  import("../../../dist/plugin/json-schema");
+  import("../../../dist/plugin/database");
+  import("../../../dist/plugin/index");
 }

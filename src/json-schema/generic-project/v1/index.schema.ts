@@ -9,9 +9,10 @@ const schema = Type.Object(
     title: Type.String(),
     type: Type.Literal("generic"),
     tags: Type.Array(Type.String(), { uniqueItems: true }),
-    baseDir: Type.Optional(Type.String({ default: "." })),
+    baseDir: Type.String({ default: "." }),
     gallery: Type.Array(Type.String()),
-    files: Type.Array(Type.String())
+    files: Type.Array(Type.String()),
+    description: Type.String({ default: "README.md" })
   },
   {
     title: "Generic Project",

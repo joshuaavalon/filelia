@@ -29,7 +29,7 @@ export default function initOriginRoute(server: Server): void {
         where: { id: projectId, type: "generic" }
       });
       if (!project) {
-        return res.code(404).nextRender("/_error");
+        return res.callNotFound();
       }
       let genericProject: Static<typeof schema>;
       try {
@@ -42,7 +42,7 @@ export default function initOriginRoute(server: Server): void {
         genericProject = json;
       } catch (err) {
         log.warn({ err, path: project.path }, "Failed to read JSON");
-        return res.code(404).nextRender("/_error");
+        return res.callNotFound();
       }
       const filePath = join(
         dirname(project.path),
