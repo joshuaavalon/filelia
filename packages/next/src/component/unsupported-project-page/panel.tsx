@@ -1,6 +1,6 @@
-import { Flex, Title } from "@mantine/core";
-import { Prism } from "@mantine/prism";
+import { Flex } from "@mantine/core";
 import Alert from "./alert";
+import JsonSection from "./json-section";
 
 import type { FC } from "react";
 import type { Project } from "#type";
@@ -21,10 +21,7 @@ const Component: FC<Props> = props => {
       wrap="wrap"
     >
       <Alert />
-      <Title order={2}>Raw JSON</Title>
-      <Prism language="json" withLineNumbers>
-        {JSON.stringify(json, null, 2)}
-      </Prism>
+      <JsonSection title="JSON" json={json} link="json" />
     </Flex>
   );
 };

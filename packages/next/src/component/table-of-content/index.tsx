@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { Box, Group, Text } from "@mantine/core";
+import { Box, Group, Stack, Text } from "@mantine/core";
 import { TbList } from "react-icons/tb";
 import { useStyles } from "./style";
 import { getActiveElement, notEmpty } from "./utils";
 
 import type { FC } from "react";
+import type { Sx } from "@mantine/core";
 
 export interface TableOfContentLink {
   label: string;
@@ -16,10 +17,11 @@ export interface Props {
   links: TableOfContentLink[];
   active: string;
   setActive: (active: string) => void;
+  sx?: Sx;
 }
 
 const Component: FC<Props> = props => {
-  const { links, active, setActive } = props;
+  const { links, active, setActive, sx } = props;
   const { classes, cx } = useStyles();
 
   const items = useMemo(
@@ -64,13 +66,13 @@ const Component: FC<Props> = props => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
   return (
-    <div>
+    <Stack spacing={0} sx={sx}>
       <Group mb="md">
         <TbList size="1.1rem" />
         <Text>Table of contents</Text>
       </Group>
       {items}
-    </div>
+    </Stack>
   );
 };
 

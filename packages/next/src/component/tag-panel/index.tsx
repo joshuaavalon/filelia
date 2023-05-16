@@ -5,13 +5,15 @@ import TagCloud from "./tag-cloud";
 
 import type { FC } from "react";
 import type { Tag } from "#type";
+import type { Sx } from "@mantine/core";
 
 export interface Props {
   tags: Tag[];
+  sx?: Sx;
 }
 
 const Component: FC<Props> = props => {
-  const { tags } = props;
+  const { tags, sx } = props;
   const [filter, setFilter] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(true);
   return (
@@ -21,6 +23,7 @@ const Component: FC<Props> = props => {
       align="stretch"
       direction="column"
       wrap="wrap"
+      sx={sx}
     >
       <FilterTagInput
         filter={filter}

@@ -32,6 +32,7 @@ const Component: FC<Props> = props => {
       width={{ md: 200, lg: 250, xl: 300 }}
       style={style}
       className={classes.sidebar}
+      id="asd"
     >
       {children}
     </Aside>

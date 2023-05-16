@@ -2,57 +2,48 @@ import { useState } from "react";
 import Metadata from "#component/metadata";
 import Layout from "#component/layout";
 import TableOfContent from "#component/table-of-content";
-import InvalidJsonPanel from "./panel";
+import TagPanel from "#component/tag-panel";
+import UnsupportedProjectPanel from "./panel";
 
 import type { FC } from "react";
-import type { ValueError } from "@sinclair/typebox/compiler";
 import type { Project } from "#type";
 import type { TableOfContentLink } from "#component/table-of-content";
 
 export interface Props {
   project: Project;
-  schema: unknown;
   json: unknown;
-  errors: ValueError[];
 }
 
 const links: TableOfContentLink[] = [
   {
-    label: "Error",
-    link: "#error",
-    order: 1
-  },
-  {
     label: "JSON",
     link: "#json",
-    order: 1
-  },
-  {
-    label: "Schema",
-    link: "#schema",
     order: 1
   }
 ];
 
 const Component: FC<Props> = props => {
-  const { json, schema, errors, project } = props;
+  const { json, project } = props;
   const [active, setActive] = useState(links[0].link);
   return (
     <Layout
       aside={
-        <TableOfContent links={links} active={active} setActive={setActive} />
+        <>
+          <TableOfContent links={links} active={active} setActive={setActive} />
+          <TagPanel
+            tags={project.tags}
+            sx={theme => ({
+              marginTop: theme.spacing.md
+            })}
+          />
+        </>
       }
     >
       <Metadata title={project.title} />
-      <InvalidJsonPanel
-        project={project}
-        json={json}
-        schema={schema}
-        errors={errors}
-      />
+      <UnsupportedProjectPanel project={project} json={json} />
     </Layout>
   );
 };
 
-Component.displayName = "InvalidJsonPanel";
+Component.displayName = "UnsupportedProjectPage";
 export default Component;

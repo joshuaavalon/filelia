@@ -1,16 +1,12 @@
 import { readFile } from "node:fs/promises";
-import Head from "next/head";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 import { Type } from "@sinclair/typebox";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
-import Layout from "#component/layout";
-import TagPanel from "#component/tag-panel";
-import UnsupportedProjectPanel from "#component/unsupported-project-panel";
+import UnsupportedProjectPage from "#component/unsupported-project-page";
 import InvalidJsonPage from "#component/invalid-json-page";
 
 import type { ParsedUrlQuery } from "querystring";
-import type { ReactNode } from "react";
 import type { GetServerSideProps } from "next";
 import type { ValueError } from "@sinclair/typebox/compiler";
 import type { Project } from "#type";
@@ -31,7 +27,6 @@ interface Query extends ParsedUrlQuery {
 
 export default function Page(props: Props): JSX.Element {
   const { project, json, schema, errorsStr } = props;
-  const { tags } = project;
   const errors: ValueError[] = JSON.parse(errorsStr);
   if (errors.length > 0) {
     return (
@@ -43,21 +38,10 @@ export default function Page(props: Props): JSX.Element {
       />
     );
   }
-  let children: ReactNode;
   switch (project.type) {
     default:
-      children = <UnsupportedProjectPanel project={project} json={json} />;
+      return <UnsupportedProjectPage project={project} json={json} />;
   }
-  const title = `${project.title} | Filelia`;
-  return (
-    <Layout aside={<TagPanel tags={tags} />}>
-      <Head>
-        <title>{title}</title>
-        <meta property="og:title" content={project.title} key="title" />
-      </Head>
-      {children}
-    </Layout>
-  );
 }
 
 export const getServerSideProps: GetServerSideProps<
