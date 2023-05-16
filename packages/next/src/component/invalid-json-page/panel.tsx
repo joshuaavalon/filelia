@@ -14,8 +14,7 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { json, schema, errors , project} = props;
-
+  const { json, schema, errors, project } = props;
   return (
     <Flex
       gap="md"
@@ -23,8 +22,9 @@ const Component: FC<Props> = props => {
       align="stretch"
       direction="column"
       wrap="wrap"
+      sx={{ overflow: "hidden" }}
     >
-      <Alert project={project}/>
+      <Alert project={project} />
       <JsonSection title="Error" json={errors} link="error" />
       <JsonSection title="JSON" json={json} link="json" />
       <JsonSection title="Schema" json={schema} link="schema" />

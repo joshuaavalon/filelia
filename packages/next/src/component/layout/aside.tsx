@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { Aside } from "@mantine/core";
+import { Aside, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
 import type { FC, ReactNode } from "react";
@@ -18,7 +18,8 @@ export interface Props {
 const Component: FC<Props> = props => {
   const { children } = props;
   const { opened } = useContext(AsideContext);
-  const matches = useMediaQuery("(min-width: 48em)", true, {
+  const theme = useMantineTheme();
+  const matches = useMediaQuery(`(min-width: ${theme.breakpoints.sm})`, true, {
     getInitialValueInEffect: false
   });
   const transform = !matches && !opened ? "translateX(100%)" : "translateX(0)";
@@ -26,7 +27,7 @@ const Component: FC<Props> = props => {
     <Aside
       p="md"
       hiddenBreakpoint="sm"
-      width={{ sm: 200, lg: 300 }}
+      width={{ sm: 200, xl: 300 }}
       sx={{ transition: "transform 500ms ease", transform }}
     >
       {children}
