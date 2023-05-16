@@ -1,8 +1,9 @@
 import { createContext, useContext } from "react";
-import { Aside, useMantineTheme } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
+import { Aside } from "@mantine/core";
+import { useResizing } from "#hook";
+import { useStyles } from "./style";
 
-import type { FC, ReactNode } from "react";
+import type { CSSProperties, FC, ReactNode } from "react";
 import type { OpenContext } from "./type";
 
 export const AsideContext = createContext<OpenContext>({
@@ -18,17 +19,19 @@ export interface Props {
 const Component: FC<Props> = props => {
   const { children } = props;
   const { opened } = useContext(AsideContext);
-  const theme = useMantineTheme();
-  const matches = useMediaQuery(`(min-width: ${theme.breakpoints.sm})`, true, {
-    getInitialValueInEffect: false
-  });
-  const transform = !matches && !opened ? "translateX(100%)" : "translateX(0)";
+  const { classes } = useStyles();
+  const isResizing = useResizing();
+
+  const style = {
+    "--sidebar-translate-x": opened ? 0 : "100%",
+    "--sidebar-transition-ms": isResizing ? 0 : "500ms"
+  } as CSSProperties;
   return (
     <Aside
-      p="md"
-      hiddenBreakpoint="sm"
-      width={{ sm: 200, xl: 300 }}
-      sx={{ transition: "transform 500ms ease", transform }}
+      hiddenBreakpoint="md"
+      width={{ md: 200, lg: 250, xl: 300 }}
+      style={style}
+      className={classes.sidebar}
     >
       {children}
     </Aside>

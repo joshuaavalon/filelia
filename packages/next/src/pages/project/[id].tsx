@@ -1,5 +1,7 @@
 import { readFile } from "node:fs/promises";
 import Head from "next/head";
+import Ajv from "ajv";
+import addFormats from "ajv-formats";
 import { Type } from "@sinclair/typebox";
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import Layout from "#component/layout";
@@ -12,6 +14,9 @@ import type { ReactNode } from "react";
 import type { GetServerSideProps } from "next";
 import type { ValueError } from "@sinclair/typebox/compiler";
 import type { Project } from "#type";
+
+const ajv = new Ajv({ useDefaults: true });
+addFormats.default(ajv);
 
 interface Props {
   project: Project;
@@ -95,8 +100,11 @@ export const getServerSideProps: GetServerSideProps<
   const schema = getProjectSchema(project.type);
   let errors: ValueError[] = [];
   if (schema) {
-    const validator = TypeCompiler.Compile(schema);
-    errors = [...validator.Errors(json)];
+    const validate = ajv.compile(schema);
+    if (!validate(json)) {
+      const validator = TypeCompiler.Compile(schema);
+      errors = [...validator.Errors(json)];
+    }
   }
   return {
     props: {

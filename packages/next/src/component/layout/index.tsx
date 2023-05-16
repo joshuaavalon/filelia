@@ -35,11 +35,12 @@ const Component: FC<Props> = props => {
       >
         <AppShell
           padding="md"
-          navbarOffsetBreakpoint="sm"
-          asideOffsetBreakpoint="sm"
+          navbarOffsetBreakpoint="md"
+          asideOffsetBreakpoint="md"
           aside={asideElm}
           navbar={<Navbar />}
           header={<Header hasAside={hasAside} />}
+          styles={{ main: { overflow: "hidden" } }}
         >
           {children}
         </AppShell>

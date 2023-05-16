@@ -8,7 +8,7 @@ export interface Props {}
 const Component: FC<Props> = () => (
   <Flex
     gap="xs"
-    justify={{ base: "center", sm: "flex-start" }}
+    justify={{ base: "center", md: "flex-start" }}
     align="center"
     direction="row"
     wrap="nowrap"

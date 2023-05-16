@@ -24,7 +24,7 @@ const Component: FC<Props> = props => {
         wrap="wrap"
         sx={{ width: "100%", position: "relative" }}
       >
-        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+        <MediaQuery largerThan="md" styles={{ display: "none" }}>
           <Burger
             opened={navbar.opened}
             onClick={navbar.toggleOpened}
@@ -36,7 +36,7 @@ const Component: FC<Props> = props => {
         <Logo />
       </Flex>
       <div style={{ flex: 1 }} />
-      <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+      <MediaQuery largerThan="md" styles={{ display: "none" }}>
         {hasAside ? (
           <Burger
             opened={aside.opened}
