@@ -8,6 +8,15 @@ import tagCategory from "./tag-category/v1/index.schema.js";
 
 import type { Static } from "@sinclair/typebox";
 import type { ValidateFunction } from "ajv/dist/2019.js";
+import type { TSchema } from "@sinclair/typebox";
+
+export const schemaList: {
+  type: string;
+  schema: TSchema;
+  order: number;
+}[] = [genericProject, project, person, tag, tagCategory].sort(
+  (a, b) => a.order - b.order
+);
 
 export const schemas = {
   [genericProject.type]: genericProject.schema,
@@ -28,12 +37,20 @@ function compile<T extends keyof Schemas>(
   return ajv.compile<Static<Schemas[T]>>(schema);
 }
 
-export const validateFuncs = {
-  [genericProject.type]: compile(genericProject.type),
-  [person.type]: compile(person.type),
-  [project.type]: compile(project.type),
-  [tag.type]: compile(tag.type),
-  [tagCategory.type]: compile(tagCategory.type)
-} as const;
+type ValidateFunc<T extends keyof Schemas> = ValidateFunction<
+  Static<Schemas[T]>
+>;
 
-export type ValidateFuncs = typeof validateFuncs;
+export type ValidateFuncs = {
+  [key in keyof Schemas]: ValidateFunc<key>;
+};
+
+function compileAll(): ValidateFuncs {
+  return Object.keys(schemas).reduce((result, key) => {
+    const schemaType = key as keyof Schemas;
+    result[schemaType] = compile(schemaType);
+    return result;
+  }, {} as Record<keyof Schemas, any>) as ValidateFuncs;
+}
+
+export const validateFuncs = compileAll();

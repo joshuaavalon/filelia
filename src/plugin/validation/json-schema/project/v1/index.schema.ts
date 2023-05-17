@@ -21,4 +21,4 @@ const schema = Type.Object(
   }
 );
 
-export default { type, schema, order: -1 };
+export default { type, schema, order: 2 };

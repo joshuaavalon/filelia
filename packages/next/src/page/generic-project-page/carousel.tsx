@@ -55,10 +55,15 @@ const Component: FC<Props> = props => {
         opened={opened}
         onClose={close}
         transitionProps={{ transition: "fade", duration: 200 }}
-        size="auto"
         withCloseButton={false}
         padding={0}
         onClick={close}
+        fullScreen
+        styles={theme => ({
+          content: {
+            backgroundColor: theme.fn.rgba(theme.colors.gray[1], 0.2)
+          }
+        })}
       >
         <Center h="100%">
           <img src={src} alt="Image" />

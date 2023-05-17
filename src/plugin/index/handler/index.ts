@@ -1,4 +1,3 @@
-import { getJsonSchemas } from "#utils";
 import person from "./person.js";
 import tag from "./tag.js";
 import tagCategory from "./tag-category.js";
@@ -8,16 +7,20 @@ import FileIndexer from "./file-indexer.js";
 import type { FileIndexResult } from "./file-indexer.js";
 import type { IndexJsonOptions } from "./options.js";
 
-const schemas = (await getJsonSchemas())
-  .filter(schema => schema.order <= 0)
-  .sort((a, b) => a.order - b.order);
+const handlers = {
+  [person.type]: person.insert,
+  [tag.type]: tag.insert,
+  [tagCategory.type]: tagCategory.insert,
+  [project.type]: project.insert
+};
 
 export async function indexJson(opts: IndexJsonOptions): Promise<void> {
-  const { logger, path } = opts;
+  const { logger, path, fastify } = opts;
   const indexer = new FileIndexer({ logger });
   const resultList = await indexer.index(path);
   const resultMap = new Map<string, FileIndexResult[]>();
 
+  const schemas = fastify.validateSchemas().filter(schema => schema.order >= 0);
   for (const result of resultList) {
     if (
       !result.data ||
@@ -35,19 +38,16 @@ export async function indexJson(opts: IndexJsonOptions): Promise<void> {
       const list = resultMap.get(schema.type) ?? [];
       list.push(result);
       resultMap.set(schema.type, list);
-      break;
     }
   }
-  const handlers = [person, tag, tagCategory, project];
   for (const schema of schemas) {
-    for (const handler of handlers) {
-      if (handler.type !== schema.type) {
-        continue;
-      }
-      const list = resultMap.get(handler.type) ?? [];
-      for (const result of list) {
-        await handler.insert(opts, result);
-      }
+    const handler = handlers[schema.type];
+    if (!handler) {
+      continue;
+    }
+    const list = resultMap.get(schema.type) ?? [];
+    for (const result of list) {
+      await handler(opts, result);
     }
   }
 }

@@ -3,7 +3,7 @@ import { ValidationError } from "#error";
 import type { IndexJsonOptions } from "./options.js";
 import type { FileIndexResult } from "./file-indexer.js";
 
-const type = "filelia::person::v1" as const;
+const type = "filelia::person::v1";
 
 async function insert(
   opts: IndexJsonOptions,

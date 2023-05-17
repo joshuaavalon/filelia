@@ -5,7 +5,7 @@ import type { Prisma } from "@prisma/client";
 import type { IndexJsonOptions } from "./options.js";
 import type { FileIndexResult } from "./file-indexer.js";
 
-const type = "filelia::project::v1" as const;
+const type = "filelia::project::v1";
 
 export async function insert(
   opts: IndexJsonOptions,
