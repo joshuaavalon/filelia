@@ -8,7 +8,8 @@ const schema = Type.Object(
   {
     filelia: Type.Array(Type.String(), {
       uniqueItems: true,
-      contains: { const: type }
+      contains: { const: type },
+      default: [type]
     }),
     id: Type.String({ format: "uuid" }),
     name: Type.String(),

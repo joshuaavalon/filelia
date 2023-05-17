@@ -51,14 +51,15 @@ export async function insert(
       };
     })
   );
+  const types = value.filelia.map(name => ({ name }));
   await fastify.db.$transaction(async tx => {
-    await tx.tag.deleteMany({ where: { id: value.id } });
+    await tx.projectType.deleteMany({ where: { id: value.id } });
     await tx.project.upsert({
       where: { id: value.id },
       update: {
         path: result.path,
         title: value.title,
-        type: value.type,
+        types: { create: types },
         tags: {
           set: tags
         }
@@ -66,7 +67,7 @@ export async function insert(
       create: {
         id: value.id,
         title: value.title,
-        type: value.type,
+        types: { create: types },
         path: result.path,
         tags: {
           connect: tags

@@ -1,17 +1,19 @@
 import { readFile } from "node:fs/promises";
-import UnsupportedProjectPage from "#component/unsupported-project-page";
-import InvalidJsonPage from "#component/invalid-json-page";
+import UnsupportedProjectPage from "#page/unsupported-project-page";
+import InvalidJsonPage from "#page/invalid-json-page";
+import GenericProjectPage from "#page/generic-project-page";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { GetServerSideProps } from "next";
-import type { ErrorObject } from "ajv/dist/2019.js";
 import type { Project } from "#type";
 
 interface Props {
   project: Project;
   json: unknown;
-  schema: unknown;
-  errorsStr: string;
+  schemaResult: {
+    schema: unknown;
+    errorsStr: string;
+  }[];
 }
 
 interface Query extends ParsedUrlQuery {
@@ -19,22 +21,24 @@ interface Query extends ParsedUrlQuery {
 }
 
 export default function Page(props: Props): JSX.Element {
-  const { project, json, schema, errorsStr } = props;
-  const errors: ErrorObject[] = JSON.parse(errorsStr);
-  if (errors.length > 0) {
+  const { project, json, schemaResult } = props;
+  if (schemaResult.length > 0) {
     return (
       <InvalidJsonPage
         json={json}
-        schema={schema}
-        errors={errors}
+        schemaResult={schemaResult}
         project={project}
       />
     );
   }
-  switch (project.type) {
-    default:
-      return <UnsupportedProjectPage project={project} json={json} />;
+
+  for (const type of project.types) {
+    switch (type.name) {
+      case "filelia::generic-project::v1":
+        return <GenericProjectPage project={project} json={json} />;
+    }
   }
+  return <UnsupportedProjectPage project={project} json={json} />;
 }
 
 export const getServerSideProps: GetServerSideProps<
@@ -59,7 +63,8 @@ export const getServerSideProps: GetServerSideProps<
             }
           }
         }
-      }
+      },
+      types: true
     },
     where: { id: params.id }
   });
@@ -74,18 +79,25 @@ export const getServerSideProps: GetServerSideProps<
     log.warn({ err, project }, "Failed to render project");
     return { notFound: true };
   }
-  const validate = validateFunc(project.type);
-  let errors: ErrorObject[] = [];
-  if (validate && !validate(json)) {
-    validate(json);
-    errors = validate.errors ?? [];
+  const schemaResult: {
+    schema: unknown;
+    errorsStr: string;
+  }[] = [];
+  for (const type of project.types) {
+    const validate = validateFunc(type.name);
+    if (validate && !validate(json)) {
+      validate(json);
+      schemaResult.push({
+        schema: validate.schema,
+        errorsStr: JSON.stringify(validate.errors ?? [])
+      });
+    }
   }
   return {
     props: {
       project,
       json,
-      schema: validate?.schema ? validate?.schema : null,
-      errorsStr: JSON.stringify(errors)
+      schemaResult
     }
   };
 };

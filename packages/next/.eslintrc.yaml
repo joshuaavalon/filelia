@@ -125,6 +125,7 @@ overrides:
           format:
         - selector: objectLiteralProperty
           format:
+      "@next/next/no-img-element": "off"
   - files:
       - "**/*.js"
       - "**/*.cjs"

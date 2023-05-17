@@ -1,5 +1,6 @@
 import { Type } from "@sinclair/typebox";
 import { getId } from "#plugin/validation/json-schema/utils";
+import project from "#plugin/validation/json-schema/project/v1";
 
 const type = "filelia::generic-project::v1" as const;
 
@@ -7,11 +8,11 @@ const schema = Type.Object(
   {
     filelia: Type.Array(Type.String(), {
       uniqueItems: true,
-      contains: { const: type }
+      contains: { const: type },
+      default: [type, project.type]
     }),
     id: Type.String({ format: "uuid" }),
     title: Type.String(),
-    type: Type.Literal("generic"),
     tags: Type.Array(Type.String(), { uniqueItems: true }),
     baseDir: Type.String({ default: "." }),
     gallery: Type.Array(Type.String()),

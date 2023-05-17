@@ -49,8 +49,14 @@ CREATE TABLE "tag_category_alias" (
 CREATE TABLE "project" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "title" TEXT NOT NULL,
-    "type" TEXT NOT NULL,
     "path" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "project_type" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    CONSTRAINT "project_type_id_fkey" FOREIGN KEY ("id") REFERENCES "project" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -71,10 +77,16 @@ CREATE TABLE "_ProjectToTag" (
 CREATE UNIQUE INDEX "tag_alias_id_name_key" ON "tag_alias"("id", "name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "tag_category_alias_name_key" ON "tag_category_alias"("name");
+CREATE UNIQUE INDEX "tag_alias_id_priority_key" ON "tag_alias"("id", "priority");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "tag_category_alias_id_name_key" ON "tag_category_alias"("id", "name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "tag_category_alias_id_priority_key" ON "tag_category_alias"("id", "priority");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "project_type_id_name_key" ON "project_type"("id", "name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_ProjectToTag_AB_unique" ON "_ProjectToTag"("A", "B");

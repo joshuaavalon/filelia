@@ -40,6 +40,14 @@
       "types": "./src/plugin/*/index.ts",
       "import": "./dist/plugin/*/index.js"
     },
+    "#plugin/validation/json-schema/utils": {
+      "types": "./src/plugin/validation/json-schema/utils/index.ts",
+      "import": "./dist/plugin/validation/json-schema/utils/index.js"
+    },
+    "#plugin/validation/json-schema/*": {
+      "types": "./src/plugin/validation/json-schema/*/index.schema.ts",
+      "import": "./dist/plugin/validation/json-schema/*/index.schema.js"
+    },
     "#plugin/*/schema": {
       "types": "./src/plugin/*/schema.ts",
       "import": "./dist/plugin/*/schema.js"

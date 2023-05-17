@@ -48,6 +48,7 @@ model TagAlias {
   tag Tag @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@unique([id, name])
+  @@unique([id, priority])
   @@map("tag_alias")
 }
 
@@ -62,23 +63,34 @@ model TagCategory {
 
 model TagCategoryAlias {
   id       String
-  name     String @unique
+  name     String
   priority Int
 
   tagCategory TagCategory @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@unique([id, name])
+  @@unique([id, priority])
   @@map("tag_category_alias")
 }
 
 model Project {
-  id    String @id
+  id    String        @id
   title String
-  type  String
+  types ProjectType[]
   path  String
   tags  Tag[]
 
   @@map("project")
+}
+
+model ProjectType {
+  id   String
+  name String
+
+  project Project @relation(fields: [id], references: [id], onDelete: Cascade)
+
+  @@unique([id, name])
+  @@map("project_type")
 }
 
 model KeyValue {

@@ -24,6 +24,7 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "#component/*": ["src/component/*/index.tsx"],
+      "#page/*": ["src/page/*/index.tsx"],
       "#provider/*": ["src/provider/*/index.tsx"],
       "#hook": ["src/hook/index.ts"],
       "#type": ["src/type/index.ts"]

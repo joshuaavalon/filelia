@@ -57,14 +57,14 @@ export default function initOriginRoute(_server: Server): void {
   //       metadata = cachedMetadata;
   //     } else {
   //       const rs = await this.storage.read(`upload/${image.id}`);
-  //       const { info, data: buffer } = await rs
-  //         .pipe(sharp())
-  //         .toBuffer({ resolveWithObject: true });
-  //       const { mime } = await this.detectImage(Readable.from(buffer));
-  //       const { format, height, width } = info;
-  //       const dataUrl = `data:${mime};base64,${buffer.toString("base64")}`;
-  //       metadata = { format, height, width, dataUrl, hash: image.hash };
-  //       await setMetadata(this, cacheKey, metadata);
+  // const { info, data: buffer } = await rs
+  //   .pipe(sharp())
+  //   .toBuffer({ resolveWithObject: true });
+  // const { mime } = await this.detectImage(Readable.from(buffer));
+  // const { format, height, width } = info;
+  // const dataUrl = `data:${mime};base64,${buffer.toString("base64")}`;
+  // metadata = { format, height, width, dataUrl, hash: image.hash };
+  // await setMetadata(this, cacheKey, metadata);
   //     }
   //     await sendJson(req, res, metadata);
   //   }

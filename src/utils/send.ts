@@ -25,14 +25,14 @@ export async function sendImage(
   res: FastifyReply,
   data: Readable | Buffer,
   opts: SendImageOptions = {}
-): Promise<void> {
+): Promise<FastifyReply> {
   const { cache = true } = opts;
   const buffer = Buffer.isBuffer(data) ? data : await toBuffer(data);
   const etag = createEtag(buffer);
   if (cache) {
     if (req.headers["if-none-match"] === etag) {
       res.status(304).send();
-      return;
+      return res;
     }
   }
   const fastify = res.server;
@@ -45,6 +45,7 @@ export async function sendImage(
   });
   res.hijack();
   Readable.from(buffer).pipe(res.raw);
+  return res;
 }
 
 export async function sendText(

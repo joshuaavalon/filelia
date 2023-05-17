@@ -16,7 +16,7 @@ const Component: FC<Props> = props => {
       <Title order={2} id={link} sx={{ scrollMarginTop: 60 }}>
         {title}
       </Title>
-      <Prism language="json" withLineNumbers>
+      <Prism language="json" withLineNumbers sx={{ width: "100%" }}>
         {JSON.stringify(json, null, 2)}
       </Prism>
     </>
