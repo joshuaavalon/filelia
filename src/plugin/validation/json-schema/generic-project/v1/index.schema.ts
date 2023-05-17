@@ -1,10 +1,14 @@
 import { Type } from "@sinclair/typebox";
-import getId from "#json-schema/utils/get-id";
+import { getId } from "#plugin/validation/json-schema/utils";
 
-export const $id = getId(import.meta.url);
+const type = "filelia::generic-project::v1" as const;
+
 const schema = Type.Object(
   {
-    $schema: Type.Literal($id),
+    filelia: Type.Array(Type.String(), {
+      uniqueItems: true,
+      contains: { const: type }
+    }),
     id: Type.String({ format: "uuid" }),
     title: Type.String(),
     type: Type.Literal("generic"),
@@ -16,8 +20,9 @@ const schema = Type.Object(
   },
   {
     title: "Generic Project",
-    $id
+    $id: getId(import.meta.url),
+    $schema: "https://json-schema.org/draft/2019-09/schema"
   }
 );
 
-export default schema;
+export default { type, schema, order: 2 };

@@ -2,15 +2,10 @@ import { createReadStream } from "fs";
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { Type } from "@sinclair/typebox";
-import { TypeCompiler } from "@sinclair/typebox/compiler";
-import schema from "#json-schema/generic-project/v1";
-import { TypeBoxError } from "#error";
+import { ValidationError } from "#error";
 import { getContentType } from "#utils";
 
-import type { Static } from "@sinclair/typebox";
 import type { Server } from "#server";
-
-const validator = TypeCompiler.Compile(schema);
 
 export default function initOriginRoute(server: Server): void {
   server.get(
@@ -23,7 +18,7 @@ export default function initOriginRoute(server: Server): void {
     async (req, res) => {
       const {
         params: { projectId, "*": path },
-        server: { db, log }
+        server: { db, log, validateFunc }
       } = req;
       const project = await db.project.findUnique({
         where: { id: projectId, type: "generic" }
@@ -31,24 +26,19 @@ export default function initOriginRoute(server: Server): void {
       if (!project) {
         return res.callNotFound();
       }
-      let genericProject: Static<typeof schema>;
+      let filePath: string;
       try {
         const txt = await readFile(project.path, { encoding: "utf-8" });
-        const json = JSON.parse(txt);
-        if (!validator.Check(json)) {
-          const errors = [...validator.Errors(json)];
-          throw new TypeBoxError(errors, schema);
+        const json = JSON.parse(txt) as unknown;
+        const validate = validateFunc("filelia::generic-project::v1");
+        if (!validate(json)) {
+          throw new ValidationError(validate.errors, validate.schema);
         }
-        genericProject = json;
+        filePath = join(dirname(project.path), json.baseDir ?? ".", path);
       } catch (err) {
         log.warn({ err, path: project.path }, "Failed to read JSON");
         return res.callNotFound();
       }
-      const filePath = join(
-        dirname(project.path),
-        genericProject.baseDir ?? ".",
-        path
-      );
       return res
         .code(200)
         .type(getContentType(filePath) ?? "application/octet-stream")

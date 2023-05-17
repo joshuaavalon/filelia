@@ -8,7 +8,7 @@ declare module "http" {
 }
 
 declare module "fastify" {
-  import("../../../dist/plugin/json-schema");
+  import("../../../dist/plugin/validation");
   import("../../../dist/plugin/database");
   import("../../../dist/plugin/index");
 }

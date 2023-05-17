@@ -1,22 +1,26 @@
-import { TypeCompiler } from "@sinclair/typebox/compiler";
-import schema, { $id } from "#json-schema/person/v1";
-import site from "#json-schema/common/site/v1";
+import { ValidationError } from "#error";
 
 import type { IndexJsonOptions } from "./options.js";
 import type { FileIndexResult } from "./file-indexer.js";
 
-const personChecker = TypeCompiler.Compile(schema, [site]);
+const type = "filelia::person::v1" as const;
 
-export async function insertPerson(
+async function insert(
   opts: IndexJsonOptions,
   result: FileIndexResult
 ): Promise<void> {
   const { fastify, logger } = opts;
-
   const value = result.data;
-  if (!personChecker.Check(value)) {
-    const errors = [...personChecker.Errors(value)];
-    logger.warn({ path: result.path, errors, value }, "Invalid data");
+  const validate = fastify.validateFunc(type);
+  if (!validate(value)) {
+    logger.warn(
+      {
+        path: result.path,
+        value,
+        err: new ValidationError(validate.errors, validate.schema)
+      },
+      "Invalid data"
+    );
     return;
   }
 
@@ -37,4 +41,4 @@ export async function insertPerson(
   });
 }
 
-export const personId = $id;
+export default { insert, type };

@@ -1,11 +1,11 @@
 import createPlugin from "#plugin";
 import optionsSchema from "./schema.js";
-import { getProjectSchema } from "./project-schema.js";
+import { validateFunc } from "./validate-func.js";
 
-const name = "@filelia/plugin-json-schema";
+const name = "@filelia/plugin-validation";
 const plugin = createPlugin(
   async fastify => {
-    fastify.decorate("getProjectSchema", getProjectSchema);
+    fastify.decorate("validateFunc", validateFunc);
   },
   {
     name,
@@ -17,6 +17,6 @@ export default plugin;
 
 declare module "fastify" {
   interface FastifyInstance {
-    getProjectSchema: typeof getProjectSchema;
+    validateFunc: typeof validateFunc;
   }
 }

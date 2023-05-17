@@ -3,7 +3,7 @@ import { posix, relative, sep } from "node:path";
 
 const rootDir = fileURLToPath(new URL("..", import.meta.url));
 
-export default function getId(importMeta: string): string {
+export function getId(importMeta: string): string {
   const filePath = fileURLToPath(new URL(importMeta));
   const relativePath = relative(rootDir, filePath)
     .split(sep)

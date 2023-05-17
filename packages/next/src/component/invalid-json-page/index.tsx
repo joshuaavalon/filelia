@@ -5,7 +5,7 @@ import TableOfContent from "#component/table-of-content";
 import InvalidJsonPanel from "./panel";
 
 import type { FC } from "react";
-import type { ValueError } from "@sinclair/typebox/compiler";
+import type { ErrorObject } from "ajv/dist/2019.js";
 import type { Project } from "#type";
 import type { TableOfContentLink } from "#component/table-of-content";
 
@@ -13,7 +13,7 @@ export interface Props {
   project: Project;
   schema: unknown;
   json: unknown;
-  errors: ValueError[];
+  errors: ErrorObject[];
 }
 
 const links: TableOfContentLink[] = [

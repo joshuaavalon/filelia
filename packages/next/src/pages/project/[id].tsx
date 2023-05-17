@@ -1,18 +1,11 @@
 import { readFile } from "node:fs/promises";
-import Ajv from "ajv";
-import addFormats from "ajv-formats";
-import { Type } from "@sinclair/typebox";
-import { TypeCompiler } from "@sinclair/typebox/compiler";
 import UnsupportedProjectPage from "#component/unsupported-project-page";
 import InvalidJsonPage from "#component/invalid-json-page";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { GetServerSideProps } from "next";
-import type { ValueError } from "@sinclair/typebox/compiler";
+import type { ErrorObject } from "ajv/dist/2019.js";
 import type { Project } from "#type";
-
-const ajv = new Ajv({ useDefaults: true });
-addFormats.default(ajv);
 
 interface Props {
   project: Project;
@@ -27,7 +20,7 @@ interface Query extends ParsedUrlQuery {
 
 export default function Page(props: Props): JSX.Element {
   const { project, json, schema, errorsStr } = props;
-  const errors: ValueError[] = JSON.parse(errorsStr);
+  const errors: ErrorObject[] = JSON.parse(errorsStr);
   if (errors.length > 0) {
     return (
       <InvalidJsonPage
@@ -54,7 +47,7 @@ export const getServerSideProps: GetServerSideProps<
       notFound: true
     };
   }
-  const { db, getProjectSchema, log } = req.fastify();
+  const { db, validateFunc, log } = req.fastify();
   const project = await db.project.findUnique({
     include: {
       tags: {
@@ -81,20 +74,17 @@ export const getServerSideProps: GetServerSideProps<
     log.warn({ err, project }, "Failed to render project");
     return { notFound: true };
   }
-  const schema = getProjectSchema(project.type);
-  let errors: ValueError[] = [];
-  if (schema) {
-    const validate = ajv.compile(schema);
-    if (!validate(json)) {
-      const validator = TypeCompiler.Compile(schema);
-      errors = [...validator.Errors(json)];
-    }
+  const validate = validateFunc(project.type);
+  let errors: ErrorObject[] = [];
+  if (validate && !validate(json)) {
+    validate(json);
+    errors = validate.errors ?? [];
   }
   return {
     props: {
       project,
       json,
-      schema: schema ? Type.Strict(schema) : null,
+      schema: validate?.schema ? validate?.schema : null,
       errorsStr: JSON.stringify(errors)
     }
   };

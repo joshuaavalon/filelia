@@ -15,7 +15,7 @@
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset --force --skip-generate",
-    "json:generate": "node dist/json-schema/utils/print-schema.js"
+    "json:generate": "node dist/plugin/validation/json-schema/utils/print-schema.js"
   },
   "workspaces": [
     "packages/*"
@@ -32,14 +32,6 @@
   "author": "Joshua Avalon",
   "license": "Apache-2.0",
   "imports": {
-    "#json-schema/*": {
-      "types": "./src/json-schema/*/index.schema.ts",
-      "import": "./dist/json-schema/*/index.schema.js"
-    },
-    "#json-schema/utils/*": {
-      "types": "./src/json-schema/utils/*.ts",
-      "import": "./dist/json-schema/utils/*.js"
-    },
     "#plugin": {
       "types": "./src/plugin/index.ts",
       "import": "./dist/plugin/index.js"

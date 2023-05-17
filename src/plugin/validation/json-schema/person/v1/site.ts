@@ -1,7 +1,7 @@
 import { Type } from "@sinclair/typebox";
-import getId from "#json-schema/utils/get-id";
+import { getId } from "#plugin/validation/json-schema/utils";
 
-const schema = Type.Object(
+export const schema = Type.Object(
   {
     type: Type.String({ minLength: 1 }),
     id: Type.String({ minLength: 1 }),
@@ -11,7 +11,7 @@ const schema = Type.Object(
   {
     title: "Site",
     $id: getId(import.meta.url),
-    unevaluatedProperties: false
+    $schema: "https://json-schema.org/draft/2019-09/schema"
   }
 );
 

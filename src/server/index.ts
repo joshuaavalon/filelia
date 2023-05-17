@@ -1,13 +1,12 @@
 import createFastify from "fastify";
 import { v4 as uuid } from "uuid";
-import "./typebox.js";
 import cookiePlugin from "@fastify/cookie";
 import helmetPlugin from "@fastify/helmet";
 import nextJs from "@fastify/nextjs";
 import imagePlugin from "#plugin/image";
 import databasePlugin from "#plugin/database";
 import indexPlugin from "#plugin/index";
-import jsonSchemaPlugin from "#plugin/json-schema";
+import validationPlugin from "#plugin/validation";
 import { initRoutes } from "#route";
 
 import type { FastifyInstance } from "fastify";
@@ -18,7 +17,7 @@ const nextPlugin = nextJs.default;
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function createServer(config: Config) {
-  const { database, server, index, jsonSchema } = config;
+  const { database, server, index, validation } = config;
   const fastify = createFastify({
     logger: server.logger,
     trustProxy: server.trustProxy,
@@ -39,7 +38,7 @@ export async function createServer(config: Config) {
   await fastify.register(databasePlugin, database);
   await fastify.register(imagePlugin);
   await fastify.register(indexPlugin, index);
-  await fastify.register(jsonSchemaPlugin, jsonSchema);
+  await fastify.register(validationPlugin, validation);
   if (!server.testing) {
     fastify.addHook("onRequest", async req => {
       req.raw.fastify = () => req.server;

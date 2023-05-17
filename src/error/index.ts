@@ -1,1 +1,1 @@
-export * from "./typebox.js";
+export * from "./validation.js";

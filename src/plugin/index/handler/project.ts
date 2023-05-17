@@ -1,23 +1,28 @@
 import { validate as isUUID } from "uuid";
-import { TypeCompiler } from "@sinclair/typebox/compiler";
-import schema, { $id } from "#json-schema/project/v1";
+import { ValidationError } from "#error";
 
 import type { Prisma } from "@prisma/client";
 import type { IndexJsonOptions } from "./options.js";
 import type { FileIndexResult } from "./file-indexer.js";
 
-const projectChecker = TypeCompiler.Compile(schema);
+const type = "filelia::project::v1" as const;
 
-export async function insertProject(
+export async function insert(
   opts: IndexJsonOptions,
   result: FileIndexResult
 ): Promise<void> {
   const { fastify, logger } = opts;
-
   const value = result.data;
-  if (!projectChecker.Check(value)) {
-    const errors = [...projectChecker.Errors(value)];
-    logger.warn({ path: result.path, errors, value }, "Invalid data");
+  const validate = fastify.validateFunc(type);
+  if (!validate(value)) {
+    logger.warn(
+      {
+        path: result.path,
+        value,
+        err: new ValidationError(validate.errors, validate.schema)
+      },
+      "Invalid data"
+    );
     return;
   }
 
@@ -71,4 +76,4 @@ export async function insertProject(
   });
 }
 
-export const projectId = $id;
+export default { insert, type };

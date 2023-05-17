@@ -3,14 +3,14 @@ import Alert from "./alert";
 import JsonSection from "./json-section";
 
 import type { FC } from "react";
-import type { ValueError } from "@sinclair/typebox/compiler";
+import type { ErrorObject } from "ajv/dist/2019.js";
 import type { Project } from "#type";
 
 export interface Props {
   project: Project;
   schema: unknown;
   json: unknown;
-  errors: ValueError[];
+  errors: ErrorObject[];
 }
 
 const Component: FC<Props> = props => {

@@ -1,15 +1,14 @@
 import readEnvVars from "read-env-vars";
-import Ajv from "ajv";
+import Ajv from "ajv/dist/2019.js";
 import addFormats from "ajv-formats";
 import { Type } from "@sinclair/typebox";
-import { TypeCompiler } from "@sinclair/typebox/compiler";
 import database from "#plugin/database/schema";
 import index from "#plugin/index/schema";
-import jsonSchema from "#plugin/json-schema/schema";
+import validation from "#plugin/validation/schema";
 import server from "./server.js";
 
 import type { Static } from "@sinclair/typebox";
-import type { ValueError } from "@sinclair/typebox/compiler";
+import type { ErrorObject } from "ajv/dist/2019.js";
 
 const ajv = new Ajv.default({ useDefaults: true });
 addFormats.default(ajv);
@@ -22,10 +21,9 @@ const schema = Type.Object({
   server,
   database,
   index,
-  jsonSchema
+  validation
 });
-const validate = ajv.compile(schema);
-const validator = TypeCompiler.Compile(schema);
+const validate = ajv.compile<Static<typeof schema>>(schema);
 
 export type Config = Static<typeof schema>;
 export type ReadConfigResult =
@@ -35,7 +33,7 @@ export type ReadConfigResult =
     }
   | {
       config: null;
-      errors: ValueError[];
+      errors: ErrorObject[];
     };
 
 export function readConfig(): ReadConfigResult {
@@ -47,8 +45,7 @@ export function readConfig(): ReadConfigResult {
     }
   }
   if (!validate(values)) {
-    const errors = [...validator.Errors(values)];
-    return { config: null, errors };
+    return { config: null, errors: validate.errors ?? [] };
   }
   const config = values as Config;
   return { config, errors: null };
