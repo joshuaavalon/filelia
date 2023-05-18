@@ -90,7 +90,7 @@
     "@types/node": "^20.1.4",
     "@types/uuid": "^9.0.1",
     "dotenv": "^16.0.3",
-    "prisma": "^4.14.0",
+    "prisma": "4.14.1",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4"
   },
@@ -100,7 +100,7 @@
     "@fastify/nextjs": "9.2.0",
     "@fastify/static": "6.10.1",
     "@fastify/type-provider-typebox": "3.2.0",
-    "@prisma/client": "4.14.0",
+    "@prisma/client": "4.14.1",
     "@sinclair/typebox": "0.28.9",
     "ajv": "8.12.0",
     "ajv-formats": "2.1.1",
