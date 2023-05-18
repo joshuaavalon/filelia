@@ -3,10 +3,12 @@ import UnsupportedProjectPage from "#page/unsupported-project-page";
 import InvalidJsonPage from "#page/invalid-json-page";
 import GenericProjectPage from "#page/generic-project-page";
 import { colorSchemeKey } from "#provider/color-scheme";
+import readMdx from "#utils/read-mdx";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { GetServerSideProps } from "next";
 import type { ColorScheme } from "@mantine/core";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import type { Project } from "#type";
 
 interface Props {
@@ -16,7 +18,8 @@ interface Props {
     schema: unknown;
     errorsStr: string;
   }[];
-  colorScheme?: ColorScheme;
+  colorScheme: ColorScheme | null;
+  description: MDXRemoteSerializeResult | null;
 }
 
 interface Query extends ParsedUrlQuery {
@@ -24,7 +27,7 @@ interface Query extends ParsedUrlQuery {
 }
 
 export default function Page(props: Props): JSX.Element {
-  const { project, json, schemaResult } = props;
+  const { project, json, schemaResult, description } = props;
   if (schemaResult.length > 0) {
     return (
       <InvalidJsonPage
@@ -38,7 +41,13 @@ export default function Page(props: Props): JSX.Element {
   for (const type of project.types) {
     switch (type.name) {
       case "filelia::generic-project::v1":
-        return <GenericProjectPage project={project} json={json} />;
+        return (
+          <GenericProjectPage
+            project={project}
+            json={json}
+            description={description}
+          />
+        );
     }
   }
   return <UnsupportedProjectPage project={project} json={json} />;
@@ -82,6 +91,7 @@ export const getServerSideProps: GetServerSideProps<
     log.warn({ err, project }, "Failed to render project");
     return { notFound: true };
   }
+
   const schemaResult: {
     schema: unknown;
     errorsStr: string;
@@ -97,12 +107,21 @@ export const getServerSideProps: GetServerSideProps<
     }
   }
   const colorScheme = req.cookies[colorSchemeKey] === "dark" ? "dark" : "light";
+  let description: MDXRemoteSerializeResult | null = null;
+  if (schemaResult.length <= 0) {
+    if (
+      project.types.some(type => type.name === "filelia::generic-project::v1")
+    ) {
+      description = await readMdx(project.path, json.baseDir, json.description);
+    }
+  }
   return {
     props: {
       project,
       json,
       schemaResult,
-      colorScheme
+      colorScheme,
+      description
     }
   };
 };

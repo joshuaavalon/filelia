@@ -27,7 +27,8 @@
       "#page/*": ["src/page/*/index.tsx"],
       "#provider/*": ["src/provider/*/index.tsx"],
       "#hook": ["src/hook/index.ts"],
-      "#type": ["src/type/index.ts"]
+      "#type": ["src/type/index.ts"],
+      "#utils/*": ["src/utils/*.ts"]
     }
   },
   "include": [

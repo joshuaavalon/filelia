@@ -7,6 +7,7 @@ import Panel from "./panel";
 import { GenericProjectContext } from "./context";
 
 import type { FC } from "react";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import type { Project } from "#type";
 import type { TableOfContentItem } from "#component/table-of-content";
 import type { GenericProject } from "./type";
@@ -14,10 +15,11 @@ import type { GenericProject } from "./type";
 export interface Props {
   project: Project;
   json: unknown;
+  description: MDXRemoteSerializeResult | null;
 }
 
 const Component: FC<Props> = props => {
-  const { json, project } = props;
+  const { json, project, description } = props;
   const genericProject = json as GenericProject;
   const toc = useMemo<TableOfContentItem[]>(() => {
     const items: TableOfContentItem[] = [];
@@ -45,7 +47,7 @@ const Component: FC<Props> = props => {
         }
       >
         <Metadata title={project.title} />
-        <Panel />
+        <Panel description={description} />
       </Layout>
     </GenericProjectContext.Provider>
   );
