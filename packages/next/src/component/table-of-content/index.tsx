@@ -1,77 +1,48 @@
-import { useCallback, useEffect, useMemo } from "react";
-import { Box, Group, Stack, Text } from "@mantine/core";
-import { TbList } from "react-icons/tb";
-import { useStyles } from "./style";
+import { useCallback, useEffect } from "react";
+import { Collapse, Stack } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import Header from "./header";
+import Items from "./items";
 import { getActiveElement, notEmpty } from "./utils";
 
 import type { FC } from "react";
 import type { Sx } from "@mantine/core";
+import type { TableOfContentItem } from "./type";
 
-export interface TableOfContentLink {
-  label: string;
-  link: string;
-  order: number;
-}
+export type { TableOfContentItem } from "./type";
 
 export interface Props {
-  links: TableOfContentLink[];
+  items: TableOfContentItem[];
   active: string;
   setActive: (active: string) => void;
   sx?: Sx;
 }
 
 const Component: FC<Props> = props => {
-  const { links, active, setActive, sx } = props;
-  const { classes, cx } = useStyles();
-
-  const items = useMemo(
-    () =>
-      links.map(item => (
-        <Box<"a">
-          component="a"
-          href={item.link}
-          onClick={e => {
-            e.preventDefault();
-            document.querySelector(item.link)?.scrollIntoView({
-              behavior: "smooth"
-            });
-          }}
-          key={item.label}
-          className={cx(classes.link, {
-            [classes.linkActive]: active === item.link
-          })}
-          sx={theme => ({
-            paddingLeft: `calc(${item.order} * ${theme.spacing.md})`
-          })}
-        >
-          {item.label}
-        </Box>
-      )),
-    [links, active, classes.linkActive, classes.link, cx]
-  );
+  const { items, active, setActive, sx } = props;
+  const [opened, { toggle }] = useDisclosure(true);
 
   const handleScroll = useCallback(() => {
-    const elements = links
-      .map(item => document.querySelector(item.link))
+    const elements = items
+      .map(item => document.querySelector(item.href))
       .filter(notEmpty);
     const ids = elements.map(e => e.id);
     const index = getActiveElement(
       elements.map(e => e.getBoundingClientRect())
     );
     setActive(`#${ids[index]}`);
-  }, [links, setActive]);
+  }, [items, setActive]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
   return (
-    <Stack spacing={0} sx={sx}>
-      <Group mb="md">
-        <TbList size="1.1rem" />
-        <Text>Table of contents</Text>
-      </Group>
-      {items}
+    <Stack sx={sx}>
+      <Header onClick={toggle} />
+      <Collapse in={opened}>
+        <Items items={items} active={active} />
+      </Collapse>
     </Stack>
   );
 };

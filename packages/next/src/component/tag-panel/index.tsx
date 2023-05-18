@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Flex } from "@mantine/core";
+import { Collapse, Flex } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import Header from "./header";
 import FilterTagInput from "./filter-tag-input";
 import TagCloud from "./tag-cloud";
 
@@ -16,6 +18,7 @@ const Component: FC<Props> = props => {
   const { tags, sx } = props;
   const [filter, setFilter] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(true);
+  const [opened, { toggle }] = useDisclosure(true);
   return (
     <Flex
       gap="md"
@@ -25,13 +28,16 @@ const Component: FC<Props> = props => {
       wrap="wrap"
       sx={sx}
     >
-      <FilterTagInput
-        filter={filter}
-        setFilter={setFilter}
-        caseSensitive={caseSensitive}
-        setCaseSensitive={setCaseSensitive}
-      />
-      <TagCloud tags={tags} filter={filter} caseSensitive={caseSensitive} />
+      <Header onClick={toggle} />
+      <Collapse in={opened}>
+        <FilterTagInput
+          filter={filter}
+          setFilter={setFilter}
+          caseSensitive={caseSensitive}
+          setCaseSensitive={setCaseSensitive}
+        />
+        <TagCloud tags={tags} filter={filter} caseSensitive={caseSensitive} />
+      </Collapse>
     </Flex>
   );
 };

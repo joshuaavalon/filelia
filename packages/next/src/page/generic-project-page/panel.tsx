@@ -8,7 +8,8 @@ import type { FC } from "react";
 export interface Props {}
 
 const Component: FC<Props> = () => {
-  const { project } = useContext(GenericProjectContext);
+  const { project, genericProject } = useContext(GenericProjectContext);
+  const carousel = genericProject.gallery.length > 0 ? <Carousel /> : undefined;
   return (
     <Flex
       gap="md"
@@ -18,7 +19,7 @@ const Component: FC<Props> = () => {
       wrap="wrap"
     >
       <Title>{project.title}</Title>
-      <Carousel />
+      {carousel}
     </Flex>
   );
 };

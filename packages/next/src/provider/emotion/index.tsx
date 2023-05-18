@@ -1,5 +1,9 @@
 import { CacheProvider } from "@emotion/react";
-import { createEmotionCache, MantineProvider } from "@mantine/core";
+import {
+  createEmotionCache,
+  MantineProvider,
+  useMantineColorScheme
+} from "@mantine/core";
 
 import type { FC } from "react";
 
@@ -11,16 +15,14 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { children } = props;
+  const { colorScheme } = useMantineColorScheme();
   return (
     <CacheProvider value={cache}>
-      {/* You can wrap ColorSchemeProvider right here but skipping that for brevity ;) */}
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
         emotionCache={cache}
-        theme={{
-          colorScheme: "light"
-        }}
+        theme={{ colorScheme }}
       >
         {children}
       </MantineProvider>

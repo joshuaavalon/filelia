@@ -3,7 +3,7 @@ import initGalleryRoutes from "./gallery.js";
 
 import type { Server } from "#server";
 
-export default function initGenericProjectRoutes(server: Server): void {
+export default function initRoutes(server: Server): void {
   initFileRoutes(server);
   initGalleryRoutes(server);
 }

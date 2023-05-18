@@ -1,6 +1,9 @@
-import { createStyles, rem } from "@mantine/core";
+import { Box, createStyles, rem } from "@mantine/core";
 
-export const useStyles = createStyles(theme => ({
+import type { FC } from "react";
+import type { TableOfContentItem } from "./type";
+
+const useStyles = createStyles(theme => ({
   link: {
     ...theme.fn.focusStyles(),
     display: "block",
@@ -14,7 +17,6 @@ export const useStyles = createStyles(theme => ({
     borderLeft: `${rem(1)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
-
     "&:hover": {
       backgroundColor:
         theme.colorScheme === "dark"
@@ -38,3 +40,38 @@ export const useStyles = createStyles(theme => ({
     }
   }
 }));
+
+export interface Props {
+  item: TableOfContentItem;
+  active: string;
+}
+
+const Component: FC<Props> = props => {
+  const { item, active } = props;
+  const { href, label } = item;
+  const { classes, cx } = useStyles();
+
+  return (
+    <Box<"a">
+      component="a"
+      href={href}
+      onClick={e => {
+        e.preventDefault();
+        document.querySelector(href)?.scrollIntoView({
+          behavior: "smooth"
+        });
+      }}
+      className={cx(classes.link, {
+        [classes.linkActive]: active === href
+      })}
+      sx={theme => ({
+        paddingLeft: `calc(${item.order} * ${theme.spacing.md})`
+      })}
+    >
+      {label}
+    </Box>
+  );
+};
+
+Component.displayName = "TableOfContentItem";
+export default Component;

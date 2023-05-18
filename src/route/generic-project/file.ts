@@ -7,7 +7,7 @@ import { getContentType } from "#utils";
 
 import type { Server } from "#server";
 
-export default function initOriginRoute(server: Server): void {
+export default function initRoutes(server: Server): void {
   server.get(
     "/generic-project/:projectId/file/*",
     {

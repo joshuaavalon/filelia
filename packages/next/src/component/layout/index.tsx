@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
 import { AppShell } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import Navbar, { NavbarContext } from "./navbar";
 import Aside, { AsideContext } from "./aside";
 import Header from "./header";
@@ -12,27 +12,14 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { children, aside } = props;
-  const [navbarOpened, setNavbarOpened] = useState(false);
-  const [asideOpened, setAsideOpened] = useState(false);
-
-  const toggleNavbar = useCallback(() => {
-    setAsideOpened(false);
-    setNavbarOpened(o => !o);
-  }, []);
+  const { children, aside: asideContent } = props;
+  const navbar = useDisclosure(false);
+  const aside = useDisclosure(false);
   const hasAside = Boolean(aside);
-  const asideElm = hasAside ? <Aside>{aside}</Aside> : undefined;
-  const toggleAside = useCallback(() => {
-    setNavbarOpened(false);
-    setAsideOpened(o => !o);
-  }, []);
+  const asideElm = hasAside ? <Aside>{asideContent}</Aside> : undefined;
   return (
-    <NavbarContext.Provider
-      value={{ opened: navbarOpened, toggleOpened: toggleNavbar }}
-    >
-      <AsideContext.Provider
-        value={{ opened: asideOpened, toggleOpened: toggleAside }}
-      >
+    <NavbarContext.Provider value={navbar}>
+      <AsideContext.Provider value={aside}>
         <AppShell
           padding="md"
           navbarOffsetBreakpoint="md"
@@ -40,7 +27,15 @@ const Component: FC<Props> = props => {
           aside={asideElm}
           navbar={<Navbar />}
           header={<Header hasAside={hasAside} />}
-          styles={{ main: { overflow: "hidden" } }}
+          styles={theme => ({
+            main: {
+              overflow: "hidden",
+              // https://github.com/mantinedev/mantine/issues/4269
+              [theme.fn.smallerThan("md")]: {
+                paddingLeft: theme.spacing.md
+              }
+            }
+          })}
         >
           {children}
         </AppShell>

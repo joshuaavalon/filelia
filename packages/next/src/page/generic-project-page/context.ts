@@ -8,7 +8,7 @@ export type GenericProject = Static<Schemas["filelia::generic-project::v1"]>;
 
 export interface GenericProjectContextValue {
   project: Project;
-  json: GenericProject;
+  genericProject: GenericProject;
 }
 
 export const GenericProjectContext = createContext<GenericProjectContextValue>(

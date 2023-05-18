@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { Burger, Flex, Header, MediaQuery } from "@mantine/core";
 import { NavbarContext } from "./navbar";
 import { AsideContext } from "./aside";
@@ -12,8 +12,18 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { hasAside } = props;
-  const aside = useContext(AsideContext);
-  const navbar = useContext(NavbarContext);
+  const [asideOpened, { close: asideClose, toggle: asideToggle }] =
+    useContext(AsideContext);
+  const [navbarOpened, { close: navbarClose, toggle: navbarToggle }] =
+    useContext(NavbarContext);
+  const onNavbarClick = useCallback(() => {
+    asideClose();
+    navbarToggle();
+  }, [asideClose, navbarToggle]);
+  const onAsideClick = useCallback(() => {
+    navbarClose();
+    asideToggle();
+  }, [navbarClose, asideToggle]);
   return (
     <Header height={50} p="md" sx={{ display: "flex", alignItems: "center" }}>
       <Flex
@@ -26,8 +36,8 @@ const Component: FC<Props> = props => {
       >
         <MediaQuery largerThan="md" styles={{ display: "none" }}>
           <Burger
-            opened={navbar.opened}
-            onClick={navbar.toggleOpened}
+            opened={navbarOpened}
+            onClick={onNavbarClick}
             size="sm"
             mr="xl"
             sx={{ position: "absolute" }}
@@ -39,8 +49,8 @@ const Component: FC<Props> = props => {
       <MediaQuery largerThan="md" styles={{ display: "none" }}>
         {hasAside ? (
           <Burger
-            opened={aside.opened}
-            onClick={aside.toggleOpened}
+            opened={asideOpened}
+            onClick={onAsideClick}
             size="sm"
             mr="xl"
             sx={{ position: "absolute", right: 0 }}

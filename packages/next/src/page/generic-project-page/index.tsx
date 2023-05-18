@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Metadata from "#component/metadata";
 import Layout from "#component/layout";
 import TableOfContent from "#component/table-of-content";
@@ -8,7 +8,7 @@ import { GenericProjectContext } from "./context";
 
 import type { FC } from "react";
 import type { Project } from "#type";
-import type { TableOfContentLink } from "#component/table-of-content";
+import type { TableOfContentItem } from "#component/table-of-content";
 import type { GenericProject } from "./type";
 
 export interface Props {
@@ -16,23 +16,27 @@ export interface Props {
   json: unknown;
 }
 
-const links: TableOfContentLink[] = [];
-
 const Component: FC<Props> = props => {
   const { json, project } = props;
-  const [active, setActive] = useState(""); //links[0].link
+  const genericProject = json as GenericProject;
+  const toc = useMemo<TableOfContentItem[]>(() => {
+    const items: TableOfContentItem[] = [];
+    if (genericProject.gallery.length > 0) {
+      items.push({
+        href: "#gallery",
+        label: "Gallery",
+        order: 1
+      });
+    }
+    return items;
+  }, [genericProject.gallery]);
+  const [active, setActive] = useState(toc.length > 0 ? toc[0].href : "");
   return (
-    <GenericProjectContext.Provider
-      value={{ project, json: json as GenericProject }}
-    >
+    <GenericProjectContext.Provider value={{ project, genericProject }}>
       <Layout
         aside={
           <>
-            <TableOfContent
-              links={links}
-              active={active}
-              setActive={setActive}
-            />
+            <TableOfContent items={toc} active={active} setActive={setActive} />
             <TagPanel
               tags={project.tags}
               sx={theme => ({ marginTop: theme.spacing.md })}

@@ -2,9 +2,11 @@ import { readFile } from "node:fs/promises";
 import UnsupportedProjectPage from "#page/unsupported-project-page";
 import InvalidJsonPage from "#page/invalid-json-page";
 import GenericProjectPage from "#page/generic-project-page";
+import { colorSchemeKey } from "#provider/color-scheme";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { GetServerSideProps } from "next";
+import type { ColorScheme } from "@mantine/core";
 import type { Project } from "#type";
 
 interface Props {
@@ -14,6 +16,7 @@ interface Props {
     schema: unknown;
     errorsStr: string;
   }[];
+  colorScheme?: ColorScheme;
 }
 
 interface Query extends ParsedUrlQuery {
@@ -93,11 +96,13 @@ export const getServerSideProps: GetServerSideProps<
       });
     }
   }
+  const colorScheme = req.cookies[colorSchemeKey] === "dark" ? "dark" : "light";
   return {
     props: {
       project,
       json,
-      schemaResult
+      schemaResult,
+      colorScheme
     }
   };
 };

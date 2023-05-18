@@ -77,10 +77,10 @@ export async function sendJson(
   req: FastifyRequest,
   res: FastifyReply,
   json: Record<string, unknown>
-): Promise<void> {
+): Promise<FastifyReply> {
   const data = JSON.stringify(json);
   const etag = createHash("sha256").update(data, "utf-8").digest("hex");
-  res
+  return res
     .code(200)
     .header("Content-Type", "application/json; charset=utf-8")
     .header("Cache-Control", "public, no-cache")

@@ -11,13 +11,13 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { maxHeight = 300 } = props;
+  const { maxHeight = 200 } = props;
   const [opened, { open, close }] = useDisclosure(false);
-  const { project, json } = useContext(GenericProjectContext);
+  const { project, genericProject } = useContext(GenericProjectContext);
   const [src, setSrc] = useState("");
   const slides = useMemo(() => {
     const { id } = project;
-    const { gallery } = json;
+    const { gallery } = genericProject;
     return gallery.map(image => (
       <Carousel.Slide
         key={image}
@@ -48,7 +48,7 @@ const Component: FC<Props> = props => {
         </Center>
       </Carousel.Slide>
     ));
-  }, [project, json, maxHeight, open]);
+  }, [project, genericProject, maxHeight, open]);
   return (
     <>
       <Modal
@@ -62,6 +62,9 @@ const Component: FC<Props> = props => {
         styles={theme => ({
           content: {
             backgroundColor: theme.fn.rgba(theme.colors.gray[1], 0.2)
+          },
+          body: {
+            height: "100%"
           }
         })}
       >
@@ -74,8 +77,9 @@ const Component: FC<Props> = props => {
         maw="100%"
         loop
         withIndicators
-        slideSize="70%"
+        slideSize="50%"
         slideGap="lg"
+        id="gallery"
       >
         {slides}
       </Carousel>
