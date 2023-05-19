@@ -1,5 +1,5 @@
 import { useContext, useMemo, useState } from "react";
-import { Center, Modal } from "@mantine/core";
+import { Center, Divider, Modal } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useDisclosure } from "@mantine/hooks";
 import { GenericProjectContext } from "./context";
@@ -82,7 +82,8 @@ const Component: FC<Props> = props => {
         id="gallery"
       >
         {slides}
-      </Carousel>
+      </Carousel>{" "}
+      <Divider />
     </>
   );
 };

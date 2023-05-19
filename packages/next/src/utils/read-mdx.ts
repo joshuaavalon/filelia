@@ -9,7 +9,6 @@ export interface ReadMdxOptions {
   baseDir: string;
   filePath: string;
 }
-// TODO: Log error
 export default async function readMdx(
   projectPath: string,
   baseDir: string,
@@ -20,9 +19,10 @@ export default async function readMdx(
     const content = await readFile(path, { encoding: "utf-8" });
     return serialize(content, {
       parseFrontmatter: true,
-      mdxOptions: { development: true }
+      mdxOptions: { development: false }
     });
   } catch (e) {
+    // TODO: Log error
     console.log({ e });
     return null;
   }
