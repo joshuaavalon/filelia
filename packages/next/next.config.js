@@ -1,4 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: false
+});
 
-module.exports = nextConfig;
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  compress: true
+};
+
+module.exports = withBundleAnalyzer(nextConfig);

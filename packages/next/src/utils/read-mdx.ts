@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { serialize } from "next-mdx-remote/serialize";
+import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
 
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 
@@ -19,7 +21,11 @@ export default async function readMdx(
     const content = await readFile(path, { encoding: "utf-8" });
     return serialize(content, {
       parseFrontmatter: true,
-      mdxOptions: { development: false }
+      mdxOptions: {
+        remarkPlugins: [remarkGfm],
+        rehypePlugins: [rehypeSlug],
+        development: false
+      }
     });
   } catch (e) {
     // TODO: Log error

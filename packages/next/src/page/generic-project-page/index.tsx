@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Metadata from "#component/metadata";
 import Layout from "#component/layout";
 import TableOfContent from "#component/table-of-content";
@@ -21,20 +21,13 @@ export interface Props {
 const Component: FC<Props> = props => {
   const { json, project, description } = props;
   const genericProject = json as GenericProject;
-  const toc = useMemo<TableOfContentItem[]>(() => {
-    const items: TableOfContentItem[] = [];
-    if (genericProject.gallery.length > 0) {
-      items.push({
-        href: "#gallery",
-        label: "Gallery",
-        order: 1
-      });
-    }
-    return items;
-  }, [genericProject.gallery]);
+  const [toc, setToc] = useState<TableOfContentItem[]>([]);
   const [active, setActive] = useState(toc.length > 0 ? toc[0].href : "");
+  console.log({ toc });
   return (
-    <GenericProjectContext.Provider value={{ project, genericProject }}>
+    <GenericProjectContext.Provider
+      value={{ project, genericProject, description }}
+    >
       <Layout
         aside={
           <>
@@ -47,7 +40,7 @@ const Component: FC<Props> = props => {
         }
       >
         <Metadata title={project.title} />
-        <Panel description={description} />
+        <Panel setToc={setToc} />
       </Layout>
     </GenericProjectContext.Provider>
   );
