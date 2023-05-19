@@ -27,9 +27,11 @@ export default async function readMdx(
         development: false
       }
     });
-  } catch (e) {
-    // TODO: Log error
-    console.log({ e });
+  } catch (e: any) {
+    if (e.code !== "ENOENT") {
+      // TODO: Log error
+      console.log({ e });
+    }
     return null;
   }
 }

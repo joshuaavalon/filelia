@@ -37,6 +37,7 @@ const Component: FC<Props> = props => {
         />
       }
       rightSectionWidth="4em"
+      mb="md"
     />
   );
 };

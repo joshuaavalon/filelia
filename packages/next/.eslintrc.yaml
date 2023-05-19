@@ -24,7 +24,7 @@ ignorePatterns:
   - "**/dist"
   - "**/*.generated.ts"
   - "**/*.d.ts"
-  - ".next"
+  - "**/.next"
 overrides:
   - files:
       - "**/*.js"

@@ -23,7 +23,6 @@ const Component: FC<Props> = props => {
   const genericProject = json as GenericProject;
   const [toc, setToc] = useState<TableOfContentItem[]>([]);
   const [active, setActive] = useState(toc.length > 0 ? toc[0].href : "");
-  console.log({ toc });
   return (
     <GenericProjectContext.Provider
       value={{ project, genericProject, description }}

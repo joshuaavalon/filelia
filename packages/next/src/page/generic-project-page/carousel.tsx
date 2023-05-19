@@ -1,7 +1,8 @@
 import { useContext, useMemo, useState } from "react";
-import { Center, Divider, Modal } from "@mantine/core";
+import { Center, Divider } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useDisclosure } from "@mantine/hooks";
+import ImageModal from "#component/image-modal";
 import { GenericProjectContext } from "./context";
 
 import type { FC } from "react";
@@ -33,10 +34,6 @@ const Component: FC<Props> = props => {
             style={{ objectFit: "cover", maxHeight: "100%", maxWidth: "100%" }}
           >
             <source
-              srcSet={`/generic-project/${id}/gallery/${image}?h=${maxHeight}&format=webp`}
-              type="image/webp"
-            />
-            <source
               srcSet={`/generic-project/${id}/gallery/${image}?h=${maxHeight}&format=png`}
               type="image/png"
             />
@@ -51,27 +48,7 @@ const Component: FC<Props> = props => {
   }, [project, genericProject, maxHeight, open]);
   return (
     <>
-      <Modal
-        opened={opened}
-        onClose={close}
-        transitionProps={{ transition: "fade", duration: 200 }}
-        withCloseButton={false}
-        padding={0}
-        onClick={close}
-        fullScreen
-        styles={theme => ({
-          content: {
-            backgroundColor: theme.fn.rgba(theme.colors.gray[1], 0.2)
-          },
-          body: {
-            height: "100%"
-          }
-        })}
-      >
-        <Center h="100%">
-          <img src={src} alt="Image" />
-        </Center>
-      </Modal>
+      <ImageModal opened={opened} src={src} close={close} />
       <Carousel
         mah={maxHeight}
         maw="100%"
