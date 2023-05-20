@@ -14,8 +14,8 @@ const Component: FC<Props> = () => (
     wrap="nowrap"
     sx={{ cursor: "pointer", flex: 1 }}
   >
-    <ThemeIcon>
-      <TbFileLambda />
+    <ThemeIcon size="lg">
+      <TbFileLambda size="1.625rem" />
     </ThemeIcon>
     <Title>Filelia</Title>
   </Flex>

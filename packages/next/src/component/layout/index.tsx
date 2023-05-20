@@ -5,6 +5,20 @@ import Aside, { AsideContext } from "./aside";
 import Header from "./header";
 
 import type { FC, ReactNode } from "react";
+import type { AppShellStylesNames, Styles } from "@mantine/core";
+
+const appShellStyles: Styles<
+  AppShellStylesNames,
+  Record<string, any>
+> = theme => ({
+  main: {
+    overflow: "hidden",
+    // https://github.com/mantinedev/mantine/issues/4269
+    [theme.fn.smallerThan("md")]: {
+      paddingLeft: theme.spacing.md
+    }
+  }
+});
 
 export interface Props {
   children: ReactNode;
@@ -27,15 +41,7 @@ const Component: FC<Props> = props => {
           aside={asideElm}
           navbar={<Navbar />}
           header={<Header hasAside={hasAside} />}
-          styles={theme => ({
-            main: {
-              overflow: "hidden",
-              // https://github.com/mantinedev/mantine/issues/4269
-              [theme.fn.smallerThan("md")]: {
-                paddingLeft: theme.spacing.md
-              }
-            }
-          })}
+          styles={appShellStyles}
         >
           {children}
         </AppShell>

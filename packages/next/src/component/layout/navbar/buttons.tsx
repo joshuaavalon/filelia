@@ -22,8 +22,8 @@ const Component: FC<Props> = () => {
   return (
     <Box className={classes.box}>
       <Group>
-        <RefreshIndexButton color="teal" />
-        <ColorSchemeButton color="yellow" />
+        <RefreshIndexButton color="teal" variant="light" />
+        <ColorSchemeButton color="yellow" variant="light" />
       </Group>
     </Box>
   );

@@ -57,9 +57,9 @@ export async function insert(
     await tx.project.upsert({
       where: { id: value.id },
       update: {
-        path: result.path,
         title: value.title,
         types: { create: types },
+        path: result.path,
         tags: {
           set: tags
         }

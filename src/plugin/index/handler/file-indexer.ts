@@ -23,7 +23,7 @@ export default class FileIndexer {
 
   public async index(path: string): Promise<FileIndexResult[]> {
     const dirents = await readdir(path, { withFileTypes: true });
-    const dataList: FileIndexResult[] = [];
+    let dataList: FileIndexResult[] = [];
     for (const dirent of dirents) {
       if (dirent.isFile()) {
         if (!dirent.name.endsWith(".filelia.json")) {
@@ -35,7 +35,7 @@ export default class FileIndexer {
         }
       } else if (dirent.isDirectory()) {
         const dirPath = join(path, dirent.name);
-        dataList.concat(await this.index(dirPath));
+        dataList = dataList.concat(await this.index(dirPath));
       }
     }
     return dataList;

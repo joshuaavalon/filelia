@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef } from "react";
-import { Flex, Title } from "@mantine/core";
+import { Flex } from "@mantine/core";
+import Header from "./header";
 import { GenericProjectContext } from "./context";
 import Carousel from "./carousel";
 import Description from "./description";
@@ -13,7 +14,7 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { setToc } = props;
-  const { project, genericProject } = useContext(GenericProjectContext);
+  const { genericProject } = useContext(GenericProjectContext);
   const carousel = genericProject.gallery.length > 0 ? <Carousel /> : undefined;
   const descriptionRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -40,7 +41,6 @@ const Component: FC<Props> = props => {
             : heading.tagName.toLowerCase() === "h2"
             ? 2
             : 3;
-        console.log({ t: heading.tagName });
         items.push({
           href: `#${heading.id}`,
           label: heading.innerText,
@@ -58,7 +58,7 @@ const Component: FC<Props> = props => {
       direction="column"
       wrap="wrap"
     >
-      <Title>{project.title}</Title>
+      <Header />
       {carousel}
       <Description ref={descriptionRef} />
     </Flex>

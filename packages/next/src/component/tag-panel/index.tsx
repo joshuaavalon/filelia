@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Collapse, Flex } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import FilterInput from "#component/filter-input";
+import { TbHash } from "react-icons/tb";
 import Header from "./header";
-import FilterTagInput from "./filter-tag-input";
 import TagCloud from "./tag-cloud";
 
 import type { FC } from "react";
@@ -30,11 +31,12 @@ const Component: FC<Props> = props => {
     >
       <Header onClick={toggle} />
       <Collapse in={opened}>
-        <FilterTagInput
+        <FilterInput
           filter={filter}
           setFilter={setFilter}
           caseSensitive={caseSensitive}
           setCaseSensitive={setCaseSensitive}
+          icon={<TbHash />}
         />
         <TagCloud tags={tags} filter={filter} caseSensitive={caseSensitive} />
       </Collapse>

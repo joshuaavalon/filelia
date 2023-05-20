@@ -1,18 +1,19 @@
 import { useCallback } from "react";
 import { Input, Switch } from "@mantine/core";
-import { TbHash, TbLanguage, TbLanguageOff } from "react-icons/tb";
+import { TbLanguage, TbLanguageOff } from "react-icons/tb";
 
-import type { ChangeEventHandler, FC } from "react";
+import type { ChangeEventHandler, FC, ReactNode } from "react";
 
 export interface Props {
   filter: string;
   setFilter: (value: string) => void;
   caseSensitive: boolean;
   setCaseSensitive: (value: boolean) => void;
+  icon?: ReactNode;
 }
 
 const Component: FC<Props> = props => {
-  const { filter, setFilter, setCaseSensitive, caseSensitive } = props;
+  const { filter, setFilter, setCaseSensitive, caseSensitive, icon } = props;
   const onInputChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     e => setFilter(e.currentTarget.value),
     [setFilter]
@@ -23,7 +24,7 @@ const Component: FC<Props> = props => {
   );
   return (
     <Input
-      icon={<TbHash />}
+      icon={icon}
       placeholder="Filter"
       value={filter}
       onChange={onInputChange}
@@ -42,5 +43,5 @@ const Component: FC<Props> = props => {
   );
 };
 
-Component.displayName = "FilterTagInput";
+Component.displayName = "FilterInput";
 export default Component;
