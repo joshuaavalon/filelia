@@ -18,9 +18,12 @@ const schema = Type.Object(
     gallery: Type.Array(Type.String()),
     files: Type.Array(Type.String()),
     description: Type.String({ default: "README.md" }),
-    metadata: Type.Array(Type.Object({ type: Type.String() }), {
-      uniqueItems: true
-    })
+    metadata: Type.Array(
+      Type.Object({ type: Type.String(), data: Type.Object({}) }),
+      {
+        uniqueItems: true
+      }
+    )
   },
   {
     title: "Generic Project",
