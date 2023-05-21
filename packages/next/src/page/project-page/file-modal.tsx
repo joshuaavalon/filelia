@@ -1,9 +1,8 @@
 import { useContext, useMemo, useState } from "react";
 import { Button, Modal, ScrollArea } from "@mantine/core";
 import FilterInput from "#component/filter-input";
-import { findBestMatch } from "#utils/string-similarity";
 import joinUrl from "#utils/url-join";
-import { GenericProjectContext } from "./context";
+import { ProjectContext } from "./context";
 
 import type { FC } from "react";
 import type {
@@ -28,13 +27,17 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { genericProject, project } = useContext(GenericProjectContext);
+  const { result } = useContext(ProjectContext);
   const { onClose, opened } = props;
   const [filter, setFilter] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(true);
   const paths = useMemo(() => {
+    const {
+      data: { files },
+      project
+    } = result;
     if (!filter) {
-      return genericProject.files.map(file => (
+      return files.map(file => (
         <Button
           fullWidth
           variant="subtle"
@@ -42,7 +45,7 @@ const Component: FC<Props> = props => {
           key={file}
           onClick={e => {
             e.preventDefault();
-            const url = joinUrl(`/generic-project/${project.id}/file/`, file);
+            const url = joinUrl(`/project/${project.id}/file/`, file);
             window.open(url, "_blank");
           }}
         >
@@ -50,33 +53,36 @@ const Component: FC<Props> = props => {
         </Button>
       ));
     }
-    const included = genericProject.files.map(file =>
-      caseSensitive ? file : file.toLowerCase()
-    );
-    const f = caseSensitive ? filter : filter.toLowerCase();
-    const result = findBestMatch(f, included);
-    const matches = result.ratings.sort((a, b) => b.rating - a.rating);
-    return matches
-      .map(match => (
+    return files
+      .filter(file => {
+        let casedFile = caseSensitive ? file : file.toLowerCase();
+        const casedFilter = caseSensitive ? filter : filter.toLowerCase();
+        for (const char of casedFilter) {
+          const index = casedFile.indexOf(char);
+          if (index < 0) {
+            return false;
+          }
+          casedFile = casedFile.slice(index + 1);
+        }
+        return true;
+      })
+      .map(file => (
         <Button
           fullWidth
           variant="subtle"
           styles={buttonStyles}
-          key={match.target}
+          key={file}
           onClick={e => {
             e.preventDefault();
-            const url = joinUrl(
-              `/generic-project/${project.id}/file/`,
-              match.target
-            );
+            const url = joinUrl(`/project/${project.id}/file/`, file);
             window.open(url, "_blank");
           }}
         >
-          {match.target}
+          {file}
         </Button>
       ))
       .slice(0, 5);
-  }, [filter, caseSensitive, genericProject.files, project.id]);
+  }, [filter, caseSensitive, result]);
   return (
     <Modal opened={opened} onClose={onClose} title="Files">
       <FilterInput

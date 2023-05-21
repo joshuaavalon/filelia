@@ -1,11 +1,12 @@
-import { readdir, readFile } from "node:fs/promises";
+import { readdir } from "node:fs/promises";
 import { join } from "node:path";
+import { loadJsonYaml } from "#utils";
 
 import type { Dirent } from "node:fs";
 import type { FastifyBaseLogger } from "fastify";
 
-export interface FileIndexResult {
-  data: unknown;
+export interface FileIndexResult<T = unknown> {
+  data: T;
   path: string;
 }
 
@@ -26,7 +27,7 @@ export default class FileIndexer {
     let dataList: FileIndexResult[] = [];
     for (const dirent of dirents) {
       if (dirent.isFile()) {
-        if (!dirent.name.endsWith(".filelia.json")) {
+        if (!/\.filelia\.(?:json|ya?ml)$/iu.test(dirent.name)) {
           continue;
         }
         const result = await this.indexFile(path, dirent);
@@ -46,12 +47,9 @@ export default class FileIndexer {
     dirent: Dirent
   ): Promise<FileIndexResult> {
     const path = join(baseDir, dirent.name);
-    const data = await readFile(path, { encoding: "utf-8" });
     try {
-      return {
-        path,
-        data: JSON.parse(data)
-      };
+      const data = await loadJsonYaml(path);
+      return { path, data };
     } catch (err) {
       this.#logger.error({ err, path }, "Failed to parse file");
       return { path, data: null };

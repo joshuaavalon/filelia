@@ -1,14 +1,17 @@
 import { forwardRef, useCallback, useContext } from "react";
 import Mdx from "#component/mdx";
 import joinUrl from "#utils/url-join";
-import { GenericProjectContext } from "./context";
+import { ProjectContext } from "./context";
 
 import type { SourceOptions } from "#component/mdx";
 
 export interface Props {}
-// src={`/generic-project/${id}/gallery/${image}?h=${maxHeight}&format=jpg`}
+// src={`/project/${id}/gallery/${image}?h=${maxHeight}&format=jpg`}
 const Component = forwardRef<HTMLDivElement, Props>((_props, ref) => {
-  const { description, project } = useContext(GenericProjectContext);
+  const {
+    description,
+    result: { project }
+  } = useContext(ProjectContext);
   const onSourceSrcSet = useCallback(
     (path: string, opts: SourceOptions) => {
       const { mime, height, width } = opts;
@@ -37,13 +40,13 @@ const Component = forwardRef<HTMLDivElement, Props>((_props, ref) => {
         const param = `${key}=${value}`;
         return q ? q + "&" + param : param;
       }, "");
-      const baseUrl = `/generic-project/${project.id}/gallery/`;
+      const baseUrl = `/project/${project.id}/gallery/`;
       return joinUrl(baseUrl, `${path}?${qs}`);
     },
     [project.id]
   );
   const onImgSrc = useCallback(
-    (path: string) => joinUrl(`/generic-project/${project.id}/gallery/`, path),
+    (path: string) => joinUrl(`/project/${project.id}/gallery/`, path),
     [project.id]
   );
   return (

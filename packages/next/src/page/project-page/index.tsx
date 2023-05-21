@@ -4,46 +4,41 @@ import Layout from "#component/layout";
 import TableOfContent from "#component/table-of-content";
 import TagPanel from "#component/tag-panel";
 import Panel from "./panel";
-import { GenericProjectContext } from "./context";
+import { ProjectContext } from "./context";
 
 import type { FC } from "react";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
-import type { Project } from "#type";
+import type { LoadProjectResult } from "#type";
 import type { TableOfContentItem } from "#component/table-of-content";
-import type { GenericProject } from "./type";
 
 export interface Props {
-  project: Project;
-  json: unknown;
+  result: LoadProjectResult;
   description: MDXRemoteSerializeResult | null;
 }
 
 const Component: FC<Props> = props => {
-  const { json, project, description } = props;
-  const genericProject = json as GenericProject;
+  const { result, description } = props;
   const [toc, setToc] = useState<TableOfContentItem[]>([]);
   const [active, setActive] = useState(toc.length > 0 ? toc[0].href : "");
   return (
-    <GenericProjectContext.Provider
-      value={{ project, genericProject, description }}
-    >
+    <ProjectContext.Provider value={{ result, description }}>
       <Layout
         aside={
           <>
             <TableOfContent items={toc} active={active} setActive={setActive} />
             <TagPanel
-              tags={project.tags}
+              tags={result.data.tags}
               sx={theme => ({ marginTop: theme.spacing.md })}
             />
           </>
         }
       >
-        <Metadata title={project.title} />
+        <Metadata title={result.data.title} />
         <Panel setToc={setToc} />
       </Layout>
-    </GenericProjectContext.Provider>
+    </ProjectContext.Provider>
   );
 };
 
-Component.displayName = "GenericProjectPage";
+Component.displayName = "ProjectPage";
 export default Component;

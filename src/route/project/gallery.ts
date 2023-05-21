@@ -1,16 +1,15 @@
 import { createReadStream } from "node:fs";
-import { readFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { access, constants } from "node:fs/promises";
+import { join } from "node:path";
 import sharp from "sharp";
 import { Type } from "@sinclair/typebox";
-import { ValidationError } from "#error";
 import { sendImage } from "#utils";
 
 import type { Server } from "#server";
 
 export default function initRoutes(server: Server): void {
   server.get(
-    "/generic-project/:projectId/gallery/*",
+    "/project/:projectId/gallery/*",
     {
       schema: {
         params: Type.Object({ projectId: Type.String(), "*": Type.String() }),
@@ -32,26 +31,15 @@ export default function initRoutes(server: Server): void {
         params: { projectId, "*": path },
         query
       } = req;
-      const project = await this.db.project.findUnique({
-        where: {
-          id: projectId,
-          types: { some: { name: "filelia::generic-project::v1" } }
-        }
-      });
-      if (!project) {
+      const baseDir = await this.loadProjectDir(projectId);
+      if (!baseDir) {
         return res.callNotFound();
       }
-      let filePath: string;
+      const filePath = join(baseDir, path);
       try {
-        const txt = await readFile(project.path, { encoding: "utf-8" });
-        const json = JSON.parse(txt) as unknown;
-        const validate = this.validateFunc("filelia::generic-project::v1");
-        if (!validate(json)) {
-          throw new ValidationError(validate.errors, validate.schema);
-        }
-        filePath = join(dirname(project.path), json.baseDir ?? ".", path);
+        await access(filePath, constants.F_OK);
       } catch (err) {
-        this.log.warn({ err, path: project.path }, "Failed to read JSON");
+        req.log.warn({ err }, "Failed to load file");
         return res.callNotFound();
       }
       const rs = createReadStream(filePath);

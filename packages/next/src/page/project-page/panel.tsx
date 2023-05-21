@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef } from "react";
 import { Flex } from "@mantine/core";
 import Header from "./header";
-import { GenericProjectContext } from "./context";
+import { ProjectContext } from "./context";
 import Carousel from "./carousel";
 import Description from "./description";
 
@@ -14,12 +14,16 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { setToc } = props;
-  const { genericProject } = useContext(GenericProjectContext);
-  const carousel = genericProject.gallery.length > 0 ? <Carousel /> : undefined;
+  const {
+    result: {
+      data: { gallery }
+    }
+  } = useContext(ProjectContext);
+  const carousel = gallery.length > 0 ? <Carousel /> : undefined;
   const descriptionRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const items: TableOfContentItem[] = [];
-    if (genericProject.gallery.length > 0) {
+    if (gallery.length > 0) {
       items.push({
         href: "#gallery",
         label: "Gallery",
@@ -49,7 +53,7 @@ const Component: FC<Props> = props => {
       }
     }
     setToc(items);
-  }, [genericProject, setToc]);
+  }, [gallery, setToc]);
   return (
     <Flex
       gap="md"

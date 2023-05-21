@@ -8,89 +8,20 @@ generator client {
   previewFeatures = ["extendedWhereUnique", "orderByNulls", "filteredRelationCount"]
 }
 
-model Site {
-  type     String
-  id       String
-  name     String?
-  url      String?
-  personId String  @map("person_id")
-
-  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
-
-  @@id([id, type])
-  @@map("site")
-}
-
-model Person {
-  id    String @id
-  name  String
-  sites Site[]
-
-  @@map("person")
-}
-
 model Tag {
-  id         String     @id
-  categoryId String     @map("category_id")
-  alias      TagAlias[]
-  projects   Project[]
-
-  tagCategory TagCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  id       String    @id @default(uuid())
+  name     String    @unique
+  projects Project[]
 
   @@map("tag")
 }
 
-model TagAlias {
-  id       String
-  name     String
-  priority Int
-
-  tag Tag @relation(fields: [id], references: [id], onDelete: Cascade)
-
-  @@unique([id, name])
-  @@unique([id, priority])
-  @@map("tag_alias")
-}
-
-model TagCategory {
-  id    String             @id
-  color String?
-  alias TagCategoryAlias[]
-  tags  Tag[]
-
-  @@map("tag_category")
-}
-
-model TagCategoryAlias {
-  id       String
-  name     String
-  priority Int
-
-  tagCategory TagCategory @relation(fields: [id], references: [id], onDelete: Cascade)
-
-  @@unique([id, name])
-  @@unique([id, priority])
-  @@map("tag_category_alias")
-}
-
 model Project {
-  id    String        @id
-  title String
-  types ProjectType[]
-  path  String
-  tags  Tag[]
+  id   String @id
+  path String
+  tags Tag[]
 
   @@map("project")
-}
-
-model ProjectType {
-  id   String
-  name String
-
-  project Project @relation(fields: [id], references: [id], onDelete: Cascade)
-
-  @@unique([id, name])
-  @@map("project_type")
 }
 
 model KeyValue {

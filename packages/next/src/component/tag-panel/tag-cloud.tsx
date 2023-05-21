@@ -3,18 +3,11 @@ import { Flex } from "@mantine/core";
 import TagBadge from "./tag-badge";
 
 import type { FC } from "react";
-import type { Tag } from "#type";
 
 export interface Props {
-  tags: Tag[];
+  tags: string[];
   filter: string;
   caseSensitive: boolean;
-}
-
-function isInclude(from: string, to: string, caseSensitive: boolean): boolean {
-  return caseSensitive
-    ? from.includes(to)
-    : from.toLowerCase().includes(to.toLowerCase());
 }
 
 const Component: FC<Props> = props => {
@@ -23,21 +16,18 @@ const Component: FC<Props> = props => {
     () =>
       tags
         .filter(tag => {
-          if (!filter) {
-            return true;
+          let casedTag = caseSensitive ? tag : tag.toLowerCase();
+          const casedFilter = caseSensitive ? filter : filter.toLowerCase();
+          for (const char of casedFilter) {
+            const index = casedTag.indexOf(char);
+            if (index < 0) {
+              return false;
+            }
+            casedTag = casedTag.slice(index + 1);
           }
-          const {
-            tagCategory: { alias: tagCategoryAlias },
-            alias: tagAlias
-          } = tag;
-          return (
-            tagCategoryAlias.some(alias =>
-              isInclude(alias.name, filter, caseSensitive)
-            ) ||
-            tagAlias.some(alias => isInclude(alias.name, filter, caseSensitive))
-          );
+          return true;
         })
-        .map(tag => <TagBadge key={tag.id} tag={tag} />),
+        .map(tag => <TagBadge key={tag} tag={tag} />),
     [tags, filter, caseSensitive]
   );
   return (

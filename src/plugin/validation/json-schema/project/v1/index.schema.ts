@@ -1,18 +1,19 @@
 import { Type } from "@sinclair/typebox";
 import { getId } from "#plugin/validation/json-schema/utils";
 
-const type = "filelia::project::v1" as const;
+const type = "project" as const;
 
 const schema = Type.Object(
   {
-    filelia: Type.Array(Type.String(), {
-      uniqueItems: true,
-      contains: { const: type },
-      default: [type]
-    }),
     id: Type.String({ format: "uuid" }),
     title: Type.String(),
-    tags: Type.Array(Type.String(), { uniqueItems: true })
+    tags: Type.Array(Type.String(), { uniqueItems: true }),
+    createdAt: Type.String({ format: "date" }),
+    updatedAt: Type.String({ format: "date" }),
+    baseDir: Type.String({ default: "." }),
+    gallery: Type.Array(Type.String()),
+    files: Type.Array(Type.String()),
+    description: Type.String({ default: "README.md" })
   },
   {
     title: "Project",
@@ -21,4 +22,4 @@ const schema = Type.Object(
   }
 );
 
-export default { type, schema, order: 2 };
+export default { type, schema };

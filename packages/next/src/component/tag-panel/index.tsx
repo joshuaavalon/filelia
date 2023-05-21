@@ -7,11 +7,10 @@ import Header from "./header";
 import TagCloud from "./tag-cloud";
 
 import type { FC } from "react";
-import type { Tag } from "#type";
 import type { Sx } from "@mantine/core";
 
 export interface Props {
-  tags: Tag[];
+  tags: string[];
   sx?: Sx;
 }
 

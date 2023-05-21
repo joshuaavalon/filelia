@@ -1,7 +1,4 @@
-import { readFile } from "node:fs/promises";
-import UnsupportedProjectPage from "#page/unsupported-project-page";
-import InvalidJsonPage from "#page/invalid-json-page";
-import GenericProjectPage from "#page/generic-project-page";
+import ProjectPage from "#page/project-page";
 import { colorSchemeKey } from "#provider/color-scheme";
 import readMdx from "#utils/read-mdx";
 
@@ -9,15 +6,10 @@ import type { ParsedUrlQuery } from "querystring";
 import type { GetServerSideProps } from "next";
 import type { ColorScheme } from "@mantine/core";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
-import type { Project } from "#type";
+import type { LoadProjectResult } from "#type";
 
 interface Props {
-  project: Project;
-  json: unknown;
-  schemaResult: {
-    schema: unknown;
-    errorsStr: string;
-  }[];
+  result: LoadProjectResult;
   colorScheme: ColorScheme | null;
   description: MDXRemoteSerializeResult | null;
 }
@@ -27,30 +19,8 @@ interface Query extends ParsedUrlQuery {
 }
 
 export default function Page(props: Props): JSX.Element {
-  const { project, json, schemaResult, description } = props;
-  if (schemaResult.length > 0) {
-    return (
-      <InvalidJsonPage
-        json={json}
-        schemaResult={schemaResult}
-        project={project}
-      />
-    );
-  }
-
-  for (const type of project.types) {
-    switch (type.name) {
-      case "filelia::generic-project::v1":
-        return (
-          <GenericProjectPage
-            project={project}
-            json={json}
-            description={description}
-          />
-        );
-    }
-  }
-  return <UnsupportedProjectPage project={project} json={json} />;
+  const { result, description } = props;
+  return <ProjectPage result={result} description={description} />;
 }
 
 export const getServerSideProps: GetServerSideProps<
@@ -63,63 +33,20 @@ export const getServerSideProps: GetServerSideProps<
       notFound: true
     };
   }
-  const { db, validateFunc, log } = req.fastify();
-  const project = await db.project.findUnique({
-    include: {
-      tags: {
-        include: {
-          alias: { orderBy: [{ priority: "asc" }, { name: "asc" }] },
-          tagCategory: {
-            include: {
-              alias: { orderBy: [{ priority: "asc" }, { name: "asc" }] }
-            }
-          }
-        }
-      },
-      types: true
-    },
-    where: { id: params.id }
-  });
-  if (!project) {
+  const { loadProject, loadProjectDir } = req.fastify();
+  const result: LoadProjectResult | null = await loadProject(params.id);
+  if (!result) {
     return { notFound: true };
   }
-  let json: any;
-  try {
-    const data = await readFile(project.path, { encoding: "utf-8" });
-    json = JSON.parse(data);
-  } catch (err) {
-    log.warn({ err, project }, "Failed to render project");
+  const baseDir = await loadProjectDir(params.id);
+  if (!baseDir) {
     return { notFound: true };
-  }
-
-  const schemaResult: {
-    schema: unknown;
-    errorsStr: string;
-  }[] = [];
-  for (const type of project.types) {
-    const validate = validateFunc(type.name);
-    if (validate && !validate(json)) {
-      validate(json);
-      schemaResult.push({
-        schema: validate.schema,
-        errorsStr: JSON.stringify(validate.errors ?? [])
-      });
-    }
   }
   const colorScheme = req.cookies[colorSchemeKey] === "dark" ? "dark" : "light";
-  let description: MDXRemoteSerializeResult | null = null;
-  if (schemaResult.length <= 0) {
-    if (
-      project.types.some(type => type.name === "filelia::generic-project::v1")
-    ) {
-      description = await readMdx(project.path, json.baseDir, json.description);
-    }
-  }
+  const description = await readMdx(baseDir, result.data.description);
   return {
     props: {
-      project,
-      json,
-      schemaResult,
+      result,
       colorScheme,
       description
     }

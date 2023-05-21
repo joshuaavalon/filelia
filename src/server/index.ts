@@ -5,6 +5,7 @@ import helmetPlugin from "@fastify/helmet";
 import nextJs from "@fastify/nextjs";
 import imagePlugin from "#plugin/image";
 import databasePlugin from "#plugin/database";
+import dataPlugin from "#plugin/data";
 import indexPlugin from "#plugin/index";
 import validationPlugin from "#plugin/validation";
 import { initRoutes } from "#route";
@@ -39,6 +40,7 @@ export async function createServer(config: Config) {
   await fastify.register(imagePlugin);
   await fastify.register(indexPlugin, index);
   await fastify.register(validationPlugin, validation);
+  await fastify.register(dataPlugin);
   if (!server.testing) {
     fastify.addHook("onRequest", async req => {
       req.raw.fastify = () => req.server;

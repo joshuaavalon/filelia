@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { ActionIcon, createStyles, Flex, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { TbFolder } from "react-icons/tb";
-import { GenericProjectContext } from "./context";
+import { ProjectContext } from "./context";
 import FileModal from "./file-modal";
 
 import type { FC } from "react";
@@ -16,7 +16,9 @@ const useStyle = createStyles({
 export interface Props {}
 
 const Component: FC<Props> = () => {
-  const { project } = useContext(GenericProjectContext);
+  const {
+    result: { data }
+  } = useContext(ProjectContext);
   const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyle();
   return (
@@ -28,7 +30,7 @@ const Component: FC<Props> = () => {
         direction="row"
         wrap="wrap"
       >
-        <Title className={classes.title}>{project.title}</Title>
+        <Title className={classes.title}>{data.title}</Title>
         <ActionIcon
           title="File"
           size="lg"

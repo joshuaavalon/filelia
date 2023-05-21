@@ -3,7 +3,7 @@ import { Center, createStyles, Divider } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useDisclosure } from "@mantine/hooks";
 import ImageModal from "#component/image-modal";
-import { GenericProjectContext } from "./context";
+import { ProjectContext } from "./context";
 
 import type { FC } from "react";
 
@@ -31,37 +31,39 @@ export interface Props {
 const Component: FC<Props> = props => {
   const { maxHeight = 200 } = props;
   const [opened, { open, close }] = useDisclosure(false);
-  const { project, genericProject } = useContext(GenericProjectContext);
+  const { result } = useContext(ProjectContext);
   const [src, setSrc] = useState("");
   const { classes } = useStyles();
   const slides = useMemo(() => {
-    const { id } = project;
-    const { gallery } = genericProject;
+    const {
+      data: { gallery },
+      project: { id }
+    } = result;
     return gallery.map(image => (
       <Carousel.Slide
         key={image}
         mah={maxHeight}
         onClick={e => {
           e.preventDefault();
-          setSrc(`/generic-project/${id}/file/${image}`);
+          setSrc(`/project/${id}/file/${image}`);
           open();
         }}
       >
         <Center h="100%">
           <picture className={classes.image}>
             <source
-              srcSet={`/generic-project/${id}/gallery/${image}?h=${maxHeight}&format=png`}
+              srcSet={`/project/${id}/gallery/${image}?h=${maxHeight}&format=png`}
               type="image/png"
             />
             <img
-              src={`/generic-project/${id}/gallery/${image}?h=${maxHeight}&format=jpg`}
+              src={`/project/${id}/gallery/${image}?h=${maxHeight}&format=jpg`}
               alt="Image"
             />
           </picture>
         </Center>
       </Carousel.Slide>
     ));
-  }, [project, genericProject, maxHeight, open, classes.image]);
+  }, [result, maxHeight, open, classes.image]);
   return (
     <>
       <ImageModal opened={opened} src={src} close={close} />
