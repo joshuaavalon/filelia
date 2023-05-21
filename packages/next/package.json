@@ -40,6 +40,7 @@
     "@mantine/next": "6.0.11",
     "@mantine/notifications": "6.0.11",
     "@mantine/prism": "6.0.11",
+    "@mantine/spotlight": "6.0.11",
     "embla-carousel-react": "7.1.0",
     "image-type": "5.2.0",
     "next": "12.3.2",

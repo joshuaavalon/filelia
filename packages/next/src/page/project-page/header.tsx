@@ -1,9 +1,7 @@
 import { useContext } from "react";
-import { ActionIcon, createStyles, Flex, Title } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { TbFolder } from "react-icons/tb";
+import { createStyles, Flex, Title } from "@mantine/core";
 import { ProjectContext } from "./context";
-import FileModal from "./file-modal";
+import FileButton from "./file-button";
 
 import type { FC } from "react";
 
@@ -19,7 +17,6 @@ const Component: FC<Props> = () => {
   const {
     result: { data }
   } = useContext(ProjectContext);
-  const [opened, { open, close }] = useDisclosure(false);
   const { classes } = useStyle();
   return (
     <>
@@ -31,17 +28,8 @@ const Component: FC<Props> = () => {
         wrap="wrap"
       >
         <Title className={classes.title}>{data.title}</Title>
-        <ActionIcon
-          title="File"
-          size="lg"
-          color="blue"
-          variant="light"
-          onClick={open}
-        >
-          <TbFolder size="1.625rem" />
-        </ActionIcon>
+        <FileButton />
       </Flex>
-      <FileModal opened={opened} onClose={close} />
     </>
   );
 };

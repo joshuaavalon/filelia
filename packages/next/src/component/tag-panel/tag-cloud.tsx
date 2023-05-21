@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Flex } from "@mantine/core";
+import filterPredicate from "#utils/filter-predicate";
 import TagBadge from "./tag-badge";
 
 import type { FC } from "react";
@@ -15,18 +16,7 @@ const Component: FC<Props> = props => {
   const tagBadges = useMemo(
     () =>
       tags
-        .filter(tag => {
-          let casedTag = caseSensitive ? tag : tag.toLowerCase();
-          const casedFilter = caseSensitive ? filter : filter.toLowerCase();
-          for (const char of casedFilter) {
-            const index = casedTag.indexOf(char);
-            if (index < 0) {
-              return false;
-            }
-            casedTag = casedTag.slice(index + 1);
-          }
-          return true;
-        })
+        .filter(filterPredicate(filter, caseSensitive))
         .map(tag => <TagBadge key={tag} tag={tag} />),
     [tags, filter, caseSensitive]
   );

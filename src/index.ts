@@ -18,9 +18,11 @@ async function main(): Promise<void> {
   } = config;
   const fastify = await createServer(config);
   fastify.addHook("onReady", async function () {
+    await this.db.keyValue.deleteMany();
+    await this.db.tag.deleteMany();
+    await this.db.project.deleteMany();
     await this.indexJson();
   });
-
   fastify.addHook("onClose", async instance => {
     await instance.db.keyValue.deleteMany({ where: { key: "index" } });
   });

@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import { createStyles, Navbar, Text } from "@mantine/core";
 import { useResizing } from "#hook";
-import ColorSchemeButton from "#component/color-scheme-button";
+import SearchInput from "./search-input";
 import Buttons from "./buttons";
 
 import type { CSSProperties, FC } from "react";
@@ -42,11 +42,11 @@ const Component: FC<Props> = () => {
         className={classes.navbar}
         width={{ sm: 300, md: 200, lg: 250, xl: 300 }}
       >
-        <Navbar.Section>
-          <Text>Application navbar</Text>
+        <Navbar.Section mb="md">
+          <SearchInput />
         </Navbar.Section>
         <Navbar.Section grow>
-          <ColorSchemeButton />
+          <Text>Application navbar</Text>
         </Navbar.Section>
         <Navbar.Section>
           <Buttons />
