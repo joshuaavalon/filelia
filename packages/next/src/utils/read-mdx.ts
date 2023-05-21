@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { serialize } from "next-mdx-remote/serialize";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
+import remarkUnwrapImages from "remark-unwrap-images";
 
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 
@@ -20,7 +21,7 @@ export default async function readMdx(
     return serialize(content, {
       parseFrontmatter: true,
       mdxOptions: {
-        remarkPlugins: [remarkGfm],
+        remarkPlugins: [remarkGfm, remarkUnwrapImages],
         rehypePlugins: [rehypeSlug],
         development: false
       }

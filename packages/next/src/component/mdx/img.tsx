@@ -1,4 +1,5 @@
 import { useContext, useMemo } from "react";
+import { Center } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import ImageModal from "#component/image-modal";
 import { MdxContext } from "./context";
@@ -48,7 +49,7 @@ const Component: FC<Props> = props => {
     [onImgSrc, src]
   );
   return (
-    <>
+    <Center>
       <ImageModal opened={opened} src={imgSrc} close={close} alt={alt} />
       <picture
         style={{ objectFit: "cover", maxHeight: "100%", maxWidth: "100%" }}
@@ -58,7 +59,7 @@ const Component: FC<Props> = props => {
         {png}
         {jpg}
       </picture>
-    </>
+    </Center>
   );
 };
 
