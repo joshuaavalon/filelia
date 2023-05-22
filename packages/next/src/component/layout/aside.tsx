@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { Aside, createStyles } from "@mantine/core";
+import { Aside, createStyles, ScrollArea } from "@mantine/core";
 import { useResizing } from "#hook";
 
 import type { CSSProperties, FC, ReactNode } from "react";
@@ -7,10 +7,18 @@ import type { Disclosure } from "./type";
 
 const useStyles = createStyles(theme => ({
   aside: {
-    padding: theme.spacing.md,
     [theme.fn.smallerThan("md")]: {
       transform: "translateX(var(--aside-translate-x))",
       transition: "transform var(--aside-transition-ms, 0) ease"
+    }
+  },
+  root: {
+    height: "100%",
+    padding: theme.spacing.md
+  },
+  viewport: {
+    "> div": {
+      display: "block !important"
     }
   }
 }));
@@ -29,7 +37,9 @@ export interface Props {
 const Component: FC<Props> = props => {
   const { children } = props;
   const [opened] = useContext(AsideContext);
-  const { classes } = useStyles();
+  const {
+    classes: { aside, viewport, root }
+  } = useStyles();
   const isResizing = useResizing();
 
   const style = {
@@ -40,10 +50,10 @@ const Component: FC<Props> = props => {
     <Aside
       hiddenBreakpoint="md"
       style={style}
-      className={classes.aside}
-      width={{ sm: 300, md: 200, lg: 250, xl: 300 }}
+      className={aside}
+      width={{ sm: 300, md: 250, lg: 250, xl: 300 }}
     >
-      {children}
+      <ScrollArea classNames={{ viewport, root }}>{children}</ScrollArea>
     </Aside>
   );
 };

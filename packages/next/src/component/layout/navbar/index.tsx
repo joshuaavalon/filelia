@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { createStyles, Navbar, Text } from "@mantine/core";
+import { createStyles, Navbar, ScrollArea, Text } from "@mantine/core";
 import { useResizing } from "#hook";
 import SearchInput from "./search-input";
 import Buttons from "./buttons";
@@ -40,12 +40,60 @@ const Component: FC<Props> = () => {
         hiddenBreakpoint="md"
         style={style}
         className={classes.navbar}
-        width={{ sm: 300, md: 200, lg: 250, xl: 300 }}
+        width={{ sm: 300, md: 250, lg: 250, xl: 300 }}
       >
         <Navbar.Section mb="md">
           <SearchInput />
         </Navbar.Section>
-        <Navbar.Section grow>
+        <Navbar.Section grow component={ScrollArea}>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
+          <Text>Application navbar</Text>
           <Text>Application navbar</Text>
         </Navbar.Section>
         <Navbar.Section>

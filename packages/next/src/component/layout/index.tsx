@@ -1,4 +1,4 @@
-import { AppShell, createStyles } from "@mantine/core";
+import { AppShell, createStyles, ScrollArea } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Navbar, { NavbarContext } from "./navbar";
 import Aside, { AsideContext } from "./aside";
@@ -9,9 +9,23 @@ import type { FC, ReactNode } from "react";
 const useStyle = createStyles(theme => ({
   main: {
     overflow: "hidden",
-    // https://github.com/mantinedev/mantine/issues/4269
+    paddingTop: "var(--mantine-header-height, 0px)",
+    paddingBottom: "var(--mantine-footer-height, 0px)",
+    paddingLeft: "var(--mantine-navbar-width, 0px)",
+    paddingRight: "var(--mantine-aside-width, 0px)",
     [theme.fn.smallerThan("md")]: {
-      paddingLeft: theme.spacing.md
+      paddingLeft: 0,
+      paddingRight: 0
+    }
+  },
+  root: {
+    height:
+      "calc(100vh - var(--mantine-header-height, 0px) - var(--mantine-footer-height, 0px))",
+    padding: theme.spacing.md
+  },
+  viewport: {
+    "> div": {
+      display: "block !important"
     }
   }
 }));
@@ -23,7 +37,9 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { children, aside: asideContent } = props;
-  const { classes } = useStyle();
+  const {
+    classes: { main, root, viewport }
+  } = useStyle();
   const navbar = useDisclosure(false);
   const aside = useDisclosure(false);
   const hasAside = Boolean(aside);
@@ -38,9 +54,9 @@ const Component: FC<Props> = props => {
           aside={asideElm}
           navbar={<Navbar />}
           header={<Header hasAside={hasAside} />}
-          classNames={classes}
+          classNames={{ main }}
         >
-          {children}
+          <ScrollArea classNames={{ root, viewport }}>{children}</ScrollArea>
         </AppShell>
       </AsideContext.Provider>
     </NavbarContext.Provider>
