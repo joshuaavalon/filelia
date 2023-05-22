@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef } from "react";
 import { Flex } from "@mantine/core";
+import { ProjectContext } from "../context";
 import Header from "./header";
-import { ProjectContext } from "./context";
 import Carousel from "./carousel";
 import Description from "./description";
 

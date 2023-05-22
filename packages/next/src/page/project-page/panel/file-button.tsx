@@ -4,7 +4,7 @@ import { spotlight, SpotlightProvider } from "@mantine/spotlight";
 import { TbFolder, TbSearch } from "react-icons/tb";
 import filterPredicate from "#utils/filter-predicate";
 import joinUrl from "#utils/url-join";
-import { ProjectContext } from "./context";
+import { ProjectContext } from "../context";
 
 import type { FC } from "react";
 import type {

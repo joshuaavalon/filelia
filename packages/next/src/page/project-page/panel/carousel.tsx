@@ -3,7 +3,7 @@ import { Center, createStyles, Divider } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useDisclosure } from "@mantine/hooks";
 import ImageModal from "#component/image-modal";
-import { ProjectContext } from "./context";
+import { ProjectContext } from "../context";
 
 import type { FC } from "react";
 

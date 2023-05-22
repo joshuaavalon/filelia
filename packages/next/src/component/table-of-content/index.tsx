@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from "react";
-import { Collapse, Stack } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import Header from "./header";
+import { TbList } from "react-icons/tb";
+import CollapsePanel from "#component/collapse-panel";
 import Items from "./items";
 import { getActiveElement, notEmpty } from "./utils";
 
@@ -20,8 +19,6 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { items, active, setActive, sx } = props;
-  const [opened, { toggle }] = useDisclosure(true);
-
   const handleScroll = useCallback(() => {
     const elements = items
       .map(item => document.querySelector(item.href))
@@ -38,12 +35,9 @@ const Component: FC<Props> = props => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
   return (
-    <Stack sx={sx}>
-      <Header onClick={toggle} />
-      <Collapse in={opened}>
-        <Items items={items} active={active} />
-      </Collapse>
-    </Stack>
+    <CollapsePanel title="Table of contents" icon={<TbList />} sx={sx}>
+      <Items items={items} active={active} />
+    </CollapsePanel>
   );
 };
 

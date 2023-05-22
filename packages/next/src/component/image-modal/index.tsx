@@ -1,32 +1,15 @@
 import { useEffect } from "react";
 import { Center, createStyles, MantineProvider, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { cache } from "#emotion";
 
 import type { FC } from "react";
-import type { ModalBaseStylesNames, Styles } from "@mantine/core";
 
 interface StyleProps {
   zoom: boolean;
 }
 
-const modalStyles: Styles<
-  ModalBaseStylesNames,
-  Record<string, any>
-> = theme => ({
-  header: {
-    backgroundColor: "transparent",
-    padding: theme.spacing.xs
-  },
-  content: {
-    backgroundColor: theme.fn.rgba(theme.colors.dark[1], 0.2)
-  },
-  body: {
-    marginTop: -64,
-    padding: 0
-  }
-});
-
-const useStyle = createStyles<string, StyleProps>((theme, props) => {
+const useStyle = createStyles((theme, props: StyleProps) => {
   const { zoom } = props;
   return {
     image: {
@@ -39,6 +22,17 @@ const useStyle = createStyles<string, StyleProps>((theme, props) => {
       height: zoom ? undefined : "100vh",
       minHeight: zoom ? "100vh" : undefined,
       cursor: "pointer"
+    },
+    header: {
+      backgroundColor: "transparent",
+      padding: theme.spacing.xs
+    },
+    content: {
+      backgroundColor: theme.fn.rgba(theme.colors.dark[1], 0.2)
+    },
+    body: {
+      marginTop: -64,
+      padding: 0
     }
   };
 });
@@ -53,27 +47,19 @@ export interface Props {
 const Component: FC<Props> = props => {
   const { opened, src, alt, close } = props;
   const [zoom, { toggle, close: zoomOut }] = useDisclosure(false);
-  const { classes } = useStyle({ zoom });
+  const {
+    classes: { center, image, ...modal }
+  } = useStyle({ zoom });
   useEffect(() => {
     if (opened) {
       zoomOut();
     }
   }, [opened, zoomOut]);
   return (
-    <MantineProvider theme={{ colorScheme: "dark" }}>
-      <Modal
-        opened={opened}
-        onClose={close}
-        transitionProps={{ transition: "fade", duration: 200 }}
-        fullScreen
-        styles={modalStyles}
-        closeButtonProps={{
-          size: "xl",
-          color: "dark"
-        }}
-      >
-        <Center className={classes.center} onClick={toggle}>
-          <img src={src} alt={alt} className={classes.image} />
+    <MantineProvider theme={{ colorScheme: "dark" }} emotionCache={cache}>
+      <Modal opened={opened} onClose={close} fullScreen classNames={modal}>
+        <Center className={center} onClick={toggle}>
+          <img src={src} alt={alt} className={image} />
         </Center>
       </Modal>
     </MantineProvider>

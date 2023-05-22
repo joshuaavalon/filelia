@@ -1,13 +1,8 @@
 import { CacheProvider } from "@emotion/react";
-import {
-  createEmotionCache,
-  MantineProvider,
-  useMantineColorScheme
-} from "@mantine/core";
+import { MantineProvider, useMantineColorScheme } from "@mantine/core";
+import { cache } from "#emotion";
 
 import type { FC } from "react";
-
-export const cache = createEmotionCache({ key: "mantine" });
 
 export interface Props {
   children: JSX.Element;

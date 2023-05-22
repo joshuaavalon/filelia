@@ -1,7 +1,7 @@
 import { forwardRef, useCallback, useContext } from "react";
 import Mdx from "#component/mdx";
 import joinUrl from "#utils/url-join";
-import { ProjectContext } from "./context";
+import { ProjectContext } from "../context";
 
 import type { SourceOptions } from "#component/mdx";
 

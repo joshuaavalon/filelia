@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { createStyles, Flex, Title } from "@mantine/core";
-import { ProjectContext } from "./context";
+import { ProjectContext } from "../context";
 import FileButton from "./file-button";
 
 import type { FC } from "react";
