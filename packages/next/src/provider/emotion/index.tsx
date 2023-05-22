@@ -17,7 +17,10 @@ const Component: FC<Props> = props => {
         withGlobalStyles
         withNormalizeCSS
         emotionCache={cache}
-        theme={{ colorScheme }}
+        theme={{
+          colorScheme,
+          components: { Title: { styles: { root: { color: "#fff" } } } }
+        }}
       >
         {children}
       </MantineProvider>
