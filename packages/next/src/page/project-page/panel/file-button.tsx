@@ -47,6 +47,7 @@ const Component: FC<Props> = () => {
       nothingFoundMessage="Nothing found"
       filter={filter}
       limit={10}
+      highlightQuery
     >
       <ActionIcon title="File" size="lg" variant="default" onClick={onClick}>
         <TbFolder size="1.625rem" />
