@@ -48,13 +48,7 @@ const Component: FC<Props> = () => {
       filter={filter}
       limit={10}
     >
-      <ActionIcon
-        title="File"
-        size="lg"
-        color="blue"
-        variant="light"
-        onClick={onClick}
-      >
+      <ActionIcon title="File" size="lg" variant="default" onClick={onClick}>
         <TbFolder size="1.625rem" />
       </ActionIcon>
     </SpotlightProvider>

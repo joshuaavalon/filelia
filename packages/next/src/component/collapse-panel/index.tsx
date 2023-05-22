@@ -17,7 +17,12 @@ const Component: FC<Props> = props => {
   const [opened, { toggle }] = useDisclosure(true);
   return (
     <Stack sx={sx} spacing="sm">
-      <CollapsePanelHeader onClick={toggle} label={title} icon={icon} />
+      <CollapsePanelHeader
+        onClick={toggle}
+        label={title}
+        icon={icon}
+        opened={opened}
+      />
       <Collapse in={opened}>{children}</Collapse>
     </Stack>
   );
