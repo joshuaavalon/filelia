@@ -1,4 +1,4 @@
-import { createStyles, Group, Text } from "@mantine/core";
+import { createStyles, Group, Text, UnstyledButton } from "@mantine/core";
 
 import type { FC, MouseEventHandler, ReactNode } from "react";
 
@@ -8,15 +8,11 @@ const useStyle = createStyles(theme => {
     variant: "outline"
   });
   return {
-    group: {
-      cursor: "pointer",
-      "&:hover": {
-        background: colors.background,
-        color: colors.color
-      }
-    },
     text: {
       fontSize: theme.fontSizes.md
+    },
+    button: {
+      ...theme.fn.hover({ color: colors.color })
     }
   };
 });
@@ -24,17 +20,19 @@ const useStyle = createStyles(theme => {
 export interface Props {
   icon?: ReactNode;
   label: string;
-  onClick?: MouseEventHandler<HTMLDivElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const Component: FC<Props> = props => {
   const { onClick, label, icon } = props;
   const { classes } = useStyle();
   return (
-    <Group onClick={onClick} className={classes.group}>
-      {icon}
-      <Text>{label}</Text>
-    </Group>
+    <UnstyledButton onClick={onClick} className={classes.button}>
+      <Group>
+        {icon}
+        <Text>{label}</Text>
+      </Group>
+    </UnstyledButton>
   );
 };
 
