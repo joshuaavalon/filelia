@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import TableOfContent from "#component/table-of-content";
 import TagPanel from "#component/tag-panel";
+import Metadata from "./metadata";
 import { ProjectContext } from "../context";
 
 import type { FC } from "react";
@@ -21,6 +22,7 @@ const Component: FC<Props> = props => {
         tags={result.data.tags}
         sx={theme => ({ marginTop: theme.spacing.md })}
       />
+      <Metadata />
     </>
   );
 };
