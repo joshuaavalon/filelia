@@ -19,7 +19,7 @@ const useStyle = createStyles(theme => ({
   itemWrapper: {
     alignItems: "stretch !important",
     width: "100%",
-    "& :nth-child(2)": {
+    "& :nth-of-type(2)": {
       flex: 1
     }
   }

@@ -42,7 +42,6 @@
     "@mantine/prism": "6.0.11",
     "@mantine/spotlight": "6.0.11",
     "embla-carousel-react": "7.1.0",
-    "image-type": "5.2.0",
     "next": "12.3.2",
     "next-mdx-remote": "4.2.0",
     "react": "18.2.0",
