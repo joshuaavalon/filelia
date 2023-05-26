@@ -10,13 +10,14 @@ export interface Props {
   title: string;
   sx?: Sx;
   children?: ReactNode;
+  className?: string;
 }
 
 const Component: FC<Props> = props => {
-  const { sx, children, title, icon } = props;
+  const { sx, children, title, icon, className } = props;
   const [opened, { toggle }] = useDisclosure(true);
   return (
-    <Stack sx={sx} spacing="sm">
+    <Stack sx={sx} spacing="sm" className={className}>
       <CollapsePanelHeader
         onClick={toggle}
         label={title}

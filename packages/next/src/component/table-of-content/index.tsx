@@ -15,10 +15,11 @@ export interface Props {
   active: string;
   setActive: (active: string) => void;
   sx?: Sx;
+  className?: string;
 }
 
 const Component: FC<Props> = props => {
-  const { items, active, setActive, sx } = props;
+  const { items, active, setActive, sx, className } = props;
   const handleScroll = useCallback(() => {
     const elements = items
       .map(item => document.querySelector(item.href))
@@ -35,7 +36,12 @@ const Component: FC<Props> = props => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
   return (
-    <CollapsePanel title="Table of contents" icon={<TbList />} sx={sx}>
+    <CollapsePanel
+      title="Table of contents"
+      icon={<TbList />}
+      sx={sx}
+      className={className}
+    >
       <Items items={items} active={active} />
     </CollapsePanel>
   );

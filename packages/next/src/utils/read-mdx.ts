@@ -22,8 +22,7 @@ export default async function readMdx(
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [remarkGfm, remarkUnwrapImages],
-        rehypePlugins: [rehypeSlug],
-        development: false
+        rehypePlugins: [rehypeSlug]
       }
     });
   } catch (e: any) {

@@ -1,8 +1,8 @@
-import type { DefaultProps } from "@mantine/core";
 import { createStyles, Group, rem, Text, UnstyledButton } from "@mantine/core";
 import { TbSearch } from "react-icons/tb";
 
 import type { ComponentPropsWithoutRef, FC } from "react";
+import type { DefaultProps } from "@mantine/core";
 
 const useStyles = createStyles(theme => ({
   root: {

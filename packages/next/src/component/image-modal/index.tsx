@@ -20,8 +20,7 @@ const useStyle = createStyles((theme, props: StyleProps) => {
     },
     center: {
       height: zoom ? undefined : "100vh",
-      minHeight: zoom ? "100vh" : undefined,
-      cursor: "pointer"
+      minHeight: zoom ? "100vh" : undefined
     },
     header: {
       backgroundColor: "transparent",
@@ -33,6 +32,14 @@ const useStyle = createStyles((theme, props: StyleProps) => {
     body: {
       marginTop: -64,
       padding: 0
+    },
+    close: {
+      height: theme.spacing.xl,
+      width: theme.spacing.xl,
+      "> svg": {
+        height: theme.spacing.xl,
+        width: theme.spacing.xl
+      }
     }
   };
 });

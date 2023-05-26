@@ -6,9 +6,12 @@ import { ProjectContext } from "../context";
 import type { FC } from "react";
 import type { ListPanelItem } from "#component/list-panel";
 
-export interface Props {}
+export interface Props {
+  className?: string;
+}
 
-const Component: FC<Props> = () => {
+const Component: FC<Props> = props => {
+  const { className } = props;
   const {
     result: { data }
   } = useContext(ProjectContext);
@@ -28,7 +31,14 @@ const Component: FC<Props> = () => {
     );
     return items;
   }, [data]);
-  return <ListPanel title="Metadata" icon={<TbBinaryTree2 />} items={items} />;
+  return (
+    <ListPanel
+      title="Metadata"
+      icon={<TbBinaryTree2 />}
+      items={items}
+      className={className}
+    />
+  );
 };
 
 Component.displayName = "Metadata";

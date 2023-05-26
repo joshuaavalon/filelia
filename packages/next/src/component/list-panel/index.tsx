@@ -30,17 +30,18 @@ export interface Props {
   icon?: ReactNode;
   sx?: Sx;
   items: ListPanelItem[];
+  className?: string;
 }
 
 const Component: FC<Props> = props => {
-  const { title, icon, sx, items } = props;
+  const { title, icon, sx, items, className } = props;
   const { classes } = useStyle();
   const listItems = useMemo(
     () => items.map(item => <Item key={item.key} item={item} />),
     [items]
   );
   return (
-    <CollapsePanel title={title} icon={icon} sx={sx}>
+    <CollapsePanel title={title} icon={icon} sx={sx} className={className}>
       <List classNames={classes} spacing="xs">
         {listItems}
       </List>

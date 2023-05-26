@@ -3,13 +3,13 @@ import { createStyles, Navbar, ScrollArea, Text } from "@mantine/core";
 import { useResizing } from "#hook";
 import SearchInput from "./search-input";
 import Buttons from "./buttons";
+import SearchButton from "./search-button";
 
 import type { CSSProperties, FC } from "react";
 import type { Disclosure } from "../type";
 
 const useStyles = createStyles(theme => ({
   navbar: {
-    padding: theme.spacing.md,
     [theme.fn.smallerThan("md")]: {
       transform: "translateX(var(--navbar-translate-x))",
       transition: "transform var(--navbar-transition-ms, 0) ease"
@@ -42,11 +42,11 @@ const Component: FC<Props> = () => {
         className={classes.navbar}
         width={{ sm: 300, md: 250, lg: 250, xl: 300 }}
       >
-        <Navbar.Section mb="md">
+        <Navbar.Section mb="md" px="md" pt="md">
           <SearchInput />
         </Navbar.Section>
-        <Navbar.Section grow component={ScrollArea}>
-          <Text>Application navbar</Text>
+        <Navbar.Section grow component={ScrollArea} px="md">
+          <SearchButton />
           <Text>Application navbar</Text>
           <Text>Application navbar</Text>
           <Text>Application navbar</Text>
@@ -96,7 +96,7 @@ const Component: FC<Props> = () => {
           <Text>Application navbar</Text>
           <Text>Application navbar</Text>
         </Navbar.Section>
-        <Navbar.Section>
+        <Navbar.Section p="md">
           <Buttons />
         </Navbar.Section>
       </Navbar>

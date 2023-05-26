@@ -11,14 +11,15 @@ import type { Sx } from "@mantine/core";
 export interface Props {
   tags: string[];
   sx?: Sx;
+  className?: string;
 }
 
 const Component: FC<Props> = props => {
-  const { tags, sx } = props;
+  const { tags, sx, className } = props;
   const [filter, setFilter] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(true);
   return (
-    <CollapsePanel title="Tags" icon={<TbTags />} sx={sx}>
+    <CollapsePanel title="Tags" icon={<TbTags />} sx={sx} className={className}>
       <FilterInput
         filter={filter}
         setFilter={setFilter}

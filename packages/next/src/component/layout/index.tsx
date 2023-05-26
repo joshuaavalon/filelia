@@ -24,6 +24,7 @@ const useStyle = createStyles(theme => ({
     padding: theme.spacing.md
   },
   viewport: {
+    wordBreak: "break-all",
     "> div": {
       display: "block !important"
     }
