@@ -1,7 +1,7 @@
 import { useContext, useMemo } from "react";
 import { TbBinaryTree2, TbCalendar } from "react-icons/tb";
 import ListPanel from "#component/list-panel";
-import { ProjectContext } from "../context";
+import Context from "../context";
 
 import type { FC } from "react";
 import type { ListPanelItem } from "#component/list-panel";
@@ -14,7 +14,7 @@ const Component: FC<Props> = props => {
   const { className } = props;
   const {
     result: { data }
-  } = useContext(ProjectContext);
+  } = useContext(Context);
   const items = useMemo(() => {
     const items: ListPanelItem[] = [];
     items.push(

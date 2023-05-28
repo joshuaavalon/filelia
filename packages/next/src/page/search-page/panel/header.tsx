@@ -1,7 +1,4 @@
-import { useContext } from "react";
 import { createStyles, Flex, Title } from "@mantine/core";
-import Context from "../context";
-import FileButton from "./file-button";
 
 import type { FC } from "react";
 
@@ -14,9 +11,6 @@ const useStyles = createStyles({
 export interface Props {}
 
 const Component: FC<Props> = () => {
-  const {
-    result: { data }
-  } = useContext(Context);
   const { classes } = useStyles();
   return (
     <Flex
@@ -26,8 +20,7 @@ const Component: FC<Props> = () => {
       direction="row"
       wrap="wrap"
     >
-      <Title className={classes.title}>{data.title}</Title>
-      <FileButton />
+      <Title className={classes.title}>Search</Title>
     </Flex>
   );
 };

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from "react";
 import { Flex } from "@mantine/core";
-import { ProjectContext } from "../context";
+import Context from "../context";
 import Header from "./header";
 import Carousel from "./carousel";
 import Description from "./description";
@@ -18,7 +18,7 @@ const Component: FC<Props> = props => {
     result: {
       data: { gallery }
     }
-  } = useContext(ProjectContext);
+  } = useContext(Context);
   const carousel = gallery.length > 0 ? <Carousel /> : undefined;
   const descriptionRef = useRef<HTMLDivElement>(null);
   useEffect(() => {

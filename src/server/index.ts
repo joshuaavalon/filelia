@@ -48,6 +48,7 @@ export async function createServer(config: Config) {
     await fastify.register(nextPlugin, { dir: "packages/next" });
     fastify.after(() => {
       fastify.next("/");
+      fastify.next("/search");
       fastify.next("/project/*");
     });
   }

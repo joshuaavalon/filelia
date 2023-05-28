@@ -1,7 +1,11 @@
-import initRefreshIndexRoute from "./refresh-index.js";
+import initRefreshRoute from "./refresh.js";
+import initSearchRoute from "./search.js";
+import initTagsRoute from "./tags.js";
 
 import type { Server } from "#server";
 
 export default function initRoutes(server: Server): void {
-  initRefreshIndexRoute(server);
+  initRefreshRoute(server);
+  initSearchRoute(server);
+  initTagsRoute(server);
 }

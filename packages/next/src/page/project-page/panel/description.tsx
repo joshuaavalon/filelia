@@ -1,7 +1,7 @@
 import { forwardRef, useCallback, useContext } from "react";
 import Mdx from "#component/mdx";
 import joinUrl from "#utils/url-join";
-import { ProjectContext } from "../context";
+import Context from "../context";
 
 import type { SourceOptions } from "#component/mdx";
 
@@ -11,7 +11,7 @@ const Component = forwardRef<HTMLDivElement, Props>((_props, ref) => {
   const {
     description,
     result: { project }
-  } = useContext(ProjectContext);
+  } = useContext(Context);
   const onSourceSrcSet = useCallback(
     (path: string, opts: SourceOptions) => {
       const { mime, height, width } = opts;

@@ -3,12 +3,12 @@ import { createStyles } from "@mantine/core";
 import TableOfContent from "#component/table-of-content";
 import TagPanel from "#component/tag-panel";
 import Metadata from "./metadata";
-import { ProjectContext } from "../context";
+import Context from "../context";
 
 import type { FC } from "react";
 import type { TableOfContentItem } from "#component/table-of-content";
 
-const useStyle = createStyles(theme => ({
+const useStyles = createStyles(theme => ({
   panel: {
     marginTop: theme.spacing.md
   }
@@ -20,9 +20,9 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { toc } = props;
-  const { result } = useContext(ProjectContext);
+  const { result } = useContext(Context);
   const [active, setActive] = useState(toc.length > 0 ? toc[0].href : "");
-  const { classes } = useStyle();
+  const { classes } = useStyles();
   return (
     <>
       <TableOfContent items={toc} active={active} setActive={setActive} />

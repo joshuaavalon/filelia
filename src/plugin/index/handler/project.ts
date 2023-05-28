@@ -19,16 +19,22 @@ export async function insert(
     where: { id: data.id },
     update: {
       path: result.path,
+      name: result.data.title,
       tags: {
         connectOrCreate: tags
-      }
+      },
+      createdAt: new Date(result.data.createdAt),
+      updatedAt: new Date(result.data.updatedAt)
     },
     create: {
       id: data.id,
       path: result.path,
+      name: result.data.title,
       tags: {
         connectOrCreate: tags
-      }
+      },
+      createdAt: new Date(result.data.createdAt),
+      updatedAt: new Date(result.data.updatedAt)
     }
   });
 }

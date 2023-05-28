@@ -1,6 +1,6 @@
 import ProjectPage from "#page/project-page";
-import { colorSchemeKey } from "#provider/color-scheme";
 import readMdx from "#utils/read-mdx";
+import getColorScheme from "#utils/get-color-scheme";
 
 import type { ParsedUrlQuery } from "querystring";
 import type { GetServerSideProps } from "next";
@@ -14,7 +14,7 @@ interface Props {
   description: MDXRemoteSerializeResult | null;
 }
 
-interface Query extends ParsedUrlQuery {
+interface Params extends ParsedUrlQuery {
   id: string;
 }
 
@@ -25,7 +25,7 @@ export default function Page(props: Props): JSX.Element {
 
 export const getServerSideProps: GetServerSideProps<
   Props,
-  Query
+  Params
 > = async ctx => {
   const { req, params } = ctx;
   if (!params) {
@@ -42,12 +42,11 @@ export const getServerSideProps: GetServerSideProps<
   if (!baseDir) {
     return { notFound: true };
   }
-  const colorScheme = req.cookies[colorSchemeKey] === "dark" ? "dark" : "light";
   const description = await readMdx(baseDir, result.data.description);
   return {
     props: {
       result,
-      colorScheme,
+      colorScheme: getColorScheme(req),
       description
     }
   };

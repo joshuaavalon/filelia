@@ -6,7 +6,7 @@ import Header from "./header";
 
 import type { FC, ReactNode } from "react";
 
-const useStyle = createStyles(theme => ({
+const useStyles = createStyles(theme => ({
   main: {
     overflow: "hidden",
     paddingTop: "var(--mantine-header-height, 0px)",
@@ -40,7 +40,7 @@ const Component: FC<Props> = props => {
   const { children, aside: asideContent } = props;
   const {
     classes: { main, root, viewport }
-  } = useStyle();
+  } = useStyles();
   const navbar = useDisclosure(false);
   const aside = useDisclosure(false);
   const hasAside = Boolean(aside);

@@ -3,7 +3,7 @@ import Metadata from "#component/metadata";
 import Layout from "#component/layout";
 import Aside from "./aside";
 import Panel from "./panel";
-import { ProjectContext } from "./context";
+import Context from "./context";
 
 import type { FC } from "react";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
@@ -19,12 +19,12 @@ const Component: FC<Props> = props => {
   const { result, description } = props;
   const [toc, setToc] = useState<TableOfContentItem[]>([]);
   return (
-    <ProjectContext.Provider value={{ result, description }}>
+    <Context.Provider value={{ result, description }}>
       <Layout aside={<Aside toc={toc} />}>
         <Metadata title={result.data.title} />
         <Panel setToc={setToc} />
       </Layout>
-    </ProjectContext.Provider>
+    </Context.Provider>
   );
 };
 

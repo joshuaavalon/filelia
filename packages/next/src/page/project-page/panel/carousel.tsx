@@ -3,7 +3,7 @@ import { Center, createStyles, Divider } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useDisclosure } from "@mantine/hooks";
 import ImageModal from "#component/image-modal";
-import { ProjectContext } from "../context";
+import Context from "../context";
 
 import type { FC } from "react";
 
@@ -31,7 +31,7 @@ export interface Props {
 const Component: FC<Props> = props => {
   const { maxHeight = 200 } = props;
   const [opened, { open, close }] = useDisclosure(false);
-  const { result } = useContext(ProjectContext);
+  const { result } = useContext(Context);
   const [src, setSrc] = useState("");
   const { classes } = useStyles();
   const slides = useMemo(() => {

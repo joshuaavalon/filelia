@@ -1,6 +1,6 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import { createStylesServer, ServerStyles } from "@mantine/next";
-import { cache as emotionCache } from "#provider/emotion";
+import emotionCache from "#emotion";
 
 import type { DocumentContext, DocumentInitialProps } from "next/document";
 

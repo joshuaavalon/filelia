@@ -7,7 +7,10 @@ CREATE TABLE "tag" (
 -- CreateTable
 CREATE TABLE "project" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "path" TEXT NOT NULL
+    "name" TEXT NOT NULL,
+    "path" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL,
+    "updated_at" DATETIME NOT NULL
 );
 
 -- CreateTable

@@ -3,12 +3,14 @@ import { createContext } from "react";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import type { LoadProjectResult } from "#type";
 
-export interface ProjectContextValue {
+interface ContextValue {
   result: LoadProjectResult;
   description: MDXRemoteSerializeResult | null;
 }
 
-export const ProjectContext = createContext<ProjectContextValue>({
+export const Context = createContext<ContextValue>({
   result: {},
   description: null
-} as ProjectContextValue);
+} as ContextValue);
+
+export default Context;

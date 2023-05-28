@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Center, createStyles, MantineProvider, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { cache } from "#emotion";
+import emotionCache from "#emotion";
 
 import type { FC } from "react";
 
@@ -9,7 +9,7 @@ interface StyleProps {
   zoom: boolean;
 }
 
-const useStyle = createStyles((theme, props: StyleProps) => {
+const useStyles = createStyles((theme, props: StyleProps) => {
   const { zoom } = props;
   return {
     image: {
@@ -56,14 +56,17 @@ const Component: FC<Props> = props => {
   const [zoom, { toggle, close: zoomOut }] = useDisclosure(false);
   const {
     classes: { center, image, ...modal }
-  } = useStyle({ zoom });
+  } = useStyles({ zoom });
   useEffect(() => {
     if (opened) {
       zoomOut();
     }
   }, [opened, zoomOut]);
   return (
-    <MantineProvider theme={{ colorScheme: "dark" }} emotionCache={cache}>
+    <MantineProvider
+      theme={{ colorScheme: "dark" }}
+      emotionCache={emotionCache}
+    >
       <Modal opened={opened} onClose={close} fullScreen classNames={modal}>
         <Center className={center} onClick={toggle}>
           <img src={src} alt={alt} className={image} />

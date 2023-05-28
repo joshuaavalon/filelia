@@ -6,7 +6,7 @@ import type { FC, MouseEventHandler, ReactNode } from "react";
 interface StylesProps {
   opened: boolean;
 }
-const useStyle = createStyles((theme, props: StylesProps) => ({
+const useStyles = createStyles((theme, props: StylesProps) => ({
   icon: {
     fontSize: theme.fontSizes.xl
   },
@@ -31,7 +31,7 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { onClick, label, icon, opened } = props;
-  const { classes } = useStyle({ opened });
+  const { classes } = useStyles({ opened });
   return (
     <Button
       onClick={onClick}

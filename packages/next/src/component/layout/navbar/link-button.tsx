@@ -6,7 +6,7 @@ import {
   UnstyledButton
 } from "@mantine/core";
 
-import type { FC, ReactNode } from "react";
+import type { FC, MouseEventHandler, ReactNode } from "react";
 
 const useStyles = createStyles(theme => ({
   root: {
@@ -29,13 +29,14 @@ export interface Props {
   icon: ReactNode;
   color: string;
   children: ReactNode;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const Component: FC<Props> = props => {
-  const { icon, color, children } = props;
+  const { icon, color, children, onClick } = props;
   const { classes } = useStyles();
   return (
-    <UnstyledButton className={classes.root}>
+    <UnstyledButton className={classes.root} onClick={onClick}>
       <Group>
         <ThemeIcon color={color} variant="light">
           {icon}

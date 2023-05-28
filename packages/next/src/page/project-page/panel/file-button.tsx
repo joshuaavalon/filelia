@@ -4,7 +4,7 @@ import { spotlight, SpotlightProvider } from "@mantine/spotlight";
 import { TbFolder, TbSearch } from "react-icons/tb";
 import filterPredicate from "#utils/filter-predicate";
 import joinUrl from "#utils/url-join";
-import { ProjectContext } from "../context";
+import Context from "../context";
 
 import type { FC } from "react";
 import type {
@@ -15,7 +15,7 @@ import type {
 export interface Props {}
 
 const Component: FC<Props> = () => {
-  const { result } = useContext(ProjectContext);
+  const { result } = useContext(Context);
   const filter: NonNullable<SpotlightProviderProps["filter"]> = useCallback(
     (query, actions) =>
       actions.filter(action => filterPredicate(query, false)(action.title)),

@@ -8,7 +8,7 @@ import type { Schemas } from "#plugin/validation/json-schema";
 
 export interface LoadProjectResult {
   data: Static<Schemas["project"]>;
-  project: Project;
+  project: Pick<Project, "id" | "path">;
 }
 
 export default async function loadProject(
@@ -17,6 +17,7 @@ export default async function loadProject(
 ): Promise<LoadProjectResult | null> {
   const pluginLogger = this.log.child({ plugin: "@filelia/plugin-data" });
   const project = await this.db.project.findUnique({
+    select: { path: true, id: true },
     where: { id: projectId }
   });
   if (!project) {

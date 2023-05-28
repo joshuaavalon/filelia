@@ -4,7 +4,5 @@ import type { Project } from "@prisma/client";
 
 export interface LoadProjectResult {
   data: Static<Schemas["project"]>;
-  project: Project;
+  project: Pick<Project, "id" | "path">;
 }
-
-export interface LoadProjectResult {}

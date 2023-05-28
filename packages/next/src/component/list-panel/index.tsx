@@ -9,7 +9,7 @@ import type { ListPanelItem } from "./item";
 
 export type { ListPanelItem } from "./item";
 
-const useStyle = createStyles(theme => ({
+const useStyles = createStyles(theme => ({
   itemIcon: {
     display: "flex",
     justifyContent: "center",
@@ -35,7 +35,7 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { title, icon, sx, items, className } = props;
-  const { classes } = useStyle();
+  const { classes } = useStyles();
   const listItems = useMemo(
     () => items.map(item => <Item key={item.key} item={item} />),
     [items]

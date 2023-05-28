@@ -2,7 +2,7 @@ import { createStyles, List, ThemeIcon } from "@mantine/core";
 
 import type { FC, ReactNode } from "react";
 
-const useStyle = createStyles(theme => ({
+const useStyles = createStyles(theme => ({
   item: {
     display: "flex",
     flexDirection: "column",
@@ -40,7 +40,7 @@ const Component: FC<Props> = props => {
   const {
     item: { key, icon, value }
   } = props;
-  const { classes } = useStyle();
+  const { classes } = useStyles();
   return (
     <List.Item icon={<ThemeIcon variant="default">{icon}</ThemeIcon>}>
       <div className={classes.item}>
