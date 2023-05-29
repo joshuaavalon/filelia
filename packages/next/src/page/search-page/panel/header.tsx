@@ -20,7 +20,7 @@ const Component: FC<Props> = () => {
       direction="row"
       wrap="wrap"
     >
-      <Title className={classes.title}>Search</Title>
+      <Title className={classes.title}>Search Result</Title>
     </Flex>
   );
 };

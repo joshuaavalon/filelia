@@ -14,7 +14,6 @@ export default function Page(props: Props): JSX.Element {
 
 export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
   const { req, query } = ctx;
-
   return {
     props: { query, colorScheme: getColorScheme(req) }
   };

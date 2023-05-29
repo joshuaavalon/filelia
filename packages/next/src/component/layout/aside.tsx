@@ -32,10 +32,11 @@ export const AsideContext = createContext<Disclosure>([
 
 export interface Props {
   children: ReactNode;
+  scrollable?: boolean;
 }
 
 const Component: FC<Props> = props => {
-  const { children } = props;
+  const { children, scrollable = true } = props;
   const [opened] = useContext(AsideContext);
   const {
     classes: { aside, viewport, root }
@@ -53,7 +54,11 @@ const Component: FC<Props> = props => {
       className={aside}
       width={{ sm: 300, md: 250, lg: 250, xl: 300 }}
     >
-      <ScrollArea classNames={{ viewport, root }}>{children}</ScrollArea>
+      {scrollable ? (
+        <ScrollArea classNames={{ viewport, root }}>{children}</ScrollArea>
+      ) : (
+        children
+      )}
     </Aside>
   );
 };

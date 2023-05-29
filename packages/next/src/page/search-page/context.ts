@@ -1,17 +1,18 @@
 import { createContext } from "react";
+import { createFormContext } from "@mantine/form";
 
-import type { Dispatch, SetStateAction } from "react";
-import type { SelectItem } from "@mantine/core";
+interface ContextValue {}
 
-interface ContextValue {
-  searchItems: SelectItem[];
-  setSearchItems: Dispatch<SetStateAction<SelectItem[]>>;
-}
-
-const Context = createContext<ContextValue>({
-  searchItems: [],
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, no-empty-function
-  setSearchItems: () => {}
-});
+const Context = createContext<ContextValue>({});
 
 export default Context;
+
+export interface SearchFormValues {
+  tags: string[];
+  notTags: string[];
+  keywords: string[];
+  notKeywords: string[];
+}
+
+export const [FormProvider, useFormContext, useForm] =
+  createFormContext<SearchFormValues>();

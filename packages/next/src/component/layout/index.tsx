@@ -34,17 +34,20 @@ const useStyles = createStyles(theme => ({
 export interface Props {
   children: ReactNode;
   aside?: ReactNode;
+  asideScrollable?: boolean;
 }
 
 const Component: FC<Props> = props => {
-  const { children, aside: asideContent } = props;
+  const { children, aside: asideContent, asideScrollable } = props;
   const {
     classes: { main, root, viewport }
   } = useStyles();
   const navbar = useDisclosure(false);
   const aside = useDisclosure(false);
-  const hasAside = Boolean(aside);
-  const asideElm = hasAside ? <Aside>{asideContent}</Aside> : undefined;
+  const hasAside = Boolean(asideContent);
+  const asideElm = hasAside ? (
+    <Aside scrollable={asideScrollable}>{asideContent}</Aside>
+  ) : undefined;
   return (
     <NavbarContext.Provider value={navbar}>
       <AsideContext.Provider value={aside}>

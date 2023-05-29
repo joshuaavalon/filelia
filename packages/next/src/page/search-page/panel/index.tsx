@@ -18,7 +18,7 @@ const Component: FC<Props> = props => {
       wrap="wrap"
     >
       <Header />
-      <Input />
+      {/* <Input /> */}
     </Flex>
   );
 };
