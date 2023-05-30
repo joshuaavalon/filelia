@@ -9,9 +9,9 @@ import type { FC } from "react";
 export interface Props {}
 
 const Component: FC<Props> = () => {
-  const { tagsKey } = useContext(Context);
+  const { key } = useContext(Context);
   const form = useFormContext();
-  const tags = form.values[tagsKey];
+  const tags = form.values[key];
   const tagBadges = useMemo(
     () =>
       tags.map((tag, index) => <TagBadge key={tag} tag={tag} index={index} />),

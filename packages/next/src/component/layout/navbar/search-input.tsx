@@ -1,4 +1,4 @@
-import { createStyles, Group, rem, Text, UnstyledButton } from "@mantine/core";
+import { createStyles, Input, rem, Text, UnstyledButton } from "@mantine/core";
 import { TbSearch } from "react-icons/tb";
 
 import type { ComponentPropsWithoutRef, FC } from "react";
@@ -36,16 +36,7 @@ export interface Props
 const Component: FC<Props> = props => {
   const { className, ...others } = props;
   const { classes, cx } = useStyles();
-  return (
-    <UnstyledButton {...others} className={cx(classes.root, className)}>
-      <Group spacing="xs">
-        <TbSearch size="1rem" />
-        <Text size="sm" color="dimmed" pr={80}>
-          Search
-        </Text>
-      </Group>
-    </UnstyledButton>
-  );
+  return <Input icon={<TbSearch size="1rem" />} placeholder="Search" />;
 };
 
 Component.displayName = "SearchInput";

@@ -6,7 +6,7 @@ import Context from "../context";
 import type { SourceOptions } from "#component/mdx";
 
 export interface Props {}
-// src={`/project/${id}/gallery/${image}?h=${maxHeight}&format=jpg`}
+
 const Component = forwardRef<HTMLDivElement, Props>((_props, ref) => {
   const {
     description,

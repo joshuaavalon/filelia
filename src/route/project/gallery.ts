@@ -22,6 +22,15 @@ export default function initRoutes(server: Server): void {
               Type.Literal("jpg"),
               Type.Literal("png")
             ])
+          ),
+          fit: Type.Optional(
+            Type.Union([
+              Type.Literal("contain"),
+              Type.Literal("cover"),
+              Type.Literal("fill"),
+              Type.Literal("inside"),
+              Type.Literal("outside")
+            ])
           )
         })
       }
@@ -48,7 +57,7 @@ export default function initRoutes(server: Server): void {
         shp = shp.resize({
           width: query.w,
           height: query.h,
-          fit: sharp.fit.inside,
+          fit: query.fit ?? "inside",
           withoutEnlargement: true
         });
       }

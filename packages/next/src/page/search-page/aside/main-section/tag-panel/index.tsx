@@ -1,24 +1,25 @@
+import { TbHash, TbKey } from "react-icons/tb";
 import CollapsePanel from "#component/collapse-panel";
 import Context from "./context";
 import TagCloud from "./tag-cloud";
 
-import type { FC, ReactNode } from "react";
+import type { FC } from "react";
 import type { Sx } from "@mantine/core";
 import type { ContextValue } from "./context";
 
 export interface Props {
   title: string;
-  icon: ReactNode;
   sx?: Sx;
   className?: string;
-  type?: ContextValue["type"];
-  tagsKey: ContextValue["tagsKey"];
+  valueKey: ContextValue["key"];
+  type: ContextValue["type"];
 }
 
 const Component: FC<Props> = props => {
-  const { sx, className, title, icon, type = false, tagsKey } = props;
+  const { sx, className, title, valueKey: key, type } = props;
+  const icon = type === "tag" ? <TbHash /> : <TbKey />;
   return (
-    <Context.Provider value={{ type, tagsKey }}>
+    <Context.Provider value={{ key, type }}>
       <CollapsePanel title={title} icon={icon} sx={sx} className={className}>
         <TagCloud />
       </CollapsePanel>

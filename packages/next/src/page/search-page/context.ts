@@ -1,16 +1,11 @@
-import { createContext } from "react";
 import { createFormContext } from "@mantine/form";
 
-interface ContextValue {}
-
-const Context = createContext<ContextValue>({});
-
-export default Context;
-
 export interface SearchFormValues {
-  tags: string[];
+  andTags: string[];
+  orTags: string[];
   notTags: string[];
-  keywords: string[];
+  andKeywords: string[];
+  orKeywords: string[];
   notKeywords: string[];
 }
 

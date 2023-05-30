@@ -47,54 +47,6 @@ const Component: FC<Props> = () => {
         </Navbar.Section>
         <Navbar.Section grow component={ScrollArea} px="md">
           <SearchButton />
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
-          <Text>Application navbar</Text>
         </Navbar.Section>
         <Navbar.Section p="md">
           <Buttons />

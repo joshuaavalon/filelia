@@ -1,18 +1,16 @@
 import { createContext } from "react";
+
+import type { KeyOf } from "#type";
 import type { SearchFormValues } from "#page/search-page/context";
 
-type TagKeyOf<T> = keyof {
-  [P in keyof T as T[P] extends string[] ? P : never]: any;
-};
-
 export interface ContextValue {
-  type: boolean;
-  tagsKey: TagKeyOf<SearchFormValues>;
+  key: KeyOf<SearchFormValues, string[]>;
+  type: "tag" | "keyword";
 }
 
 const Context = createContext<ContextValue>({
-  type: true,
-  tagsKey: "tags"
+  key: "andTags",
+  type: "tag"
 });
 
 export default Context;

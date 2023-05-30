@@ -1,44 +1,42 @@
 import { useMemo } from "react";
 import Metadata from "#component/metadata";
 import Layout from "#component/layout";
+import mapQuery from "#utils/map-query";
 import Aside from "./aside";
 import Panel from "./panel";
-import Context, { FormProvider, useForm } from "./context";
+import { FormProvider, useForm } from "./context";
 
 import type { FC } from "react";
 import type { ParsedUrlQuery } from "querystring";
-
-function toArray(value: string | string[] | undefined): string[] {
-  if (!value) {
-    return [];
-  }
-  return Array.isArray(value) ? value : [value];
-}
+import type { SearchProject } from "#type";
 
 export interface Props {
   query: ParsedUrlQuery;
+  projects: SearchProject[];
+  page: number;
+  totalPage: number;
 }
 
 const Component: FC<Props> = props => {
-  const { query } = props;
+  const { query, projects, page, totalPage } = props;
   const initialValues = useMemo(() => {
-    const { tags, notTags, keywords, notKeywords } = query;
-    return {
-      tags: toArray(tags),
-      notTags: toArray(notTags),
-      keywords: toArray(keywords),
-      notKeywords: toArray(notKeywords)
-    };
+    const {
+      andTags = [],
+      orTags = [],
+      notTags = [],
+      andKeywords = [],
+      orKeywords = [],
+      notKeywords = []
+    } = mapQuery(query);
+    return { andTags, orTags, notTags, andKeywords, orKeywords, notKeywords };
   }, [query]);
   const form = useForm({ initialValues });
   return (
     <FormProvider form={form}>
-      <Context.Provider value={{}}>
-        <Layout aside={<Aside />} asideScrollable={false}>
-          <Metadata title="Search" />
-          <Panel />
-        </Layout>
-      </Context.Provider>
+      <Layout aside={<Aside />} asideScrollable={false}>
+        <Metadata title="Search" />
+        <Panel projects={projects} page={page} totalPage={totalPage} />
+      </Layout>
     </FormProvider>
   );
 };

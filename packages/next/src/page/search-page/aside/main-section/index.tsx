@@ -1,9 +1,11 @@
+import { useMemo } from "react";
 import { createStyles, ScrollArea } from "@mantine/core";
-import { TbHash, TbKey, TbKeyOff, TbMinus } from "react-icons/tb";
 import { useFormContext } from "#page/search-page/context";
 import TagPanel from "./tag-panel";
 
 import type { FC } from "react";
+import type { KeyOf } from "#type";
+import type { SearchFormValues } from "#page/search-page/context";
 
 const useStyles = createStyles(theme => ({
   root: {
@@ -21,52 +23,68 @@ const useStyles = createStyles(theme => ({
   }
 }));
 
+interface PanelConfig {
+  key: KeyOf<SearchFormValues, string[]>;
+  title: string;
+  type: "tag" | "keyword";
+}
+
+const configs: PanelConfig[] = [
+  {
+    key: "andTags",
+    title: "And Tags",
+    type: "tag"
+  },
+  {
+    key: "orTags",
+    title: "Or Tags",
+    type: "tag"
+  },
+  {
+    key: "notTags",
+    title: "Not Tags",
+    type: "tag"
+  },
+  {
+    key: "andKeywords",
+    title: "And Keywords",
+    type: "keyword"
+  },
+  {
+    key: "orKeywords",
+    title: "Or Keywords",
+    type: "keyword"
+  },
+  {
+    key: "notKeywords",
+    title: "Not Keywords",
+    type: "keyword"
+  }
+];
+
 export interface Props {}
 
 const Component: FC<Props> = () => {
   const form = useFormContext();
-  const { tags, notTags, keywords, notKeywords } = form.values;
   const {
     classes: { panel, ...classes }
   } = useStyles();
-  return (
-    <ScrollArea classNames={classes}>
-      {tags.length > 0 ? (
-        <TagPanel
-          title="Tags"
-          icon={<TbHash />}
-          className={panel}
-          type
-          tagsKey="tags"
-        />
-      ) : undefined}
-      {notTags.length > 0 ? (
-        <TagPanel
-          title="Not Tags"
-          icon={<TbMinus />}
-          className={panel}
-          type
-          tagsKey="notTags"
-        />
-      ) : undefined}
-      {keywords.length > 0 ? (
-        <TagPanel
-          title="Keyword"
-          icon={<TbKey />}
-          className={panel}
-          tagsKey="keywords"
-        />
-      ) : undefined}
-      {notKeywords.length > 0 ? (
-        <TagPanel
-          title="Not keyword"
-          icon={<TbKeyOff />}
-          className={panel}
-          tagsKey="notKeywords"
-        />
-      ) : undefined}
-    </ScrollArea>
+  const panels = useMemo(
+    () =>
+      configs.map(cfg =>
+        form.values[cfg.key].length > 0 ? (
+          <TagPanel
+            key={cfg.key}
+            title={cfg.title}
+            type={cfg.type}
+            className={panel}
+            valueKey={cfg.key}
+          />
+        ) : undefined
+      ),
+    [form, panel]
   );
+  return <ScrollArea classNames={classes}>{panels}</ScrollArea>;
 };
 
 Component.displayName = "SearchPage/Aside/MainSection";

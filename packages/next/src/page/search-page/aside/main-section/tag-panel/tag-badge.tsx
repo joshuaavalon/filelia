@@ -21,16 +21,16 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { tag, index } = props;
-  const { type, tagsKey } = useContext(Context);
+  const { key, type } = useContext(Context);
   const form = useFormContext();
   const onClick = useCallback(() => {
-    form.removeListItem(tagsKey, index);
-  }, [form, tagsKey, index]);
+    form.removeListItem(key, index);
+  }, [form, key, index]);
   const { classes } = useStyles();
   return (
     <Badge
       size="lg"
-      leftSection={<Center>{type ? <TbHash /> : <TbKey />}</Center>}
+      leftSection={<Center>{type === "tag" ? <TbHash /> : <TbKey />}</Center>}
       radius="sm"
       classNames={classes}
       onClick={onClick}

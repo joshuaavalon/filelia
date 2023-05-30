@@ -25,5 +25,5 @@ const Component: FC<Props> = () => {
   );
 };
 
-Component.displayName = "Header";
+Component.displayName = "SearchPage/Header";
 export default Component;

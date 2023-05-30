@@ -9,7 +9,8 @@ import BottomSection from "./bottom-section";
 import type { FC } from "react";
 
 const useStyles = createStyles({
-  form: { display: "flex", flexDirection: "column", height: "100%" }
+  root: { display: "flex", flexDirection: "column", height: "100%" },
+  form: { display: "flex", flexDirection: "column", flex: 1 }
 });
 
 export interface Props {}
@@ -21,17 +22,23 @@ const Component: FC<Props> = () => {
   const onSubmit = useMemo(
     () =>
       form.onSubmit(values => {
-        const { tags, notTags, keywords, notKeywords } = values;
-        router.push({ query: { tags, notTags, keywords, notKeywords } });
+        router.push({
+          query: {
+            ...router.query,
+            ...values
+          }
+        });
       }),
     [form, router]
   );
   return (
-    <form className={classes.form} onSubmit={onSubmit}>
+    <div className={classes.root}>
       <InputSection />
-      <MainSection />
-      <BottomSection />
-    </form>
+      <form className={classes.root} onSubmit={onSubmit}>
+        <MainSection />
+        <BottomSection />
+      </form>
+    </div>
   );
 };
 

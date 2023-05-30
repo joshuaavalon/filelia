@@ -1,27 +1,19 @@
 import { useCallback, useState } from "react";
-import { Autocomplete, createStyles } from "@mantine/core";
+import { ActionIcon, Autocomplete } from "@mantine/core";
+import { TbSend } from "react-icons/tb";
+import { useSearchCondFormContext } from "./context";
 
 import type { FC } from "react";
 import type { Tag } from "@prisma/client";
 
-const useStyles = createStyles(theme => ({
-  input: {
-    marginBottom: theme.spacing.md
-  }
-}));
+export interface Props {}
 
-export interface Props {
-  value: string;
-  setValue: (value: string) => void;
-}
-
-const Component: FC<Props> = props => {
-  const { value, setValue } = props;
+const Component: FC<Props> = () => {
   const [data, setData] = useState<string[]>([]);
-  const { classes } = useStyles();
+  const form = useSearchCondFormContext();
   const onAutocompleteChange = useCallback(
     (value: string) => {
-      setValue(value);
+      form.setFieldValue("search", value);
       const query = new URLSearchParams();
       query.append("keyword", value);
       fetch("/api/tags?" + query.toString(), { method: "GET" })
@@ -34,19 +26,23 @@ const Component: FC<Props> = props => {
           setData([]);
         });
     },
-    [setValue]
+    [form]
   );
   return (
     <Autocomplete
       data={data}
-      onChange={onAutocompleteChange}
-      value={value}
       placeholder="Search"
       limit={10}
-      className={classes.input}
+      {...form.getInputProps("search")}
+      onChange={onAutocompleteChange}
+      rightSection={
+        <ActionIcon variant="transparent" type="submit">
+          <TbSend />
+        </ActionIcon>
+      }
     />
   );
 };
 
-Component.displayName = "SearchPage/Aside/InputSection/Input";
+Component.displayName = "SearchPage/Aside/InputSection/SearchInput";
 export default Component;
