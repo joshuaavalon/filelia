@@ -45,7 +45,11 @@ export async function createServer(config: Config) {
     fastify.addHook("onRequest", async req => {
       req.raw.fastify = () => req.server;
     });
-    await fastify.register(nextPlugin, { dir: "packages/next" });
+    await fastify.register(nextPlugin, {
+      dir: "packages/next",
+      // https://github.com/vercel/next.js/issues/50315
+      customServer: false
+    });
     fastify.after(() => {
       fastify.next("/");
       fastify.next("/search");

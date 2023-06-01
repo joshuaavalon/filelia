@@ -9,8 +9,17 @@ import BottomSection from "./bottom-section";
 import type { FC } from "react";
 
 const useStyles = createStyles({
-  root: { display: "flex", flexDirection: "column", height: "100%" },
-  form: { display: "flex", flexDirection: "column", flex: 1 }
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%"
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    overflow: "hidden"
+  }
 });
 
 export interface Props {}
@@ -24,7 +33,6 @@ const Component: FC<Props> = () => {
       form.onSubmit(values => {
         router.push({
           query: {
-            ...router.query,
             ...values
           }
         });
@@ -34,7 +42,7 @@ const Component: FC<Props> = () => {
   return (
     <div className={classes.root}>
       <InputSection />
-      <form className={classes.root} onSubmit={onSubmit}>
+      <form className={classes.form} onSubmit={onSubmit}>
         <MainSection />
         <BottomSection />
       </form>
