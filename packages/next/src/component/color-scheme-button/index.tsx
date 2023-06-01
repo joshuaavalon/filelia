@@ -1,11 +1,10 @@
 import { ActionIcon, useMantineColorScheme } from "@mantine/core";
-import { TbMoonStars, TbSun } from "react-icons/tb";
+import { IconMoonStars, IconSun } from "@tabler/icons-react";
 
 import type { FC } from "react";
 import type { ActionIconProps, MantineNumberSize } from "@mantine/core";
 
 export interface Props {
-  iconSize?: string | number;
   buttonSize?: MantineNumberSize;
   variant?: ActionIconProps["variant"];
   color?: ActionIconProps["color"];
@@ -13,13 +12,13 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { iconSize, buttonSize, variant, className, color } = props;
+  const { buttonSize, variant, className, color } = props;
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const icon =
     colorScheme === "dark" ? (
-      <TbSun size={iconSize} style={{ width: "75%", height: "75%" }} />
+      <IconSun size="1rem" />
     ) : (
-      <TbMoonStars size={iconSize} style={{ width: "75%", height: "75%" }} />
+      <IconMoonStars size="1rem" />
     );
   return (
     <ActionIcon

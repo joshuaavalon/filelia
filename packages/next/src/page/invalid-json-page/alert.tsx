@@ -1,5 +1,5 @@
 import { Alert } from "@mantine/core";
-import { TbAlertCircle } from "react-icons/tb";
+import { IconAlertCircle } from "@tabler/icons-react";
 
 import type { FC } from "react";
 import type { Project } from "#type";
@@ -11,7 +11,7 @@ export interface Props {
 const Component: FC<Props> = props => {
   const { project } = props;
   return (
-    <Alert icon={<TbAlertCircle size="1rem" />} title="Error" color="red">
+    <Alert icon={<IconAlertCircle size="1rem" />} title="Error" color="red">
       The JSON does not match the schema.
       <br />
       <br />

@@ -1,5 +1,5 @@
 import { Badge, Center } from "@mantine/core";
-import { TbHash } from "react-icons/tb";
+import { IconHash } from "@tabler/icons-react";
 
 import type { FC } from "react";
 
@@ -14,7 +14,7 @@ const Component: FC<Props> = props => {
       size="lg"
       leftSection={
         <Center>
-          <TbHash />
+          <IconHash />
         </Center>
       }
       radius="sm"

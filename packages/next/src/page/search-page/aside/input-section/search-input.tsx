@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { ActionIcon, Autocomplete } from "@mantine/core";
-import { TbSend } from "react-icons/tb";
+import { IconSend } from "@tabler/icons-react";
 import { useSearchCondFormContext } from "./context";
 
 import type { FC } from "react";
@@ -37,7 +37,7 @@ const Component: FC<Props> = () => {
       onChange={onAutocompleteChange}
       rightSection={
         <ActionIcon variant="transparent" type="submit">
-          <TbSend />
+          <IconSend />
         </ActionIcon>
       }
     />

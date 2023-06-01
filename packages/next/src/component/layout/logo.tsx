@@ -1,5 +1,5 @@
 import { Flex, ThemeIcon, Title } from "@mantine/core";
-import { TbFileLambda } from "react-icons/tb";
+import { IconFileLambda } from "@tabler/icons-react";
 
 import type { FC } from "react";
 
@@ -15,7 +15,7 @@ const Component: FC<Props> = () => (
     sx={{ cursor: "pointer", flex: 1 }}
   >
     <ThemeIcon size="lg">
-      <TbFileLambda size="1.625rem" />
+      <IconFileLambda size="1.625rem" />
     </ThemeIcon>
     <Title>Filelia</Title>
   </Flex>

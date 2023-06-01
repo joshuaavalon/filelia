@@ -1,4 +1,4 @@
-import { TbHash, TbKey } from "react-icons/tb";
+import { IconHash, IconKey } from "@tabler/icons-react";
 import CollapsePanel from "#component/collapse-panel";
 import Context from "./context";
 import TagCloud from "./tag-cloud";
@@ -17,7 +17,7 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { sx, className, title, valueKey: key, type } = props;
-  const icon = type === "tag" ? <TbHash /> : <TbKey />;
+  const icon = type === "tag" ? <IconHash /> : <IconKey />;
   return (
     <Context.Provider value={{ key, type }}>
       <CollapsePanel title={title} icon={icon} sx={sx} className={className}>

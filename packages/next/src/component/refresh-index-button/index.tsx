@@ -1,13 +1,12 @@
 import { useCallback } from "react";
 import { ActionIcon } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { TbRefresh } from "react-icons/tb";
+import { IconRefresh } from "@tabler/icons-react";
 
 import type { FC, MouseEventHandler } from "react";
 import type { ActionIconProps, MantineNumberSize } from "@mantine/core";
 
 export interface Props {
-  iconSize?: string | number;
   buttonSize?: MantineNumberSize;
   variant?: ActionIconProps["variant"];
   color?: ActionIconProps["color"];
@@ -15,7 +14,7 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { iconSize, buttonSize, variant, className, color } = props;
+  const { buttonSize, variant, className, color } = props;
   const onClick: MouseEventHandler<HTMLButtonElement> = useCallback(async e => {
     e.preventDefault();
     const res = await fetch("/api/refresh", { method: "POST" });
@@ -50,7 +49,7 @@ const Component: FC<Props> = props => {
       title="Refresh index"
       onClick={onClick}
     >
-      <TbRefresh size={iconSize} style={{ width: "75%", height: "75%" }} />
+      <IconRefresh size="1rem" />
     </ActionIcon>
   );
 };

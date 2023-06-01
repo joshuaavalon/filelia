@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { Input, Switch } from "@mantine/core";
-import { TbLanguage, TbLanguageOff } from "react-icons/tb";
+import { IconLanguage, IconLanguageOff } from "@tabler/icons-react";
 
 import type { ChangeEventHandler, FC, ReactNode } from "react";
 
@@ -32,8 +32,8 @@ const Component: FC<Props> = props => {
         <Switch
           checked={caseSensitive}
           size="sm"
-          onLabel={<TbLanguage size="1rem" />}
-          offLabel={<TbLanguageOff size="1rem" />}
+          onLabel={<IconLanguage size="1rem" />}
+          offLabel={<IconLanguageOff size="1rem" />}
           onChange={onSwitchCHange}
         />
       }

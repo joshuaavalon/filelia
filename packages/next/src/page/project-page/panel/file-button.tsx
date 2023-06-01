@@ -1,7 +1,7 @@
 import { useCallback, useContext, useMemo } from "react";
 import { ActionIcon } from "@mantine/core";
 import { spotlight, SpotlightProvider } from "@mantine/spotlight";
-import { TbFolder, TbSearch } from "react-icons/tb";
+import { IconFolder, IconSearch } from "@tabler/icons-react";
 import filterPredicate from "#utils/filter-predicate";
 import joinUrl from "#utils/url-join";
 import Context from "../context";
@@ -42,7 +42,7 @@ const Component: FC<Props> = () => {
   return (
     <SpotlightProvider
       actions={actions}
-      searchIcon={<TbSearch size="1.2rem" />}
+      searchIcon={<IconSearch size="1.2rem" />}
       searchPlaceholder="Search"
       nothingFoundMessage="Nothing found"
       filter={filter}
@@ -50,7 +50,7 @@ const Component: FC<Props> = () => {
       highlightQuery
     >
       <ActionIcon title="File" size="lg" variant="default" onClick={onClick}>
-        <TbFolder size="1.625rem" />
+        <IconFolder size="1rem" />
       </ActionIcon>
     </SpotlightProvider>
   );

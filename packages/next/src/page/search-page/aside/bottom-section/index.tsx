@@ -1,5 +1,5 @@
 import { Box, Button, createStyles, rem } from "@mantine/core";
-import { TbSearch } from "react-icons/tb";
+import { IconSearch } from "@tabler/icons-react";
 
 import type { FC } from "react";
 
@@ -29,7 +29,7 @@ const Component: FC<Props> = () => {
       <Box className={classes.box}>
         <Button
           className={classes.button}
-          leftIcon={<TbSearch size="1rem" />}
+          leftIcon={<IconSearch size="1rem" />}
           type="submit"
         >
           Search

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useRouter } from "next/router";
-import { TbSearch } from "react-icons/tb";
+import { IconSearch } from "@tabler/icons-react";
 import LinkButton from "./link-button";
 
 import type { FC } from "react";
@@ -13,7 +13,11 @@ const Component: FC<Props> = () => {
     router.push("/search");
   }, [router]);
   return (
-    <LinkButton icon={<TbSearch />} color="blue" onClick={onClick}>
+    <LinkButton
+      icon={<IconSearch size="1rem" />}
+      color="blue"
+      onClick={onClick}
+    >
       Search
     </LinkButton>
   );

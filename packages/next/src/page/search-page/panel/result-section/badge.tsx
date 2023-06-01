@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useFormContext } from "#page/search-page/context";
 import { Badge, Center, createStyles } from "@mantine/core";
-import { TbHash } from "react-icons/tb";
+import { IconHash } from "@tabler/icons-react";
 
 import type { FC, MouseEventHandler } from "react";
 import type { Tag } from "@prisma/client";
@@ -33,7 +33,7 @@ const Component: FC<Props> = props => {
     <Badge
       leftSection={
         <Center>
-          <TbHash size="1rem" />
+          <IconHash size="1rem" />
         </Center>
       }
       className={classes.root}

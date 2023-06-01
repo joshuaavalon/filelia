@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { TbList } from "react-icons/tb";
+import { IconList } from "@tabler/icons-react";
 import CollapsePanel from "#component/collapse-panel";
 import Items from "./items";
 import { getActiveElement, notEmpty } from "./utils";
@@ -38,7 +38,7 @@ const Component: FC<Props> = props => {
   return (
     <CollapsePanel
       title="Table of contents"
-      icon={<TbList />}
+      icon={<IconList />}
       sx={sx}
       className={className}
     >

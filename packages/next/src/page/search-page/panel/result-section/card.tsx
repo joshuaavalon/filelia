@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useRouter } from "next/router";
 import { Card, createStyles, Flex, Grid, Group, Text } from "@mantine/core";
-import { TbCalendar } from "react-icons/tb";
+import { IconCalendar } from "@tabler/icons-react";
 import Badge from "./badge";
 import Preview from "./preview";
 
@@ -41,7 +41,7 @@ const Component: FC<Props> = props => {
         <Group position="apart">
           <Text weight={500}>{project.name}</Text>
           <Group>
-            <TbCalendar />
+            <IconCalendar />
             <Text weight={500}>{project.updatedAt}</Text>
           </Group>
         </Group>

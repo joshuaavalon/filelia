@@ -1,5 +1,5 @@
 import { Button, createStyles } from "@mantine/core";
-import { TbChevronUp } from "react-icons/tb";
+import { IconChevronUp } from "@tabler/icons-react";
 
 import type { FC, MouseEventHandler, ReactNode } from "react";
 
@@ -38,7 +38,7 @@ const Component: FC<Props> = props => {
       variant="default"
       leftIcon={icon}
       classNames={classes}
-      rightIcon={<TbChevronUp />}
+      rightIcon={<IconChevronUp />}
     >
       {label}
     </Button>

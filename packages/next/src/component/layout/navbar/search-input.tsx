@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/router";
 import { Input } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { TbSearch } from "react-icons/tb";
+import { IconSearch } from "@tabler/icons-react";
 
 import type { FC } from "react";
 
@@ -25,7 +25,7 @@ const Component: FC<Props> = () => {
   return (
     <form onSubmit={onSubmit}>
       <Input
-        icon={<TbSearch />}
+        icon={<IconSearch size="1rem" />}
         placeholder="Search"
         {...form.getInputProps("search")}
       />

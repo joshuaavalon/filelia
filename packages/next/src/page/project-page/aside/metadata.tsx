@@ -1,5 +1,5 @@
 import { useContext, useMemo } from "react";
-import { TbBinaryTree2, TbCalendar } from "react-icons/tb";
+import { IconBinaryTree2, IconCalendar } from "@tabler/icons-react";
 import ListPanel from "#component/list-panel";
 import Context from "../context";
 
@@ -21,12 +21,12 @@ const Component: FC<Props> = props => {
       {
         key: "Created At",
         value: data.createdAt,
-        icon: <TbCalendar />
+        icon: <IconCalendar size="1rem" />
       },
       {
         key: "Updated At",
         value: data.updatedAt,
-        icon: <TbCalendar />
+        icon: <IconCalendar size="1rem" />
       }
     );
     return items;
@@ -34,7 +34,7 @@ const Component: FC<Props> = props => {
   return (
     <ListPanel
       title="Metadata"
-      icon={<TbBinaryTree2 />}
+      icon={<IconBinaryTree2 />}
       items={items}
       className={className}
     />

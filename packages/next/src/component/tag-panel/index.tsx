@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { TbTags } from "react-icons/tb";
+import { IconTags } from "@tabler/icons-react";
 import CollapsePanel from "#component/collapse-panel";
 import FilterInput from "#component/filter-input";
-import { TbHash } from "react-icons/tb";
+import { IconHash } from "@tabler/icons-react";
 import TagCloud from "./tag-cloud";
 
 import type { FC } from "react";
@@ -19,13 +19,18 @@ const Component: FC<Props> = props => {
   const [filter, setFilter] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(true);
   return (
-    <CollapsePanel title="Tags" icon={<TbTags />} sx={sx} className={className}>
+    <CollapsePanel
+      title="Tags"
+      icon={<IconTags />}
+      sx={sx}
+      className={className}
+    >
       <FilterInput
         filter={filter}
         setFilter={setFilter}
         caseSensitive={caseSensitive}
         setCaseSensitive={setCaseSensitive}
-        icon={<TbHash />}
+        icon={<IconHash />}
       />
       <TagCloud tags={tags} filter={filter} caseSensitive={caseSensitive} />
     </CollapsePanel>
