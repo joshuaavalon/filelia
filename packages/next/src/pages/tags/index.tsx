@@ -27,20 +27,30 @@ export default function Page(props: Props): JSX.Element {
   );
 }
 
+function getCurrentPage(pageQuery: string[]): number {
+  if (pageQuery.length < 1) {
+    return 1;
+  }
+  try {
+    const p = parseInt(pageQuery[pageQuery.length - 1]);
+    return isNaN(p) || p - 1 < 1 ? 1 : p;
+  } catch {
+    return 1;
+  }
+}
+
 function arraysNotEmpty(...arrays: string[][]): boolean {
   return arrays.some(arr => arr.length > 0);
 }
 
 interface Query {
-  andTags: string[];
-  orTags: string[];
-  notTags: string[];
-  andKeywords: string[];
-  orKeywords: string[];
-  notKeywords: string[];
+  size: string[];
+  filters: string[];
+  globalFilter: string[];
+  sorting: string[];
 }
 
-function mapWhere(query: Query): Prisma.ProjectWhereInput {
+function mapWhere(query: Query): Prisma.TagWhereInput {
   const { andTags, orTags, notTags, andKeywords, orKeywords, notKeywords } =
     query;
   const wheres: Prisma.ProjectWhereInput[] = [];
@@ -101,14 +111,13 @@ async function getCount(
 export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
   const { req, query } = ctx;
   const {
-    andTags = [],
-    orTags = [],
-    notTags = [],
-    andKeywords = [],
-    orKeywords = [],
-    notKeywords = []
+    filters = [],
+    globalFilter = [],
+    sorting = [],
+    page: pageQuery = []
   } = mapQuery(query);
   const page = parseQueryInt(query.page, { gte: 1, default: 1 });
+  const size = parseQueryInt(query.size, { gte: 10, lte: 50, default: 10 });
   let totalPage = 0;
 
   let projects: SearchProject[] = [];
