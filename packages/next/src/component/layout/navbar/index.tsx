@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { createStyles, Navbar, ScrollArea, Text } from "@mantine/core";
+import { createStyles, Navbar, ScrollArea } from "@mantine/core";
 import { useResizing } from "#hook";
 import SearchInput from "./search-input";
 import Buttons from "./buttons";

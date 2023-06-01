@@ -17,7 +17,16 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { result, description } = props;
-  const [toc, setToc] = useState<TableOfContentItem[]>([]);
+  const items: TableOfContentItem[] = [];
+  if (result.data.gallery.length > 0) {
+    items.push({
+      href: "#gallery",
+      label: "Gallery",
+      order: 1
+    });
+  }
+  items.push({ href: "#description", label: "Description", order: 1 });
+  const [toc, setToc] = useState<TableOfContentItem[]>(items);
   return (
     <Context.Provider value={{ result, description }}>
       <Layout aside={<Aside toc={toc} />}>

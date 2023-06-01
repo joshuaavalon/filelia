@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Metadata from "#component/metadata";
 import Layout from "#component/layout";
 import mapQuery from "#utils/map-query";
@@ -31,6 +31,11 @@ const Component: FC<Props> = props => {
     return { andTags, orTags, notTags, andKeywords, orKeywords, notKeywords };
   }, [query]);
   const form = useForm({ initialValues });
+  useEffect(() => {
+    // Force Update
+    form.setValues(initialValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues]);
   return (
     <FormProvider form={form}>
       <Layout aside={<Aside />} asideScrollable={false}>

@@ -120,7 +120,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
     notKeywords = [],
     page: pageQuery = []
   } = mapQuery(query);
-
   const page = getCurrentPage(pageQuery);
   let totalPage = 0;
 
@@ -147,7 +146,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
       orKeywords,
       notKeywords
     });
-    console.log(JSON.stringify(where, null, 2));
     const [count, result] = await Promise.all([
       getCount(db, where),
       db.project.findMany({
