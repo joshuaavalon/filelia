@@ -1,16 +1,28 @@
-import { useCallback, useState } from "react";
+import { useContext, useMemo } from "react";
 import { useRouter } from "next/router";
-import type {
-  MantineReactTableProps,
-  MRT_ColumnDef,
-  MRT_ColumnFiltersState,
-  MRT_PaginationState,
-  MRT_SortingState
-} from "mantine-react-table";
 import { MantineReactTable } from "mantine-react-table";
+import Context from "../context";
 
 import type { FC } from "react";
+import type { MRT_ColumnDef, MRT_Updater } from "mantine-react-table";
 import type { SearchTag } from "#type";
+
+function isUpdateFn<T>(fn: unknown): fn is (old: T) => T {
+  return typeof fn === "function";
+}
+
+function onChange<T>(
+  value: T,
+  fn: (value: T) => void
+): (updater: MRT_Updater<T>) => void {
+  return updater => {
+    if (isUpdateFn<T>(updater)) {
+      fn(updater(value));
+    } else {
+      fn(updater);
+    }
+  };
+}
 
 function getRowId(tag: SearchTag): string {
   return tag.id;
@@ -23,49 +35,65 @@ const columns: MRT_ColumnDef<SearchTag>[] = [
   },
   {
     accessorKey: "projectCount",
-    header: "Count"
+    header: "Project Count"
   }
 ];
 
-export interface Props {
-  tags: SearchTag[];
-  page: number;
-  totalPage: number;
-}
+export interface Props {}
 
-const Component: FC<Props> = props => {
-  const { tags, totalPage, page } = props;
-  const [rowCount, setRowCount] = useState(0);
-  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
-    []
-  );
-  const [globalFilter, setGlobalFilter] = useState("");
-  const [sorting, setSorting] = useState<MRT_SortingState>([]);
-  const [pagination, setPagination] = useState<MRT_PaginationState>({
-    pageIndex: 0,
-    pageSize: 10
-  });
+const Component: FC<Props> = () => {
+  const { rowCount, tags, columnFilters, globalFilter, sorting, pagination } =
+    useContext(Context);
   const router = useRouter();
-  const onPageChange = useCallback(
-    (page: number) => {
-      const query = { ...router.query, page };
-      router.push({ query });
-    },
-    [router]
+  const onColumnFiltersChange = useMemo(
+    () =>
+      onChange(columnFilters, filters => {
+        const query = { ...router.query, filters: JSON.stringify(filters) };
+        router.push({ query });
+      }),
+    [columnFilters, router]
+  );
+  const onGlobalFilterChange = useMemo(
+    () =>
+      onChange(globalFilter, filter => {
+        const query = { ...router.query, globalFilter: filter };
+        router.push({ query });
+      }),
+    [globalFilter, router]
+  );
+  const onPaginationChange = useMemo(
+    () =>
+      onChange(pagination, p => {
+        const query = {
+          ...router.query,
+          size: p.pageSize,
+          page: p.pageIndex + 1
+        };
+        router.push({ query });
+      }),
+    [pagination, router]
+  );
+  const onSortingChange = useMemo(
+    () =>
+      onChange(sorting, s => {
+        const query = { ...router.query, sorting: JSON.stringify(s) };
+        router.push({ query });
+      }),
+    [sorting, router]
   );
   return (
     <MantineReactTable
       columns={columns}
       data={tags}
-      initialState={{ showColumnFilters: true }}
       getRowId={getRowId}
+      initialState={{ density: "xs" }}
       manualFiltering
       manualPagination
       manualSorting
-      onColumnFiltersChange={setColumnFilters}
-      onGlobalFilterChange={setGlobalFilter}
-      onPaginationChange={setPagination}
-      onSortingChange={setSorting}
+      onColumnFiltersChange={onColumnFiltersChange}
+      onGlobalFilterChange={onGlobalFilterChange}
+      onPaginationChange={onPaginationChange}
+      onSortingChange={onSortingChange}
       rowCount={rowCount}
       state={{
         columnFilters,
@@ -76,6 +104,19 @@ const Component: FC<Props> = props => {
         showProgressBars: false, // isRefetching,
         sorting
       }}
+      enableFullScreenToggle={false}
+      mantineTableBodyRowProps={({ row }) => ({
+        onClick: () => {
+          const tag = tags.find(tag => tag.id === row.id);
+          if (!tag) {
+            return;
+          }
+          router.push({ pathname: "/search", query: { andTags: tag.name } });
+        },
+        sx: {
+          cursor: "pointer"
+        }
+      })}
     />
   );
 };

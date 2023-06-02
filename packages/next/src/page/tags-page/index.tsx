@@ -1,26 +1,45 @@
 import Metadata from "#component/metadata";
 import Layout from "#component/layout";
 import Panel from "./panel";
+import Context from "./context";
 
 import type { FC } from "react";
-import type { ParsedUrlQuery } from "querystring";
+import type {
+  MRT_ColumnFiltersState,
+  MRT_PaginationState,
+  MRT_SortingState
+} from "mantine-react-table";
 import type { SearchTag } from "#type";
 
 export interface Props {
+  columnFilters: MRT_ColumnFiltersState;
+  globalFilter: string;
+  sorting: MRT_SortingState;
+  pagination: MRT_PaginationState;
   tags: SearchTag[];
-  query: ParsedUrlQuery;
-  page: number;
-  totalPage: number;
+  rowCount: number;
 }
 
 const Component: FC<Props> = props => {
-  const { tags, query, page, totalPage } = props;
+  const { tags, columnFilters, globalFilter, sorting, pagination, rowCount } =
+    props;
 
   return (
-    <Layout>
-      <Metadata title="Tags" />
-      <Panel tags={tags} page={page} totalPage={totalPage} />
-    </Layout>
+    <Context.Provider
+      value={{
+        tags,
+        columnFilters,
+        globalFilter,
+        sorting,
+        pagination,
+        rowCount
+      }}
+    >
+      <Layout>
+        <Metadata title="Tags" />
+        <Panel />
+      </Layout>
+    </Context.Provider>
   );
 };
 

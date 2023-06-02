@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useRouter } from "next/router";
-import { IconSearch } from "@tabler/icons-react";
+import { IconTags } from "@tabler/icons-react";
 import LinkButton from "./link-button";
 
 import type { FC } from "react";
@@ -10,18 +10,14 @@ export interface Props {}
 const Component: FC<Props> = () => {
   const router = useRouter();
   const onClick = useCallback(() => {
-    router.push("/search");
+    router.push("/tags");
   }, [router]);
   return (
-    <LinkButton
-      icon={<IconSearch size="1rem" />}
-      color="blue"
-      onClick={onClick}
-    >
-      Search
+    <LinkButton icon={<IconTags size="1rem" />} color="blue" onClick={onClick}>
+      Tags
     </LinkButton>
   );
 };
 
-Component.displayName = "SearchButton";
+Component.displayName = "TagsButton";
 export default Component;

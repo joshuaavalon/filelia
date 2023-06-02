@@ -23,13 +23,12 @@
     "incremental": true,
     "plugins": [{ "name": "next" }],
     "paths": {
-      "#component/*": ["src/component/*/index.tsx"],
-      "#page/*/context": ["src/page/*/context.ts"],
-      "#page/*": ["src/page/*/index.tsx"],
-      "#provider/*": ["src/provider/*/index.tsx"],
-      "#hook": ["src/hook/index.ts"],
-      "#type": ["src/type/index.ts"],
-      "#utils/*": ["src/utils/*.ts"],
+      "#component/*": ["src/component/*"],
+      "#page/*": ["src/page/*"],
+      "#provider/*": ["src/provider/*"],
+      "#hook": ["src/hook"],
+      "#type": ["src/type"],
+      "#utils/*": ["src/utils/*"],
       "#emotion": ["src/emotion.ts"]
     }
   },

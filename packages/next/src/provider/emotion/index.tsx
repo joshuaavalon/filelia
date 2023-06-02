@@ -19,13 +19,12 @@ const Component: FC<Props> = props => {
         emotionCache={emotionCache}
         theme={{
           fontFamily:
-            "-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, 'Noto Sans JP', 'Noto Sans TC', sans-serif, Apple Color Emoji, Segoe UI Emoji",
+            "-apple-system, BlinkMacSystemFont, 'Noto Sans JP', 'Noto Sans TC', Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji",
           headings: {
             fontFamily:
-              "-apple-system, BlinkMacSystemFont,Segoe UI, Roboto, Helvetica, Arial, 'Noto Sans JP', 'Noto Sans TC', sans-serif, Apple Color Emoji, Segoe UI Emoji"
+              "-apple-system, BlinkMacSystemFont, 'Noto Sans JP', 'Noto Sans TC', Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji"
           },
-          colorScheme,
-          components: { Title: { styles: { root: { color: "#fff" } } } }
+          colorScheme
         }}
       >
         {children}

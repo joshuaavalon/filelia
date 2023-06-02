@@ -1,101 +1,64 @@
-import SearchPage from "#page/search-page";
+import { Type } from "@sinclair/typebox";
+import TagsPage from "#page/tags-page";
 import getColorScheme from "#utils/get-color-scheme";
-import mapQuery from "#utils/map-query";
-import parseQueryInt from "#utils/query/parse-query-int";
+import { parseQueryInt, parseQueryJson, parseQueryString } from "#utils/query";
 
-import type { ParsedUrlQuery } from "querystring";
 import type { GetServerSideProps } from "next";
 import type { Prisma, PrismaClient } from "@prisma/client";
-import type { SearchProject } from "#type";
+import type {
+  MRT_ColumnFiltersState,
+  MRT_PaginationState,
+  MRT_SortingState
+} from "mantine-react-table";
+import type { SearchTag } from "#type";
 
 interface Props {
-  query: ParsedUrlQuery;
-  projects: SearchProject[];
-  page: number;
-  totalPage: number;
+  filters: MRT_ColumnFiltersState;
+  globalFilter: string;
+  sorting: MRT_SortingState;
+  pagination: MRT_PaginationState;
+  tags: SearchTag[];
+  rowCount: number;
 }
 
 export default function Page(props: Props): JSX.Element {
-  const { query, projects, page, totalPage } = props;
+  const { filters, globalFilter, pagination, sorting, tags, rowCount } = props;
   return (
-    <SearchPage
-      query={query}
-      projects={projects}
-      page={page}
-      totalPage={totalPage}
+    <TagsPage
+      columnFilters={filters}
+      globalFilter={globalFilter}
+      pagination={pagination}
+      sorting={sorting}
+      tags={tags}
+      rowCount={rowCount}
     />
   );
 }
 
-function getCurrentPage(pageQuery: string[]): number {
-  if (pageQuery.length < 1) {
-    return 1;
-  }
-  try {
-    const p = parseInt(pageQuery[pageQuery.length - 1]);
-    return isNaN(p) || p - 1 < 1 ? 1 : p;
-  } catch {
-    return 1;
-  }
-}
+const filtersSchema = Type.Array(
+  Type.Object({ id: Type.String(), value: Type.Unknown() })
+);
 
-function arraysNotEmpty(...arrays: string[][]): boolean {
-  return arrays.some(arr => arr.length > 0);
-}
+const sortingSchema = Type.Array(
+  Type.Object({ id: Type.String(), desc: Type.Boolean() })
+);
 
 interface Query {
-  size: string[];
-  filters: string[];
-  globalFilter: string[];
-  sorting: string[];
+  filters: MRT_ColumnFiltersState;
+  globalFilter: string;
 }
 
 function mapWhere(query: Query): Prisma.TagWhereInput {
-  const { andTags, orTags, notTags, andKeywords, orKeywords, notKeywords } =
-    query;
-  const wheres: Prisma.ProjectWhereInput[] = [];
-  andTags.forEach(tag => {
-    wheres.push({
-      tags: { some: { name: { equals: tag } } }
-    });
+  const { filters, globalFilter } = query;
+  const wheres: Prisma.TagWhereInput[] = [];
+  filters.forEach(filter => {
+    if (filter.id === "name" && typeof filter.value === "string") {
+      wheres.push({ name: { contains: filter.value } });
+    }
   });
-  if (orTags.length > 0) {
-    wheres.push({
-      tags: {
-        some: { name: { in: orTags } }
-      }
-    });
+  if (globalFilter) {
+    wheres.push({ name: { contains: globalFilter } });
   }
-  if (notTags.length > 0) {
-    wheres.push({
-      tags: {
-        some: { name: { in: notTags } }
-      }
-    });
-  }
-  andKeywords.forEach(keyword => {
-    wheres.push({
-      OR: [
-        { name: { contains: keyword } },
-        { tags: { some: { name: { contains: keyword } } } }
-      ]
-    });
-  });
-  orKeywords.forEach(keyword => {
-    wheres.push({
-      OR: [
-        { name: { contains: keyword } },
-        { tags: { some: { name: { contains: keyword } } } }
-      ]
-    });
-  });
-  notKeywords.forEach(keyword => {
-    wheres.push({
-      name: { not: { contains: keyword } },
-      OR: [{ tags: { some: { name: { not: { contains: keyword } } } } }]
-    });
-  });
-
   return {
     AND: wheres
   };
@@ -103,97 +66,69 @@ function mapWhere(query: Query): Prisma.TagWhereInput {
 
 async function getCount(
   db: PrismaClient,
-  where: Prisma.ProjectWhereInput
+  where: Prisma.TagWhereInput
 ): Promise<number> {
-  return db.project.count({ where });
+  return db.tag.count({ where });
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
   const { req, query } = ctx;
-  const {
-    filters = [],
-    globalFilter = [],
-    sorting = [],
-    page: pageQuery = []
-  } = mapQuery(query);
+  const filters = parseQueryJson(query.filters, {
+    default: [],
+    schema: filtersSchema
+  });
+  const globalFilter = parseQueryString(query.globalFilter, { default: "" });
+  const sorting = parseQueryJson(query.sorting, {
+    default: [],
+    schema: sortingSchema
+  });
   const page = parseQueryInt(query.page, { gte: 1, default: 1 });
-  const size = parseQueryInt(query.size, { gte: 10, lte: 50, default: 10 });
-  let totalPage = 0;
-
-  let projects: SearchProject[] = [];
-
-  if (
-    arraysNotEmpty(
-      andTags,
-      orTags,
-      notTags,
-      andKeywords,
-      orKeywords,
-      notKeywords
-    )
-  ) {
-    const take = 10;
-    const skip = (page - 1) * take;
-    const { db, loadProject } = req.fastify();
-    const where = mapWhere({
-      andTags,
-      orTags,
-      notTags,
-      andKeywords,
-      orKeywords,
-      notKeywords
-    });
-    const [count, result] = await Promise.all([
-      getCount(db, where),
-      db.project.findMany({
-        include: {
-          _count: {
-            select: {
-              tags: { where: { name: { in: andTags, notIn: notTags } } }
-            }
-          },
-          tags: true
-        },
-        where,
-        take,
-        skip
-      })
-    ]);
-    totalPage = Math.ceil(count / take);
-    projects = await Promise.all(
-      result
-        .sort((a, b) => {
-          if (a._count.tags !== b._count.tags) {
-            return b._count.tags - a._count.tags;
+  const take = parseQueryInt(query.size, { gte: 5, lte: 100, default: 10 });
+  const skip = (page - 1) * take;
+  const { db } = req.fastify();
+  const where = mapWhere({
+    filters,
+    globalFilter
+  });
+  const [rowCount, tags] = await Promise.all([
+    getCount(db, where),
+    db.tag.findMany({
+      include: {
+        _count: {
+          select: {
+            projects: true
           }
-          if (a.updatedAt.getTime() !== b.updatedAt.getTime()) {
-            return b.updatedAt.getTime() - a.updatedAt.getTime();
+        }
+      },
+      where,
+      take,
+      skip,
+      orderBy: sorting
+        .filter(s => ["id", "name", "projectCount"].includes(s.id))
+        .map(s => {
+          if (s.id !== "projectCount") {
+            return { [s.id]: s.desc ? "asc" : "desc" };
           }
-          return b.createdAt.getTime() - a.createdAt.getTime();
+          return { projects: { _count: s.desc ? "asc" : "desc" } };
         })
-        .map(async r => {
-          const { id, path, tags, createdAt, updatedAt, name } = r;
-          const f = await loadProject(id);
-          return {
-            id,
-            path,
-            tags,
-            name,
-            createdAt: createdAt.toISOString().split("T")[0],
-            updatedAt: updatedAt.toISOString().split("T")[0],
-            data: f?.data
-          };
-        })
-    );
-  }
+    })
+  ]);
 
   return {
     props: {
-      query,
+      filters,
+      globalFilter,
+      sorting,
       colorScheme: getColorScheme(req),
-      projects,
-      totalPage,
-      page
+      tags: tags.map(({ _count, ...tag }) => ({
+        ...tag,
+        projectCount: _count.projects
+      })),
+      pagination: {
+        pageIndex: page - 1,
+        pageSize: take
+      },
+      rowCount
     }
   };
 };

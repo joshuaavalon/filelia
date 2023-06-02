@@ -3,7 +3,7 @@ import { createStyles, Navbar, ScrollArea } from "@mantine/core";
 import { useResizing } from "#hook";
 import SearchInput from "./search-input";
 import Buttons from "./buttons";
-import SearchButton from "./search-button";
+import TagsButton from "./tags-button";
 
 import type { CSSProperties, FC } from "react";
 import type { Disclosure } from "../type";
@@ -46,7 +46,7 @@ const Component: FC<Props> = () => {
           <SearchInput />
         </Navbar.Section>
         <Navbar.Section grow component={ScrollArea} px="md">
-          <SearchButton />
+          <TagsButton />
         </Navbar.Section>
         <Navbar.Section p="md">
           <Buttons />

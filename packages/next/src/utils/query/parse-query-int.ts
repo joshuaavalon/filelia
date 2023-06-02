@@ -1,6 +1,6 @@
 import isNil from "#utils/is-nil";
 
-interface ParseQueryIntOptions {
+interface Options {
   lt?: number;
   lte?: number;
   gt?: number;
@@ -12,7 +12,7 @@ interface ParseQueryIntOptions {
   first?: boolean;
 }
 
-function parse(query: string, opts: ParseQueryIntOptions): number {
+function parse(query: string, opts: Options): number {
   const { lt, lte, gt, gte, default: defaultValue } = opts;
   try {
     const num = parseInt(query);
@@ -39,7 +39,7 @@ function parse(query: string, opts: ParseQueryIntOptions): number {
 
 export default function parseQueryInt(
   query: string | string[] | undefined,
-  opts: ParseQueryIntOptions
+  opts: Options
 ): number {
   const { default: defaultValue, first } = opts;
   if (!query) {

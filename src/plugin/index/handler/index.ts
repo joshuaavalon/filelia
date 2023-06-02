@@ -1,3 +1,4 @@
+import { access, constants } from "node:fs/promises";
 import { ValidationError } from "#error";
 import project from "./project.js";
 import FileIndexer from "./file-indexer.js";
@@ -24,4 +25,22 @@ export async function indexJson(opts: IndexJsonOptions): Promise<void> {
     }
     await project.insert(opts, { data: result.data, path: result.path });
   }
+
+  const projects = await fastify.db.project.findMany({
+    select: { id: true, path: true }
+  });
+  const projectIds = await Promise.all(
+    projects.map(async project => {
+      try {
+        await access(project.path, constants.F_OK);
+        return undefined;
+      } catch (err) {
+        return project.id;
+      }
+    })
+  );
+  const ids = projectIds.filter(id => Boolean(id)) as string[];
+  await fastify.db.project.deleteMany({
+    where: { id: { in: ids } }
+  });
 }
