@@ -15,7 +15,7 @@ COPY prisma /app/prisma/
 COPY packages /app/packages/
 COPY package.json tsconfig.json package-lock.json /app/
 
-RUN npm ci && \
+RUN npm ci --include=dev && \
     npm run db:generate && \
     npm run build:prod
 
