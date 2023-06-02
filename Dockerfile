@@ -33,7 +33,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY --from=builder /app/dist /app/dist/
 COPY --from=builder /app/packages/next/.next/static /app/packages/next/.next/static/
-COPY --from=builder /app/packages/next/.next/standalone /app/packages/next/
+COPY --from=builder /app/packages/next/.next/standalone /app/
 COPY prisma /app/prisma/
 COPY package.json package-lock.json /app/
 COPY docker/root/ /
