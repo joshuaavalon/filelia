@@ -32,7 +32,7 @@ export async function indexJson(opts: IndexJsonOptions): Promise<void> {
   const projectIds = await Promise.all(
     projects.map(async project => {
       try {
-        await access(project.path, constants.F_OK);
+        await access(project.path, constants.R_OK);
         return undefined;
       } catch (err) {
         return project.id;

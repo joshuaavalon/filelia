@@ -24,7 +24,7 @@ export default function initRoutes(server: Server): void {
       }
       const filePath = join(baseDir, path);
       try {
-        await access(filePath, constants.F_OK);
+        await access(filePath, constants.R_OK);
       } catch (err) {
         req.log.warn({ err }, "Failed to load file");
         return res.callNotFound();
