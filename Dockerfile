@@ -19,6 +19,8 @@ RUN npm ci --include=dev && \
     npm run db:generate && \
     npm run build:prod
 
+RUN rm -rf /app/packages/next/.next/cache
+
 FROM $BASE_IMAGE
 
 ARG OVERLAY_VERSION
@@ -32,8 +34,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY --from=builder /app/dist /app/dist/
-COPY --from=builder /app/packages/next/.next/static /app/packages/next/.next/static/
-COPY --from=builder /app/packages/next/.next/standalone /app/
+COPY --from=builder /app/packages/next /app/packages/next/
 COPY prisma /app/prisma/
 COPY package.json package-lock.json /app/
 COPY docker/root/ /
