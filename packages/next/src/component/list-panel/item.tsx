@@ -1,8 +1,15 @@
 import { createStyles, List, ThemeIcon } from "@mantine/core";
 
-import type { FC, ReactNode } from "react";
+import type { FC, MouseEventHandler, ReactNode } from "react";
 
-const useStyles = createStyles(theme => ({
+interface StyleProps {
+  onClick?: MouseEventHandler<HTMLLIElement>;
+}
+
+const useStyles = createStyles((theme, props: StyleProps) => ({
+  root: {
+    cursor: props.onClick ? "pointer" : undefined
+  },
   item: {
     display: "flex",
     flexDirection: "column",
@@ -30,6 +37,7 @@ export interface ListPanelItem {
   key: string;
   icon?: ReactNode;
   value: ReactNode;
+  onClick?: MouseEventHandler<HTMLLIElement>;
 }
 
 export interface Props {
@@ -38,11 +46,15 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const {
-    item: { key, icon, value }
+    item: { key, icon, value, onClick }
   } = props;
-  const { classes } = useStyles();
+  const { classes } = useStyles({ onClick });
   return (
-    <List.Item icon={<ThemeIcon variant="default">{icon}</ThemeIcon>}>
+    <List.Item
+      className={classes.root}
+      icon={<ThemeIcon variant="default">{icon}</ThemeIcon>}
+      onClick={onClick}
+    >
       <div className={classes.item}>
         <div className={classes.value}>{value}</div>
         <div className={classes.key}>{key}</div>

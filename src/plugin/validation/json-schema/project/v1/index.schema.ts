@@ -1,5 +1,6 @@
 import { Type } from "@sinclair/typebox";
 import { getId } from "#plugin/validation/json-schema/utils";
+import metadata from "./metadata.js";
 
 const type = "project" as const;
 
@@ -13,7 +14,8 @@ const schema = Type.Object(
     baseDir: Type.String({ default: "." }),
     gallery: Type.Array(Type.String()),
     files: Type.Array(Type.String()),
-    description: Type.String({ default: "README.md" })
+    description: Type.String({ default: "README.md" }),
+    metadata: Type.Array(metadata, { default: [] })
   },
   {
     title: "Project",
