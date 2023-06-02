@@ -1,16 +1,41 @@
 name: release
 on:
-  push:
+  pull_request:
     branches:
       - master
+    types:
+      - closed
 jobs:
   release-please:
+    if: "github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'autorelease: pending')"
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
+          token: ${{ secrets.PERSONAL_TOKEN }}
           release-type: node
+  page:
+    if: "github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'autorelease: pending')"
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run db:generate
+      - run: npm run build
+      - run: npm run json:generate
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: public
+      - id: deployment
+        uses: actions/deploy-pages@v2
