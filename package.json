@@ -89,6 +89,7 @@
   },
   "devDependencies": {
     "@garoudev/eslint-config": "^1.0.1",
+    "@types/js-yaml": "^4.0.5",
     "@types/node": "^20.2.5",
     "@types/uuid": "^9.0.1",
     "eslint-config-next": "^13.4.4",
@@ -110,6 +111,7 @@
     "fastify": "4.17.0",
     "fastify-plugin": "4.5.0",
     "image-type": "5.2.0",
+    "js-yaml": "4.1.0",
     "next": "^13.4.4",
     "pino-pretty": "10.0.0",
     "read-env-vars": "1.0.0",
