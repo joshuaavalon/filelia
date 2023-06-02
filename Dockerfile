@@ -19,6 +19,8 @@ RUN npm ci --include=dev && \
     npm run db:generate && \
     npm run build:prod
 
+RUN ls -la /app/packages/next/.next
+
 FROM $BASE_IMAGE
 
 ARG OVERLAY_VERSION
@@ -37,6 +39,8 @@ COPY --from=builder /app/packages/next/.next/standalone /app/packages/next/.next
 COPY prisma /app/prisma/
 COPY package.json package-lock.json /app/
 COPY docker/root/ /
+
+RUN ls -la /app/packages/next/.next
 
 RUN chmod +x /app/start.sh
 
