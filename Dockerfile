@@ -9,7 +9,7 @@ FROM $BASE_IMAGE as builder
 ARG OVERLAY_VERSION
 WORKDIR /app
 
-COPY src prisma/app/src/
+COPY src /app/src/
 COPY prisma /app/prisma/
 COPY packages /app/packages/
 COPY package.json tsconfig.json package-lock.json /app/
