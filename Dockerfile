@@ -14,7 +14,7 @@ COPY . /app/
 
 RUN npm ci && \
     npm run db:generate && \
-    npm run build
+    npm run build:prod
 
 ENV NPM_CONFIG_PREFIX=/app/.npm
 ENV NODE_ENV=production
