@@ -2,10 +2,10 @@ import { Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 
 import type { FC } from "react";
-import type { Project } from "#type";
+import type { LoadProjectResult } from "#type";
 
 export interface Props {
-  project: Project;
+  project: LoadProjectResult;
 }
 
 const Component: FC<Props> = props => {
@@ -15,7 +15,7 @@ const Component: FC<Props> = props => {
       The JSON does not match the schema.
       <br />
       <br />
-      {`${project.path}`}
+      {`${project.project.path}`}
     </Alert>
   );
 };

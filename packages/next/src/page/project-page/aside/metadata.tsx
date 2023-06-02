@@ -4,9 +4,9 @@ import {
   IconCalendar,
   IconQuestionMark
 } from "@tabler/icons-react";
-import * as Icons from "@tabler/icons-react";
 import ListPanel from "#component/list-panel";
 import Context from "../context";
+import * as Icons from "./icon";
 
 import type { FC, MouseEventHandler } from "react";
 import type { Icon } from "@tabler/icons-react";

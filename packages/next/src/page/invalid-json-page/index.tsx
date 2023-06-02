@@ -5,11 +5,11 @@ import TableOfContent from "#component/table-of-content";
 import Panel from "./panel";
 
 import type { FC } from "react";
-import type { Project } from "#type";
+import type { LoadProjectResult } from "#type";
 import type { TableOfContentItem } from "#component/table-of-content";
 
 export interface Props {
-  project: Project;
+  project: LoadProjectResult;
   json: unknown;
   schemaResult: {
     schema: unknown;
@@ -44,7 +44,7 @@ const Component: FC<Props> = props => {
         <TableOfContent items={toc} active={active} setActive={setActive} />
       }
     >
-      <Metadata title={project.title} />
+      <Metadata title={project.data.title} />
       <Panel project={project} json={json} schemaResult={schemaResult} />
     </Layout>
   );

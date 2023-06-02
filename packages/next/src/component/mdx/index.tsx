@@ -11,10 +11,10 @@ import type { MdxContextValue } from "./context";
 
 export type { SourceOptions } from "./context";
 
-const components: Exclude<MDXRemoteProps["components"], null | undefined> = {
-  code: Code,
-  img: Img,
-  Image,
+const components: Exclude<MDXRemoteProps["components"], undefined> = {
+  code: Code as any,
+  img: Img as any,
+  Image: Image as any,
   Center
 };
 

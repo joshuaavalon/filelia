@@ -4,10 +4,10 @@ import JsonSection from "#component/json-section";
 import Alert from "./alert";
 
 import type { FC } from "react";
-import type { Project } from "#type";
+import type { LoadProjectResult } from "#type";
 
 export interface Props {
-  project: Project;
+  project: LoadProjectResult;
   json: unknown;
   schemaResult: {
     schema: unknown;
