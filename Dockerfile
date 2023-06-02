@@ -28,9 +28,11 @@ WORKDIR /app
 
 ENV NPM_CONFIG_PREFIX=/app/.npm
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY --from=builder /app/dist /app/dist/
-COPY --from=builder /app/packages /app/packages/
+COPY --from=builder /app/packages/next/.next/static /app/packages/next/.next/static
+COPY --from=builder /app/packages/next/.next/standalone /app/packages/next/.next/standalone
 COPY prisma /app/prisma/
 COPY package.json package-lock.json /app/
 COPY docker/root/ /
