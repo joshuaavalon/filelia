@@ -12,6 +12,7 @@ import type {
 import type { SearchTag } from "#type";
 
 export interface Props {
+  className?: string;
   columnFilters: MRT_ColumnFiltersState;
   globalFilter: string;
   sorting: MRT_SortingState;
@@ -21,8 +22,15 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { tags, columnFilters, globalFilter, sorting, pagination, rowCount } =
-    props;
+  const {
+    tags,
+    columnFilters,
+    globalFilter,
+    sorting,
+    pagination,
+    rowCount,
+    className
+  } = props;
 
   return (
     <Context.Provider
@@ -35,7 +43,7 @@ const Component: FC<Props> = props => {
         rowCount
       }}
     >
-      <Layout>
+      <Layout className={className}>
         <Metadata title="Tags" />
         <Panel />
       </Layout>

@@ -9,6 +9,7 @@ import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import type { LoadProjectResult } from "#type";
 
 interface Props {
+  className?: string;
   result: LoadProjectResult;
   colorScheme: ColorScheme | null;
   description: MDXRemoteSerializeResult | null;
@@ -19,8 +20,14 @@ interface Params extends ParsedUrlQuery {
 }
 
 export default function Page(props: Props): JSX.Element {
-  const { result, description } = props;
-  return <ProjectPage result={result} description={description} />;
+  const { result, description, className } = props;
+  return (
+    <ProjectPage
+      result={result}
+      description={description}
+      className={className}
+    />
+  );
 }
 
 export const getServerSideProps: GetServerSideProps<

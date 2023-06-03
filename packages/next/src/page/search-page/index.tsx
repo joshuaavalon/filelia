@@ -11,6 +11,7 @@ import type { ParsedUrlQuery } from "querystring";
 import type { SearchProject } from "#type";
 
 export interface Props {
+  className?: string;
   query: ParsedUrlQuery;
   projects: SearchProject[];
   page: number;
@@ -18,7 +19,7 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { query, projects, page, totalPage } = props;
+  const { query, projects, page, totalPage, className } = props;
   const initialValues = useMemo(() => {
     const {
       andTags = [],
@@ -38,7 +39,7 @@ const Component: FC<Props> = props => {
   }, [initialValues]);
   return (
     <FormProvider form={form}>
-      <Layout aside={<Aside />} asideScrollable={false}>
+      <Layout aside={<Aside />} asideScrollable={false} className={className}>
         <Metadata title="Search" />
         <Panel projects={projects} page={page} totalPage={totalPage} />
       </Layout>

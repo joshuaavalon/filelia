@@ -13,6 +13,7 @@ import type {
 import type { SearchTag } from "#type";
 
 interface Props {
+  className?: string;
   filters: MRT_ColumnFiltersState;
   globalFilter: string;
   sorting: MRT_SortingState;
@@ -22,7 +23,15 @@ interface Props {
 }
 
 export default function Page(props: Props): JSX.Element {
-  const { filters, globalFilter, pagination, sorting, tags, rowCount } = props;
+  const {
+    filters,
+    globalFilter,
+    pagination,
+    sorting,
+    tags,
+    rowCount,
+    className
+  } = props;
   return (
     <TagsPage
       columnFilters={filters}
@@ -31,6 +40,7 @@ export default function Page(props: Props): JSX.Element {
       sorting={sorting}
       tags={tags}
       rowCount={rowCount}
+      className={className}
     />
   );
 }

@@ -9,6 +9,7 @@ import type { LoadProjectResult } from "#type";
 import type { TableOfContentItem } from "#component/table-of-content";
 
 export interface Props {
+  className?: string;
   project: LoadProjectResult;
   json: unknown;
   schemaResult: {
@@ -36,13 +37,14 @@ const toc: TableOfContentItem[] = [
 ];
 
 const Component: FC<Props> = props => {
-  const { json, schemaResult, project } = props;
+  const { json, schemaResult, project, className } = props;
   const [active, setActive] = useState(toc[0].href);
   return (
     <Layout
       aside={
         <TableOfContent items={toc} active={active} setActive={setActive} />
       }
+      className={className}
     >
       <Metadata title={project.data.title} />
       <Panel project={project} json={json} schemaResult={schemaResult} />

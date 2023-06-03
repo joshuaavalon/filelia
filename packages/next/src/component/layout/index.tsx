@@ -32,13 +32,14 @@ const useStyles = createStyles(theme => ({
 }));
 
 export interface Props {
+  className?: string;
   children: ReactNode;
   aside?: ReactNode;
   asideScrollable?: boolean;
 }
 
 const Component: FC<Props> = props => {
-  const { children, aside: asideContent, asideScrollable } = props;
+  const { children, aside: asideContent, asideScrollable, className } = props;
   const {
     classes: { main, root, viewport }
   } = useStyles();
@@ -58,7 +59,7 @@ const Component: FC<Props> = props => {
           aside={asideElm}
           navbar={<Navbar />}
           header={<Header hasAside={hasAside} />}
-          classNames={{ main }}
+          classNames={{ main, root: className }}
         >
           <ScrollArea classNames={{ root, viewport }}>{children}</ScrollArea>
         </AppShell>

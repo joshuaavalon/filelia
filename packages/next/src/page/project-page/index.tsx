@@ -11,12 +11,13 @@ import type { LoadProjectResult } from "#type";
 import type { TableOfContentItem } from "#component/table-of-content";
 
 export interface Props {
+  className?: string;
   result: LoadProjectResult;
   description: MDXRemoteSerializeResult | null;
 }
 
 const Component: FC<Props> = props => {
-  const { result, description } = props;
+  const { result, description, className } = props;
   const items: TableOfContentItem[] = [];
   if (result.data.gallery.length > 0) {
     items.push({
@@ -29,7 +30,7 @@ const Component: FC<Props> = props => {
   const [toc, setToc] = useState<TableOfContentItem[]>(items);
   return (
     <Context.Provider value={{ result, description }}>
-      <Layout aside={<Aside toc={toc} />}>
+      <Layout aside={<Aside toc={toc} />} className={className}>
         <Metadata title={result.data.title} />
         <Panel setToc={setToc} />
       </Layout>

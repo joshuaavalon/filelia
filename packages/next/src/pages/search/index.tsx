@@ -9,6 +9,7 @@ import type { Prisma, PrismaClient } from "@prisma/client";
 import type { SearchProject } from "#type";
 
 interface Props {
+  className?: string;
   query: ParsedUrlQuery;
   projects: SearchProject[];
   page: number;
@@ -16,13 +17,14 @@ interface Props {
 }
 
 export default function Page(props: Props): JSX.Element {
-  const { query, projects, page, totalPage } = props;
+  const { query, projects, page, totalPage, className } = props;
   return (
     <SearchPage
       query={query}
       projects={projects}
       page={page}
       totalPage={totalPage}
+      className={className}
     />
   );
 }
