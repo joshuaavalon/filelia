@@ -2,6 +2,11 @@ import { Type } from "@sinclair/typebox";
 
 const schema = Type.Object(
   {
+    host: Type.String({
+      description: "Listen host",
+      env: "FILELIA__SERVER__HOST",
+      default: "127.0.0.1"
+    }),
     port: Type.Number({
       description: "Listen port",
       env: "FILELIA__SERVER__PORT",

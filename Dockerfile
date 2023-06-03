@@ -32,6 +32,7 @@ WORKDIR /app
 ENV NPM_CONFIG_PREFIX=/app/.npm
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV FILELIA__SERVER__HOST=0.0.0.0
 
 COPY --from=builder /app/dist /app/dist/
 COPY --from=builder /app/packages/next /app/packages/next/
