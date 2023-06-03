@@ -14,7 +14,7 @@ const Component: FC<Props> = props => {
       size="lg"
       leftSection={
         <Center>
-          <IconHash />
+          <IconHash size="1rem" />
         </Center>
       }
       radius="sm"

@@ -123,4 +123,4 @@ lib
 *.db-journal
 /tmp
 
-public
+/public
