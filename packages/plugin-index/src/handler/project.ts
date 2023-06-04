@@ -20,6 +20,7 @@ export async function insert(
       path: result.path,
       name: result.data.title,
       tags: {
+        set: [],
         connectOrCreate: tags
       },
       createdAt: new Date(result.data.createdAt),

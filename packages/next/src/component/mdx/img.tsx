@@ -1,10 +1,19 @@
 import { useContext, useMemo } from "react";
-import { Center } from "@mantine/core";
+import { Center, createStyles } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import ImageModal from "#component/image-modal";
 import { MdxContext } from "./context";
 
 import type { FC } from "react";
+
+const useStyles = createStyles({
+  picture: {
+    objectFit: "cover",
+    maxHeight: "100%",
+    maxWidth: "100%",
+    cursor: "pointer"
+  }
+});
 
 const height = 300;
 
@@ -17,6 +26,7 @@ const Component: FC<Props> = props => {
   const { src, alt } = props;
   const { onImgSrc, onSourceSrcSet } = useContext(MdxContext);
   const [opened, { open, close }] = useDisclosure(false);
+  const { classes } = useStyles();
   const webp = useMemo(() => {
     const srcSet = src
       ? onSourceSrcSet(src, { mime: "image/webp", height })
@@ -51,10 +61,7 @@ const Component: FC<Props> = props => {
   return (
     <Center>
       <ImageModal opened={opened} src={imgSrc} close={close} alt={alt} />
-      <picture
-        style={{ objectFit: "cover", maxHeight: "100%", maxWidth: "100%" }}
-        onClick={open}
-      >
+      <picture className={classes.picture} onClick={open}>
         {webp}
         {png}
         {jpg}

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { createStyles } from "@mantine/core";
 import TableOfContent from "#component/table-of-content";
-import TagPanel from "#component/tag-panel";
+import TagPanel from "./tag-panel";
 import Metadata from "./metadata";
 import Context from "../context";
 

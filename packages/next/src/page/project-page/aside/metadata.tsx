@@ -1,6 +1,7 @@
 import { useContext, useMemo } from "react";
 import {
   IconBinaryTree2,
+  IconBrandGumroad,
   IconBrandPatreon,
   IconCalendar,
   IconPhoto,
@@ -60,6 +61,9 @@ const Component: FC<Props> = props => {
           break;
         case "photo":
           Icon = IconPhoto;
+          break;
+        case "gumroad":
+          Icon = IconBrandGumroad;
           break;
         default:
           Icon = IconQuestionMark;

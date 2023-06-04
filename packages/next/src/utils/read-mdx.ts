@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { serialize } from "next-mdx-remote/serialize";
 import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import rehypeSlug from "rehype-slug";
 import remarkUnwrapImages from "remark-unwrap-images";
 
@@ -21,7 +22,7 @@ export default async function readMdx(
     return serialize(content, {
       parseFrontmatter: true,
       mdxOptions: {
-        remarkPlugins: [remarkGfm, remarkUnwrapImages],
+        remarkPlugins: [remarkGfm, remarkBreaks, remarkUnwrapImages],
         rehypePlugins: [rehypeSlug]
       }
     });

@@ -9,7 +9,7 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { data, size = 200 } = props;
+  const { data, size = 100 } = props;
   if (!data || data.gallery.length < 1) {
     return <></>;
   }

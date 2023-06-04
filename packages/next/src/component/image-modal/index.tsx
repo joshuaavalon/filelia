@@ -67,7 +67,13 @@ const Component: FC<Props> = props => {
       theme={{ colorScheme: "dark" }}
       emotionCache={emotionCache}
     >
-      <Modal opened={opened} onClose={close} fullScreen classNames={modal}>
+      <Modal
+        opened={opened}
+        onClose={close}
+        fullScreen
+        classNames={modal}
+        transitionProps={{ duration: 0 }}
+      >
         <Center className={center} onClick={toggle}>
           <img src={src} alt={alt} className={image} />
         </Center>

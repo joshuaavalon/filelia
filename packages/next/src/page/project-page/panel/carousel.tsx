@@ -1,4 +1,5 @@
-import { useContext, useMemo, useState } from "react";
+import { debounce } from "lodash";
+import { useCallback, useContext, useMemo, useRef, useState } from "react";
 import { Center, createStyles, Divider } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useDisclosure } from "@mantine/hooks";
@@ -6,6 +7,7 @@ import ImageModal from "#component/image-modal";
 import Context from "../context";
 
 import type { FC } from "react";
+import type { Embla } from "@mantine/carousel";
 
 const useStyles = createStyles(theme => ({
   image: {
@@ -34,6 +36,13 @@ const Component: FC<Props> = props => {
   const { result } = useContext(Context);
   const [src, setSrc] = useState("");
   const { classes } = useStyles();
+  const [embla, setEmbla] = useState<Embla | null>(null);
+  const reload = useRef(
+    debounce((embla: Embla | null) => {
+      embla?.reInit();
+    }, 500)
+  );
+  const onLoad = useCallback(() => reload.current(embla), [reload, embla]);
   const slides = useMemo(() => {
     const {
       data: { gallery },
@@ -50,24 +59,30 @@ const Component: FC<Props> = props => {
         }}
       >
         <Center h="100%">
-          <picture className={classes.image}>
+          <picture className={classes.image} onLoad={onLoad}>
+            <source
+              srcSet={`/project/${id}/gallery/${image}?h=${maxHeight}&format=webp`}
+              type="image/webp"
+            />
             <source
               srcSet={`/project/${id}/gallery/${image}?h=${maxHeight}&format=png`}
               type="image/png"
             />
             <img
-              src={`/project/${id}/gallery/${image}?h=${maxHeight}&format=jpg`}
+              src={`/project/${id}/gallery/${image}?h=${maxHeight}&format=webp`}
               alt="Image"
             />
           </picture>
         </Center>
       </Carousel.Slide>
     ));
-  }, [result, maxHeight, open, classes.image]);
+  }, [result, maxHeight, open, classes.image, onLoad]);
   return (
     <>
       <ImageModal opened={opened} src={src} close={close} />
       <Carousel
+        getEmblaApi={setEmbla}
+        h={maxHeight}
         mah={maxHeight}
         loop
         withIndicators

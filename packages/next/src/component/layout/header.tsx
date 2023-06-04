@@ -1,10 +1,16 @@
 import { useCallback, useContext } from "react";
-import { Burger, Flex, Header, MediaQuery } from "@mantine/core";
+import { Burger, createStyles, Flex, Header, MediaQuery } from "@mantine/core";
 import { NavbarContext } from "./navbar";
 import { AsideContext } from "./aside";
 import Logo from "./logo";
 
 import type { FC } from "react";
+
+const useStyles = createStyles({
+  root: { display: "flex", alignItems: "center" },
+  burgerLeft: { position: "absolute" },
+  burgerRight: { position: "absolute", right: 0 }
+});
 
 export interface Props {
   hasAside: boolean;
@@ -12,6 +18,7 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { hasAside } = props;
+  const { classes } = useStyles();
   const [asideOpened, { close: asideClose, toggle: asideToggle }] =
     useContext(AsideContext);
   const [navbarOpened, { close: navbarClose, toggle: navbarToggle }] =
@@ -25,7 +32,7 @@ const Component: FC<Props> = props => {
     asideToggle();
   }, [navbarClose, asideToggle]);
   return (
-    <Header height={50} p="md" sx={{ display: "flex", alignItems: "center" }}>
+    <Header height={50} p="md" className={classes.root}>
       <Flex
         gap="xs"
         justify="flex-start"
@@ -40,7 +47,7 @@ const Component: FC<Props> = props => {
             onClick={onNavbarClick}
             size="sm"
             mr="xl"
-            sx={{ position: "absolute" }}
+            className={classes.burgerLeft}
           />
         </MediaQuery>
         <Logo />
@@ -53,7 +60,7 @@ const Component: FC<Props> = props => {
             onClick={onAsideClick}
             size="sm"
             mr="xl"
-            sx={{ position: "absolute", right: 0 }}
+            className={classes.burgerRight}
           />
         ) : (
           <></>
