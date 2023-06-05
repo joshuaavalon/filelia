@@ -34,15 +34,14 @@ RUN npm ci --include=dev && \
 
 RUN npm ci && \
     npm run db:generate && \
-    rm -rf
-        /app/node_modules/@babel \
-        /app/node_modules/@emotion \
-        /app/node_modules/@floating-ui \
-        /app/node_modules/@mantine \
-        /app/node_modules/@mdx-js \
-        /app/node_modules/@next \
-        /app/node_modules/@tabler \
-        /app/node_modules/@tanstack && \
+    rm -rf /app/node_modules/@babel \
+          /app/node_modules/@emotion \
+          /app/node_modules/@floating-ui \
+          /app/node_modules/@mantine \
+          /app/node_modules/@mdx-js \
+          /app/node_modules/@next \
+          /app/node_modules/@tabler \
+          /app/node_modules/@tanstack && \
     mv /app/next_node_modules/* /app/node_modules/
 
 RUN apk add --no-cache coreutils && \
