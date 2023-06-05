@@ -93,7 +93,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
     schema: sortingSchema
   });
   const page = parseQueryInt(query.page, { gte: 1, default: 1 });
-  const take = parseQueryInt(query.size, { gte: 5, lte: 100, default: 10 });
+  const take = parseQueryInt(query.size, { gte: 5, lte: 100, default: 50 });
   const skip = (page - 1) * take;
   const { db } = req.fastify();
   const where = mapWhere({

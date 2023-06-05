@@ -31,6 +31,9 @@ export default function createPlugin<T extends TSchema>(
   if (!metadata.fastify) {
     metadata.fastify = "4.x";
   }
+  if (optionsSchema.default) {
+    optionsSchema.default = undefined;
+  }
   const validate = compileAjv(ajv, optionsSchema);
   const wrapFn: Plugin<T> = async (fastify, options) => {
     const plugin = metadata.name ?? "<Unknown Plugin>";

@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 import cookiePlugin from "@fastify/cookie";
 import helmetPlugin from "@fastify/helmet";
 import nextJs from "@fastify/nextjs";
+import filePlugin from "@filelia/plugin-file";
 import imagePlugin from "@filelia/plugin-image";
 import databasePlugin from "@filelia/plugin-database";
 import dataPlugin from "@filelia/plugin-data";
@@ -18,7 +19,7 @@ const nextPlugin = nextJs.default;
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function createServer(config: Config) {
-  const { database, server, index, validation } = config;
+  const { server } = config;
   const fastify = createFastify({
     logger: server.logger,
     trustProxy: server.trustProxy,
@@ -36,11 +37,12 @@ export async function createServer(config: Config) {
     }
   });
   await fastify.register(helmetPlugin, { global: false });
-  await fastify.register(databasePlugin, database);
-  await fastify.register(imagePlugin);
-  await fastify.register(indexPlugin, index);
-  await fastify.register(validationPlugin, validation);
-  await fastify.register(dataPlugin);
+  await fastify.register(databasePlugin, config.database);
+  await fastify.register(filePlugin, config.file);
+  await fastify.register(validationPlugin, config.validation);
+  await fastify.register(imagePlugin, config.image);
+  await fastify.register(indexPlugin, config.index);
+  await fastify.register(dataPlugin, config.data);
   if (!server.testing) {
     fastify.addHook("onRequest", async req => {
       req.raw.fastify = () => req.server;

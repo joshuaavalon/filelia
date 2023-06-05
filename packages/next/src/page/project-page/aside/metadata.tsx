@@ -3,6 +3,7 @@ import {
   IconBinaryTree2,
   IconBrandGumroad,
   IconBrandPatreon,
+  IconBrandTwitter,
   IconCalendar,
   IconPhoto,
   IconQuestionMark,
@@ -64,6 +65,9 @@ const Component: FC<Props> = props => {
           break;
         case "gumroad":
           Icon = IconBrandGumroad;
+          break;
+        case "twitter":
+          Icon = IconBrandTwitter;
           break;
         default:
           Icon = IconQuestionMark;

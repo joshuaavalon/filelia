@@ -21,13 +21,7 @@ const Component: FC<Props> = props => {
     [tags, filter, caseSensitive]
   );
   return (
-    <Flex
-      gap="xs"
-      justify="flex-start"
-      align="center"
-      direction="row"
-      wrap="wrap"
-    >
+    <Flex gap="xs" justify="stretch" align="center" direction="row" wrap="wrap">
       {tagBadges}
     </Flex>
   );
