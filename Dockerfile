@@ -26,6 +26,7 @@ RUN npm ci --include=dev && \
         /app/packages/next/.next/standalone/node_modules/@mantine \
         /app/packages/next/.next/standalone/node_modules/@mdx-js \
         /app/packages/next/.next/standalone/node_modules/@next \
+        /app/packages/next/.next/standalone/node_modules/next \
         /app/packages/next/.next/standalone/node_modules/@tabler \
         /app/packages/next/.next/standalone/node_modules/@tanstack && \
     rm -rf /app/packages/next/.next && \
@@ -40,12 +41,14 @@ RUN npm ci && \
           /app/node_modules/@mantine \
           /app/node_modules/@mdx-js \
           /app/node_modules/@next \
+          /app/node_modules/next \
           /app/node_modules/@tabler \
           /app/node_modules/@tanstack && \
     mv /app/next_node_modules/* /app/node_modules/
 
 RUN apk add --no-cache coreutils && \
-    du --max-depth=2 -a -h /app | sort -h -r | head -n 20
+    du --max-depth=2 -a -h /app | sort -h -r | head -n 20 && \
+    du --max-depth=2 -a -h /app/packages/next | sort -h -r | head -n 20
 
 FROM $BASE_IMAGE
 
