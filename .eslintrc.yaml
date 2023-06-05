@@ -1,6 +1,6 @@
 root: true
 extends:
-  - "@garoudev/eslint-config"
+  - "@filelia/eslint-config"
 env:
   es6: true
   node: true
@@ -11,6 +11,8 @@ ignorePatterns:
   - "**/generated/index.ts"
   - "**/*.d.ts"
   - "**/.next"
+  - packages/next
+  - packages/eslint-config
 overrides:
   - files:
       - "**/*.js"

@@ -7,7 +7,7 @@ settings:
   react:
     version: detect
 extends:
-  - "@garoudev/eslint-config"
+  - "@filelia/eslint-config"
   - plugin:react/recommended
   - plugin:react-hooks/recommended
   - next/core-web-vitals

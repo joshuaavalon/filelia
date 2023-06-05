@@ -10,7 +10,6 @@ ENV NODE_ENV=production
 ARG OVERLAY_VERSION
 WORKDIR /app
 
-COPY src /app/src/
 COPY prisma /app/prisma/
 COPY packages /app/packages/
 COPY package.json tsconfig.json package-lock.json /app/
@@ -19,7 +18,12 @@ RUN npm ci --include=dev && \
     npm run db:generate && \
     npm run build:prod
 
-RUN rm -rf /app/packages/next/.next/cache
+RUN mv /app/packages/next/.next /app/packages/next/.next2 && \
+    mkdir /app/packages/next/.next && \
+    mv /app/packages/next/.next2/static /app/packages/next/.next/static  && \
+    mv /app/packages/next/.next2/standalone/packages/next/* /app/packages/next && \
+    rm -rf /app/packages/next/.next2 && \
+    find /app/packages/next -type f
 
 FROM $BASE_IMAGE
 
@@ -29,13 +33,12 @@ ARG TARGETARCH
 
 WORKDIR /app
 
-ENV NPM_CONFIG_PREFIX=/app/.npm
+ENV NPM_CONFIG_PREFIX=/home/node/.npm
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV FILELIA__SERVER__HOST=0.0.0.0
 
-COPY --from=builder /app/dist /app/dist/
-COPY --from=builder /app/packages/next /app/packages/next/
+COPY --from=builder /app/packages /app/packages/
 COPY prisma /app/prisma/
 COPY package.json package-lock.json /app/
 COPY docker/root/ /

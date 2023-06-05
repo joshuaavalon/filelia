@@ -1,10 +1,10 @@
 #!/bin/sh
 
 cd /app;
-npm run --cache /home/node/.npm db:deploy;
+npm run db:deploy;
 
 if [ "$FILELIA__LOG_TYPE" == "json" ]; then
-  exec s6-setuidgid node npm run --cache /home/node/.npm start:json;
+  exec s6-setuidgid node npm run  start:json;
 else
-  exec s6-setuidgid node npm run --cache /home/node/.npm start:pretty;
+  exec s6-setuidgid node npm run start:pretty;
 fi

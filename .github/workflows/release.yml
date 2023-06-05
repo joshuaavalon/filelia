@@ -33,7 +33,7 @@ jobs:
       - run: npm ci
       - run: npm run db:generate
       - run: npm run build
-      - run: npm run json:generate
+      - run: npm run schema:generate
       - uses: actions/upload-pages-artifact@v1
         with:
           path: public

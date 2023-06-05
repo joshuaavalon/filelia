@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "references": [
+    { "path": "../ajv" },
+    { "path": "../plugin-data" },
+    { "path": "../plugin-database" },
+    { "path": "../plugin-image" },
+    { "path": "../plugin-index" },
+    { "path": "../plugin-validation" }
+  ]
+}

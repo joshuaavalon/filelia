@@ -1,0 +1,33 @@
+{
+  "name": "@filelia/plugin",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "private": true,
+  "scripts": {},
+  "keywords": [],
+  "homepage": "https://github.com/joshuaavalon/filelia#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshuaavalon/filelia.git",
+    "directory": "packages/plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/joshuaavalon/filelia/issues"
+  },
+  "author": "Joshua Avalon",
+  "license": "Apache-2.0",
+  "imports": {},
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./src/index.ts"
+    }
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "fastify-plugin": "4.5.0",
+    "@filelia/ajv": "1.0.0",
+    "@filelia/error": "1.0.0"
+  }
+}
