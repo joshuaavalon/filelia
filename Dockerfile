@@ -18,13 +18,8 @@ RUN npm ci --include=dev && \
     npm run db:generate && \
     npm run build:prod
 
-RUN mv /app/packages/next/.next /app/packages/next/.next2 && \
-    mkdir /app/packages/next/.next && \
-    mv /app/packages/next/.next2/static /app/packages/next/.next/static  && \
-    mv /app/packages/next/.next2/standalone/packages/next/* /app/packages/next && \
-    mv /app/packages/next/.next2/standalone/packages/next/.next/* /app/packages/next/.next && \
-    rm -rf /app/packages/next/.next2 && \
-    find /app/packages/next -type f
+RUN rm -rf /app/packages/next/.next/cache && \
+    du --max-depth=2 -a -h /app | sort -h -r | head -n 10
 
 FROM $BASE_IMAGE
 
