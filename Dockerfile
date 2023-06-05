@@ -31,11 +31,9 @@ RUN npm ci --include=dev && \
         /app/packages/next/.next/standalone/node_modules/@tanstack && \
     rm -rf /app/packages/next/.next && \
     npm run next:build && \
-    rm -rf node_modules
+    npm prune
 
-RUN npm ci && \
-    npm run db:generate && \
-    rm -rf /app/node_modules/@babel \
+RUN rm -rf /app/node_modules/@babel \
           /app/node_modules/@emotion \
           /app/node_modules/@floating-ui \
           /app/node_modules/@mantine \
@@ -45,7 +43,7 @@ RUN npm ci && \
           /app/node_modules/@tabler \
           /app/node_modules/@tanstack && \
     mv /app/next_node_modules/* /app/node_modules/ && \
-    /app/packages/next/.next/cache
+    rm -rf /app/packages/next/.next/cache
 
 FROM $BASE_IMAGE
 
