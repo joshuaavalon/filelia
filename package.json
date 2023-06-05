@@ -7,7 +7,7 @@
   "scripts": {
     "prebuild": "rimraf --glob packages/*/dist packages/*/tsconfig.tsbuildinfo",
     "build": "tsc --build packages/tsconfig.json",
-    "build:prod": "npm run build && npm run --workspace @filelia/next build",
+    "next:build": "npm run --workspace @filelia/next build",
     "start": "npm run --workspace @filelia/server start:pretty",
     "start:pretty": "node ./dist/index.js | pino-pretty",
     "start:json": "node ./dist/index.js",
