@@ -44,11 +44,8 @@ RUN npm ci && \
           /app/node_modules/next \
           /app/node_modules/@tabler \
           /app/node_modules/@tanstack && \
-    mv /app/next_node_modules/* /app/node_modules/
-
-RUN apk add --no-cache coreutils && \
-    du --max-depth=2 -a -h /app | sort -h -r | head -n 20 && \
-    du --max-depth=2 -a -h /app/packages/next | sort -h -r | head -n 20
+    mv /app/next_node_modules/* /app/node_modules/ && \
+    /app/packages/next/.next/cache
 
 FROM $BASE_IMAGE
 
