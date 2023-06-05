@@ -19,6 +19,7 @@ RUN npm ci --include=dev && \
     npm run build:prod
 
 RUN rm -rf /app/packages/next/.next/cache && \
+    apk --no-cache coreutils && \
     du --max-depth=2 -a -h /app | sort -h -r | head -n 10
 
 FROM $BASE_IMAGE
