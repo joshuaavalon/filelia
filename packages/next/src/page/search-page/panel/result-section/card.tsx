@@ -6,7 +6,7 @@ import Badge from "./badge";
 import Preview from "./preview";
 
 import type { FC, MouseEventHandler } from "react";
-import type { SearchProject } from "#type";
+import type { SearchProject } from "@filelia/plugin-api";
 
 const useStyles = createStyles({
   title: {
@@ -19,7 +19,9 @@ export interface Props {
 }
 
 const Component: FC<Props> = props => {
-  const { project } = props;
+  const {
+    project: { project, data }
+  } = props;
   const { classes } = useStyles();
   const router = useRouter();
   const onClick: MouseEventHandler<HTMLDivElement> = useCallback(
@@ -50,7 +52,7 @@ const Component: FC<Props> = props => {
       <Card.Section inheritPadding mt="sm" pb="md">
         <Grid>
           <Grid.Col span="content">
-            <Preview data={project.data} />
+            <Preview data={data} />
           </Grid.Col>
           <Grid.Col span="auto">
             <Flex

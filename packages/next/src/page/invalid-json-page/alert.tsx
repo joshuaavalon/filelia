@@ -2,10 +2,10 @@ import { Alert } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 
 import type { FC } from "react";
-import type { LoadProjectResult } from "#type";
+import type { FindProjectByIdResultSuccess } from "@filelia/plugin-api";
 
 export interface Props {
-  project: LoadProjectResult;
+  project: FindProjectByIdResultSuccess;
 }
 
 const Component: FC<Props> = props => {

@@ -6,9 +6,8 @@ import nextJs from "@fastify/nextjs";
 import filePlugin from "@filelia/plugin-file";
 import imagePlugin from "@filelia/plugin-image";
 import databasePlugin from "@filelia/plugin-database";
-import dataPlugin from "@filelia/plugin-data";
+import apiPlugin from "@filelia/plugin-api";
 import indexPlugin from "@filelia/plugin-index";
-import validationPlugin from "@filelia/plugin-validation";
 import { initRoutes } from "#route";
 
 import type { FastifyInstance } from "fastify";
@@ -39,10 +38,9 @@ export async function createServer(config: Config) {
   await fastify.register(helmetPlugin, { global: false });
   await fastify.register(databasePlugin, config.database);
   await fastify.register(filePlugin, config.file);
-  await fastify.register(validationPlugin, config.validation);
   await fastify.register(imagePlugin, config.image);
   await fastify.register(indexPlugin, config.index);
-  await fastify.register(dataPlugin, config.data);
+  await fastify.register(apiPlugin, config.api);
   if (!server.testing) {
     fastify.addHook("onRequest", async req => {
       req.raw.fastify = () => req.server;

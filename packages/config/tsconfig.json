@@ -6,10 +6,9 @@
   },
   "references": [
     { "path": "../ajv" },
-    { "path": "../plugin-data" },
+    { "path": "../plugin-api" },
     { "path": "../plugin-database" },
     { "path": "../plugin-image" },
-    { "path": "../plugin-index" },
-    { "path": "../plugin-validation" }
+    { "path": "../plugin-index" }
   ]
 }

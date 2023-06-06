@@ -1,8 +1,10 @@
 {
-  "name": "@filelia/plugin-data",
+  "name": "@filelia/plugin-api",
   "version": "1.0.0",
   "description": "",
   "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "private": true,
   "scripts": {},
   "keywords": [],
@@ -10,14 +12,19 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/joshuaavalon/filelia.git",
-    "directory": "packages/plugin-data"
+    "directory": "packages/plugin-api"
   },
   "bugs": {
     "url": "https://github.com/joshuaavalon/filelia/issues"
   },
   "author": "Joshua Avalon",
   "license": "Apache-2.0",
-  "imports": {},
+  "imports": {
+    "#utils": {
+      "import": "./dist/utils/index.js",
+      "types": "./src/utils/index.ts"
+    }
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -28,10 +35,14 @@
       "types": "./src/schema.ts"
     }
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5"
+  },
   "dependencies": {
+    "@filelia/ajv": "1.0.0",
+    "@filelia/error": "1.0.0",
     "@filelia/plugin": "1.0.0",
-    "@filelia/plugin-file": "1.0.0",
-    "@filelia/error": "1.0.0"
+    "@filelia/schema": "1.0.0",
+    "js-yaml": "4.1.0"
   }
 }

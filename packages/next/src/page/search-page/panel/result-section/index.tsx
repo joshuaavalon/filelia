@@ -3,7 +3,7 @@ import { createStyles } from "@mantine/core";
 import Card from "./card";
 
 import type { FC } from "react";
-import type { SearchProject } from "#type";
+import type { SearchProject } from "@filelia/plugin-api";
 
 const useStyles = createStyles(theme => ({
   root: {
@@ -21,7 +21,10 @@ const Component: FC<Props> = props => {
   const { projects } = props;
   const { classes } = useStyles();
   const cards = useMemo(
-    () => projects.map(project => <Card key={project.id} project={project} />),
+    () =>
+      projects.map(project => (
+        <Card key={project.project.id} project={project} />
+      )),
     [projects]
   );
   return <section className={classes.root}>{cards}</section>;

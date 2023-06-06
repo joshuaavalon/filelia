@@ -1,7 +1,7 @@
 import { Image } from "@mantine/core";
 
 import type { FC } from "react";
-import type { SearchProject } from "#type";
+import type { SearchProject } from "@filelia/plugin-api";
 
 export interface Props {
   size?: number;

@@ -8,7 +8,7 @@ import { FormProvider, useForm } from "./context";
 
 import type { FC } from "react";
 import type { ParsedUrlQuery } from "querystring";
-import type { SearchProject } from "#type";
+import type { SearchProject } from "@filelia/plugin-api";
 
 export interface Props {
   className?: string;

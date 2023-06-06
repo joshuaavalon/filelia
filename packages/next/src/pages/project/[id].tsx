@@ -6,11 +6,11 @@ import type { ParsedUrlQuery } from "querystring";
 import type { GetServerSideProps } from "next";
 import type { ColorScheme } from "@mantine/core";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
-import type { LoadProjectResult } from "#type";
+import type { FindProjectByIdResultSuccess } from "@filelia/plugin-api";
 
 interface Props {
   className?: string;
-  result: LoadProjectResult;
+  result: FindProjectByIdResultSuccess;
   colorScheme: ColorScheme | null;
   description: MDXRemoteSerializeResult | null;
 }
@@ -40,16 +40,12 @@ export const getServerSideProps: GetServerSideProps<
       notFound: true
     };
   }
-  const { loadProject, loadProjectDir } = req.fastify();
-  const result: LoadProjectResult | null = await loadProject(params.id);
-  if (!result) {
+  const { findProjectById } = req.fastify();
+  const result = await findProjectById({ id: params.id });
+  if (result.state !== "success") {
     return { notFound: true };
   }
-  const baseDir = await loadProjectDir(params.id);
-  if (!baseDir) {
-    return { notFound: true };
-  }
-  const description = await readMdx(baseDir, result.data.description);
+  const description = await readMdx(result.baseDir, result.data.description);
   return {
     props: {
       result,

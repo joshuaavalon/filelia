@@ -1,7 +1,12 @@
 import { access, constants } from "node:fs/promises";
 import { ValidationError } from "@filelia/error";
+import { compileAjv, createAjv } from "@filelia/ajv";
+import { projectSchema } from "@filelia/schema";
 import project from "./project.js";
 import FileIndexer from "./file-indexer.js";
+
+const ajv = createAjv({ useDefaults: true });
+const validate = compileAjv(ajv, projectSchema);
 
 import type { IndexJsonOptions } from "./options.js";
 
@@ -11,7 +16,6 @@ export async function indexJson(opts: IndexJsonOptions): Promise<void> {
   const resultList = await indexer.index(path);
 
   for (const result of resultList) {
-    const validate = fastify.validateProject();
     if (!validate(result.data)) {
       logger.warn(
         {

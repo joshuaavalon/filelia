@@ -4,10 +4,10 @@ import JsonSection from "#component/json-section";
 import Alert from "./alert";
 
 import type { FC } from "react";
-import type { LoadProjectResult } from "#type";
+import type { FindProjectByIdResultSuccess } from "@filelia/plugin-api";
 
 export interface Props {
-  project: LoadProjectResult;
+  project: FindProjectByIdResultSuccess;
   json: unknown;
   schemaResult: {
     schema: unknown;

@@ -5,7 +5,6 @@ import { isIndexing } from "./is-indexing.js";
 
 import type {} from "@filelia/plugin-database";
 import type {} from "@filelia/plugin-file";
-import type {} from "@filelia/plugin-validation";
 
 const name = "@filelia/plugin-index";
 const plugin = createPlugin(
@@ -35,11 +34,7 @@ const plugin = createPlugin(
   {
     name,
     optionsSchema,
-    dependencies: [
-      "@filelia/plugin-database",
-      "@filelia/plugin-file",
-      "@filelia/plugin-validation"
-    ]
+    dependencies: ["@filelia/plugin-database", "@filelia/plugin-file"]
   }
 );
 

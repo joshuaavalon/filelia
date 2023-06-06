@@ -27,11 +27,10 @@
   "devDependencies": {},
   "dependencies": {
     "@filelia/ajv": "1.0.0",
-    "@filelia/plugin-data": "1.0.0",
+    "@filelia/plugin-api": "1.0.0",
     "@filelia/plugin-database": "1.0.0",
     "@filelia/plugin-image": "1.0.0",
     "@filelia/plugin-index": "1.0.0",
-    "@filelia/plugin-validation": "1.0.0",
     "read-env-vars": "1.0.0"
   }
 }

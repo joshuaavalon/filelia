@@ -40,11 +40,11 @@ export default function initRoutes(server: Server): void {
         params: { projectId, "*": path },
         query
       } = req;
-      const baseDir = await this.loadProjectDir(projectId);
-      if (!baseDir) {
+      const result = await this.findProjectById({ id: projectId });
+      if (result.state !== "success") {
         return res.callNotFound();
       }
-      const filePath = join(baseDir, path);
+      const filePath = join(result.baseDir, path);
       try {
         await access(filePath, constants.R_OK);
       } catch (err) {

@@ -5,12 +5,11 @@
     { "path": "config" },
     { "path": "error" },
     { "path": "plugin" },
-    { "path": "plugin-data" },
+    { "path": "plugin-api" },
     { "path": "plugin-database" },
     { "path": "plugin-file" },
     { "path": "plugin-image" },
     { "path": "plugin-index" },
-    { "path": "plugin-validation" },
     { "path": "schema" },
     { "path": "server" }
   ]

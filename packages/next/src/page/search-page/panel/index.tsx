@@ -5,7 +5,7 @@ import Header from "./header";
 import ResultSection from "./result-section";
 
 import type { FC } from "react";
-import type { SearchProject } from "#type";
+import type { SearchProject } from "@filelia/plugin-api";
 
 export interface Props {
   projects: SearchProject[];

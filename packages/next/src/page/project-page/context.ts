@@ -1,10 +1,10 @@
 import { createContext } from "react";
 
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
-import type { LoadProjectResult } from "#type";
+import type { FindProjectByIdResultSuccess } from "@filelia/plugin-api";
 
 interface ContextValue {
-  result: LoadProjectResult;
+  result: FindProjectByIdResultSuccess;
   description: MDXRemoteSerializeResult | null;
 }
 

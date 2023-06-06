@@ -5,12 +5,12 @@ import TableOfContent from "#component/table-of-content";
 import Panel from "./panel";
 
 import type { FC } from "react";
-import type { LoadProjectResult } from "#type";
+import type { FindProjectByIdResultSuccess } from "@filelia/plugin-api";
 import type { TableOfContentItem } from "#component/table-of-content";
 
 export interface Props {
   className?: string;
-  project: LoadProjectResult;
+  project: FindProjectByIdResultSuccess;
   json: unknown;
   schemaResult: {
     schema: unknown;

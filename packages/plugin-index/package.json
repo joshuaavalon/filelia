@@ -30,8 +30,9 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "@filelia/ajv": "1.0.0",
+    "@filelia/error": "1.0.0",
     "@filelia/plugin": "1.0.0",
-    "@filelia/plugin-file": "1.0.0",
-    "@filelia/error": "1.0.0"
+    "@filelia/schema": "1.0.0"
   }
 }

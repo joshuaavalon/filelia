@@ -5,8 +5,9 @@
     "outDir": "dist"
   },
   "references": [
+    { "path": "../ajv" },
+    { "path": "../error" },
     { "path": "../plugin" },
-    { "path": "../plugin-file" },
-    { "path": "../error" }
+    { "path": "../schema" }
   ]
 }

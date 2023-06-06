@@ -7,12 +7,12 @@ import Context from "./context";
 
 import type { FC } from "react";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
-import type { LoadProjectResult } from "#type";
+import type { FindProjectByIdResultSuccess } from "@filelia/plugin-api";
 import type { TableOfContentItem } from "#component/table-of-content";
 
 export interface Props {
   className?: string;
-  result: LoadProjectResult;
+  result: FindProjectByIdResultSuccess;
   description: MDXRemoteSerializeResult | null;
 }
 
