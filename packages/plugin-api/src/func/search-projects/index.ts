@@ -36,7 +36,7 @@ export async function searchProjects(
   opts: SearchProjectsOptions
 ): Promise<SearchProjectsResult> {
   const { query, take, skip } = opts;
-  const { andTags, notTags } = query;
+  const { andTags, notTags, orTags } = query;
   const where = mapWhere(query);
   const [totalCount, projects] = await Promise.all([
     this.db.project.count({ where }),
@@ -44,7 +44,9 @@ export async function searchProjects(
       include: {
         _count: {
           select: {
-            tags: { where: { name: { in: andTags, notIn: notTags } } }
+            tags: {
+              where: { name: { in: [...andTags, ...orTags], notIn: notTags } }
+            }
           }
         },
         tags: true
