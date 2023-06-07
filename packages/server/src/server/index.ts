@@ -53,9 +53,9 @@ export async function createServer(config: Config) {
     fastify.after(() => {
       fastify.next("/");
       fastify.next("/next/*");
-      fastify.next("/search");
+      fastify.next("/search/");
       fastify.next("/project/*");
-      fastify.next("/tags");
+      fastify.next("/tags/");
     });
   }
   initRoutes(fastify);

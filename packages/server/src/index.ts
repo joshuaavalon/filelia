@@ -23,9 +23,6 @@ async function main(): Promise<void> {
     await this.db.project.deleteMany();
     await this.indexJson();
   });
-  fastify.addHook("onClose", async instance => {
-    await instance.db.keyValue.deleteMany({ where: { key: "index" } });
-  });
   fastify.listen({ host, port }, err => {
     if (err) {
       fastify.log.fatal(err);

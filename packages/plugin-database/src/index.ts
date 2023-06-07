@@ -26,6 +26,9 @@ const plugin = createPlugin(
     db.$on("info", e => pluginLogger.info(e.message));
     db.$on("warn", e => pluginLogger.warn(e.message));
     fastify.decorate("db", db);
+    fastify.addHook("onClose", fastify => {
+      fastify.db.$disconnect();
+    });
   },
   {
     name,
