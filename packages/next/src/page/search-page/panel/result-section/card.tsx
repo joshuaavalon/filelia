@@ -1,28 +1,60 @@
-import { useCallback } from "react";
+import { forwardRef, useCallback } from "react";
 import { useRouter } from "next/router";
-import { Card, createStyles, Flex, Grid, Group, Text } from "@mantine/core";
+import { Card, createStyles, Group, Text, Title } from "@mantine/core";
 import { IconCalendar } from "@tabler/icons-react";
-import Badge from "./badge";
-import Preview from "./preview";
 
-import type { FC, MouseEventHandler } from "react";
+import type { MouseEventHandler } from "react";
 import type { SearchProject } from "@filelia/plugin-api";
 
-const useStyles = createStyles({
-  title: {
-    cursor: "pointer"
-  }
+interface StyleProps {
+  image?: string;
+  size: number;
+}
+
+const useStyles = createStyles((_theme, props: StyleProps) => {
+  const { image, size } = props;
+  return {
+    title: {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis"
+    },
+    root: {
+      cursor: "pointer",
+      width: size,
+      height: size,
+      backgroundImage: image ? `url(${image})` : undefined
+    }
+  };
 });
+
+function getBackgroundImage(
+  data: SearchProject["data"],
+  size: number
+): string | undefined {
+  if (!data) {
+    return undefined;
+  }
+  const { gallery, id } = data;
+  return gallery.length > 0
+    ? `/project/${id}/gallery/${gallery[0]}?h=${size}&w=${size}&fit=cover`
+    : undefined;
+}
 
 export interface Props {
   project: SearchProject;
+  size: number;
+  className?: string;
 }
 
-const Component: FC<Props> = props => {
+const Component = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const {
-    project: { project, data }
+    project: { project, data },
+    size,
+    ...others
   } = props;
-  const { classes } = useStyles();
+  const image = getBackgroundImage(data, size);
+  const { classes, theme, cx } = useStyles({ image, size });
   const router = useRouter();
   const onClick: MouseEventHandler<HTMLDivElement> = useCallback(
     e => {
@@ -32,47 +64,26 @@ const Component: FC<Props> = props => {
     [project.id, router]
   );
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Card.Section
-        withBorder
-        inheritPadding
-        py="xs"
-        onClick={onClick}
-        className={classes.title}
-      >
-        <Group position="apart">
-          <Text weight={500}>{project.name}</Text>
-          <Group>
-            <IconCalendar />
-            <Text weight={500}>{project.updatedAt}</Text>
-          </Group>
+    <Card
+      shadow="sm"
+      padding="lg"
+      radius="md"
+      {...others}
+      className={cx(others.className, classes.root)}
+      ref={ref}
+    >
+      <Card.Section inheritPadding py="xs" onClick={onClick}>
+        <Group spacing="xs">
+          <IconCalendar size={theme.fontSizes.sm} />
+          <Text size="sm">{project.updatedAt}</Text>
         </Group>
-      </Card.Section>
-
-      <Card.Section inheritPadding mt="sm" pb="md">
-        <Grid>
-          <Grid.Col span="content">
-            <Preview data={data} />
-          </Grid.Col>
-          <Grid.Col span="auto">
-            <Flex
-              mih={50}
-              gap="xs"
-              justify="flex-start"
-              align="center"
-              direction="row"
-              wrap="wrap"
-            >
-              {project.tags.map(tag => (
-                <Badge key={tag.id} tag={tag} />
-              ))}
-            </Flex>
-          </Grid.Col>
-        </Grid>
+        <Title order={3} className={classes.title}>
+          {project.name}
+        </Title>
       </Card.Section>
     </Card>
   );
-};
+});
 
 Component.displayName = "SearchPage/Panel/ResultSection/Card";
 export default Component;

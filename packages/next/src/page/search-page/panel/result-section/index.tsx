@@ -1,14 +1,18 @@
 import { useMemo } from "react";
 import { createStyles } from "@mantine/core";
-import Card from "./card";
+import Item from "./item";
 
 import type { FC } from "react";
 import type { SearchProject } from "@filelia/plugin-api";
 
+const size = 250;
+
 const useStyles = createStyles(theme => ({
   root: {
-    display: "flex",
-    flexDirection: "column",
+    display: "grid",
+    placeContent: "flex-start",
+    placeItems: "center",
+    gridTemplateColumns: `repeat(auto-fill, minmax(${size}px, 1fr));`,
     gap: theme.spacing.md
   }
 }));
@@ -23,7 +27,7 @@ const Component: FC<Props> = props => {
   const cards = useMemo(
     () =>
       projects.map(project => (
-        <Card key={project.project.id} project={project} />
+        <Item key={project.project.id} project={project} size={size} />
       )),
     [projects]
   );

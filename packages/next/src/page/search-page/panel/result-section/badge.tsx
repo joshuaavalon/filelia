@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { useFormContext } from "#page/search-page/context";
-import { Badge, Center, createStyles } from "@mantine/core";
-import { IconHash } from "@tabler/icons-react";
+import { Badge, createStyles } from "@mantine/core";
 
 import type { FC, MouseEventHandler } from "react";
 import type { Tag } from "@prisma/client";
@@ -30,15 +29,7 @@ const Component: FC<Props> = props => {
     [form, tag.name]
   );
   return (
-    <Badge
-      leftSection={
-        <Center>
-          <IconHash size="1rem" />
-        </Center>
-      }
-      className={classes.root}
-      onClick={onClick}
-    >
+    <Badge className={classes.root} onClick={onClick}>
       {tag.name}
     </Badge>
   );
