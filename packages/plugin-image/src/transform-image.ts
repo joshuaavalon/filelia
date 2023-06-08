@@ -74,9 +74,8 @@ const mapOperation = (sharp: Sharp, operation: any): Sharp => {
 /* eslint-enable complexity */
 
 export function transformImage(queryStr: string): Sharp {
-  const result = queryStr as any; //toImageQuery(queryStr);
+  const result = queryStr as any;
   if ("errors" in result) {
-    // TODO: Better Error message
     throw new Error(result.errors.toString());
   }
   const {

@@ -1,6 +1,9 @@
 import { Type } from "@sinclair/typebox";
 
 const schema = Type.Object({
+  secret: Type.String({
+    description: "Cookie secret"
+  }),
   host: Type.String({
     description: "Listen host",
     default: "127.0.0.1"

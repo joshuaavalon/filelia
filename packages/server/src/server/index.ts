@@ -27,7 +27,7 @@ export async function createServer(config: Config) {
   }).withTypeProvider<TypeBoxTypeProvider>();
 
   await fastify.register(cookiePlugin, {
-    secret: "TODO",
+    secret: server.secret,
     parseOptions: {
       httpOnly: true,
       signed: true,

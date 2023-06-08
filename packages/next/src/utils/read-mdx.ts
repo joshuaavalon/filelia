@@ -6,16 +6,18 @@ import remarkBreaks from "remark-breaks";
 import rehypeSlug from "rehype-slug";
 import remarkUnwrapImages from "remark-unwrap-images";
 
+import type { FastifyBaseLogger } from "fastify";
 import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 
 export interface ReadMdxOptions {
   baseDir: string;
   filePath: string;
+  logger: FastifyBaseLogger;
 }
 export default async function readMdx(
-  baseDir: string,
-  filePath: string
+  opts: ReadMdxOptions
 ): Promise<MDXRemoteSerializeResult | null> {
+  const { baseDir, filePath, logger } = opts;
   const path = join(baseDir, filePath);
   try {
     const content = await readFile(path, { encoding: "utf-8" });
@@ -26,11 +28,8 @@ export default async function readMdx(
         rehypePlugins: [rehypeSlug]
       }
     });
-  } catch (e: any) {
-    if (e.code !== "ENOENT") {
-      // TODO: Log error
-      console.log({ e });
-    }
+  } catch (err) {
+    logger.error({ err });
     return null;
   }
 }
