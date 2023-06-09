@@ -27,38 +27,45 @@ interface PanelConfig {
   key: KeyOf<SearchFormValues, string[]>;
   title: string;
   type: "tag" | "keyword";
+  off: boolean;
 }
 
 const configs: PanelConfig[] = [
   {
     key: "andTags",
     title: "And Tags",
-    type: "tag"
+    type: "tag",
+    off: false
   },
   {
     key: "orTags",
     title: "Or Tags",
-    type: "tag"
+    type: "tag",
+    off: false
   },
   {
     key: "notTags",
     title: "Not Tags",
-    type: "tag"
+    type: "tag",
+    off: true
   },
   {
     key: "andKeywords",
     title: "And Keywords",
-    type: "keyword"
+    type: "keyword",
+    off: false
   },
   {
     key: "orKeywords",
     title: "Or Keywords",
-    type: "keyword"
+    type: "keyword",
+    off: false
   },
   {
     key: "notKeywords",
     title: "Not Keywords",
-    type: "keyword"
+    type: "keyword",
+    off: true
   }
 ];
 
@@ -79,6 +86,7 @@ const Component: FC<Props> = () => {
             type={cfg.type}
             className={panel}
             valueKey={cfg.key}
+            off={cfg.off}
           />
         ) : undefined
       ),

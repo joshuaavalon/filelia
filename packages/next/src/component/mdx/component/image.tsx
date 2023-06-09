@@ -2,7 +2,7 @@ import { useContext, useMemo } from "react";
 import { createStyles } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import ImageModal from "#component/image-modal";
-import { MdxContext } from "./context";
+import { MdxContext } from "../context";
 
 import type { FC } from "react";
 

@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import { Badge, Center, createStyles } from "@mantine/core";
-import { IconHash, IconKey } from "@tabler/icons-react";
+import { IconKey, IconTag } from "@tabler/icons-react";
 import { useFormContext } from "#page/search-page/context";
 import Context from "./context";
 
@@ -31,7 +31,7 @@ const Component: FC<Props> = props => {
     <Badge
       size="lg"
       leftSection={
-        <Center>{type === "tag" ? <IconHash /> : <IconKey />}</Center>
+        <Center>{type === "tag" ? <IconTag /> : <IconKey />}</Center>
       }
       radius="sm"
       classNames={classes}

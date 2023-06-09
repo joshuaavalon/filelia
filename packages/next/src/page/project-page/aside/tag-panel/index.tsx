@@ -1,8 +1,5 @@
-import { useState } from "react";
 import { IconTags } from "@tabler/icons-react";
 import CollapsePanel from "#component/collapse-panel";
-import FilterInput from "#component/filter-input";
-import { IconHash } from "@tabler/icons-react";
 import TagCloud from "./tag-cloud";
 
 import type { FC } from "react";
@@ -16,8 +13,6 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { tags, sx, className } = props;
-  const [filter, setFilter] = useState("");
-  const [caseSensitive, setCaseSensitive] = useState(true);
   return (
     <CollapsePanel
       title="Tags"
@@ -25,14 +20,7 @@ const Component: FC<Props> = props => {
       sx={sx}
       className={className}
     >
-      <FilterInput
-        filter={filter}
-        setFilter={setFilter}
-        caseSensitive={caseSensitive}
-        setCaseSensitive={setCaseSensitive}
-        icon={<IconHash />}
-      />
-      <TagCloud tags={tags} filter={filter} caseSensitive={caseSensitive} />
+      <TagCloud tags={tags} />
     </CollapsePanel>
   );
 };
