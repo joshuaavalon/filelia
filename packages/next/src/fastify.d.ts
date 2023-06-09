@@ -13,7 +13,3 @@ declare module "fastify" {
   import("../../plugin-index/dist");
   type Project = import("../../schema/dist").Project;
 }
-
-
-declare module "filelia" {
-}
