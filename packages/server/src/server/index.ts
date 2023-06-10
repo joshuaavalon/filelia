@@ -19,11 +19,13 @@ const nextPlugin = nextJs.default;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function createServer(config: Config) {
   const { server } = config;
+  const isDev = process.env.NODE_ENV !== "production";
   const fastify = createFastify({
     logger: server.logger,
     trustProxy: server.trustProxy,
     genReqId: () => uuid(),
-    disableRequestLogging: !server.requestLog
+    disableRequestLogging: !server.requestLog,
+    pluginTimeout: isDev ? 120000 : undefined
   }).withTypeProvider<TypeBoxTypeProvider>();
 
   await fastify.register(cookiePlugin, {

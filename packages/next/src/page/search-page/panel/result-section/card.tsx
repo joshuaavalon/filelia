@@ -11,7 +11,7 @@ interface StyleProps {
   size: number;
 }
 
-const useStyles = createStyles((_theme, props: StyleProps) => {
+const useStyles = createStyles((theme, props: StyleProps) => {
   const { image, size } = props;
   return {
     title: {
@@ -24,6 +24,12 @@ const useStyles = createStyles((_theme, props: StyleProps) => {
       width: size,
       height: size,
       backgroundImage: image ? `url(${image})` : undefined
+    },
+    date: {
+      color: theme.white
+    },
+    header: {
+      filter: "drop-shadow(2px 2px 2px rgba(0, 0, 0, .7))"
     }
   };
 });
@@ -71,9 +77,10 @@ const Component = forwardRef<HTMLDivElement, Props>((props, ref) => {
       {...others}
       className={cx(others.className, classes.root)}
       ref={ref}
+      onClick={onClick}
     >
-      <Card.Section inheritPadding py="xs" onClick={onClick}>
-        <Group spacing="xs">
+      <Card.Section inheritPadding py="xs" className={classes.header}>
+        <Group spacing="xs" className={classes.date}>
           <IconCalendar size={theme.fontSizes.sm} />
           <Text size="sm">{project.updatedAt}</Text>
         </Group>

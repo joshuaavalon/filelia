@@ -35,7 +35,8 @@ const columns: MRT_ColumnDef<SearchTag>[] = [
   },
   {
     accessorKey: "projectCount",
-    header: "Project Count"
+    header: "Project Count",
+    size: 40
   }
 ];
 

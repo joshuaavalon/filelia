@@ -47,4 +47,12 @@ export async function indexJson(opts: IndexJsonOptions): Promise<void> {
   await fastify.db.project.deleteMany({
     where: { id: { in: ids } }
   });
+  await fastify.db.$executeRaw`
+    DELETE FROM tag WHERE (
+      SELECT COUNT(p.id) FROM project p
+      LEFT JOIN _ProjectToTag pt ON pt.A = p.id
+      LEFT JOIN tag t ON t.id = pt.B
+      WHERE t.id = tag.id
+    ) = 0
+  `;
 }
