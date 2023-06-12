@@ -35,8 +35,8 @@
   "author": "Joshua Avalon",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/node": "^20.2.5",
-    "eslint-config-next": "^13.4.4",
+    "@types/node": "^20.3.0",
+    "eslint-config-next": "^13.4.5",
     "prisma": "4.15.0",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4"
