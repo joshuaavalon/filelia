@@ -22,7 +22,7 @@ export default plugin;
 
 declare module "fastify" {
   interface FastifyInstance {
-    findProjectById: OmitThisParameter<typeof findProjectById>;
-    searchProjects: OmitThisParameter<typeof searchProjects>;
+    findProjectById: typeof findProjectById;
+    searchProjects: typeof searchProjects;
   }
 }
