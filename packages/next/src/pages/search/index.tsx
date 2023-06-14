@@ -59,8 +59,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ctx => {
   ) {
     const take = 30;
     const skip = (page - 1) * take;
-    const { searchProjects } = req.fastify();
-    const { totalCount, result } = await searchProjects({
+    const { totalCount, result } = await req.fastify().searchProjects({
       query: {
         andTags,
         orTags,

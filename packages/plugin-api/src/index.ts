@@ -8,8 +8,8 @@ export type * from "./func/index.js";
 const name = "@filelia/plugin-api";
 const plugin = createPlugin(
   async fastify => {
-    fastify.decorate("findProjectById", findProjectById.bind(fastify));
-    fastify.decorate("searchProjects", searchProjects.bind(fastify));
+    fastify.decorate("findProjectById", findProjectById);
+    fastify.decorate("searchProjects", searchProjects);
   },
   {
     name,

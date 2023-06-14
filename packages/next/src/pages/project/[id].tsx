@@ -40,8 +40,7 @@ export const getServerSideProps: GetServerSideProps<
       notFound: true
     };
   }
-  const { findProjectById, log } = req.fastify();
-  const result = await findProjectById({ id: params.id });
+  const result = await req.fastify().findProjectById({ id: params.id });
   if (result.state !== "success") {
     return { notFound: true };
   }
@@ -49,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<
   const description = await readMdx({
     baseDir: result.baseDir,
     filePath: result.data.description,
-    logger: log.child({})
+    logger: req.fastify().log.child({})
   });
   return {
     props: {
