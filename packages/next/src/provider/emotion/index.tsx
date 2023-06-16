@@ -25,7 +25,10 @@ const Component: FC<Props> = props => {
           components: {
             Title: {
               styles: theme => ({
-                root: { color: theme.white }
+                root: {
+                  color:
+                    theme.colorScheme === "dark" ? theme.white : theme.black
+                }
               })
             }
           }
