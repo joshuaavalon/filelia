@@ -10,19 +10,20 @@ import type { MdxContextValue } from "./context";
 export type { SourceOptions } from "./context";
 
 export interface Props {
+  id?: string;
   content: MDXRemoteSerializeResult | null;
   onImgSrc: MdxContextValue["onImgSrc"];
   onSourceSrcSet: MdxContextValue["onSourceSrcSet"];
 }
 
 const Component = forwardRef<HTMLDivElement, Props>((props, ref) => {
-  const { content, onImgSrc, onSourceSrcSet } = props;
+  const { content, onImgSrc, onSourceSrcSet, id } = props;
   if (!content) {
     return <Stack spacing={0} ref={ref} />;
   }
   return (
     <MdxContext.Provider value={{ onImgSrc, onSourceSrcSet }}>
-      <Stack spacing={0} ref={ref}>
+      <Stack spacing={0} ref={ref} id={id}>
         <TypographyStylesProvider>
           <MDXRemote {...content} components={components} />
         </TypographyStylesProvider>

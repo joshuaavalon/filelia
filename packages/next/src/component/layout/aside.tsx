@@ -1,9 +1,9 @@
-import { createContext, useContext } from "react";
+import { useContext } from "react";
 import { Aside, createStyles, ScrollArea } from "@mantine/core";
 import { useResizing } from "#hook";
+import LayoutContext from "./context";
 
 import type { CSSProperties, FC, ReactNode } from "react";
-import type { Disclosure } from "./type";
 
 const useStyles = createStyles(theme => ({
   aside: {
@@ -23,13 +23,6 @@ const useStyles = createStyles(theme => ({
   }
 }));
 
-/* eslint-disable no-empty-function, @typescript-eslint/no-empty-function */
-export const AsideContext = createContext<Disclosure>([
-  false,
-  { open: () => {}, close: () => {}, toggle: () => {} }
-]);
-/* eslint-enable no-empty-function, @typescript-eslint/no-empty-function */
-
 export interface Props {
   children: ReactNode;
   scrollable?: boolean;
@@ -37,7 +30,9 @@ export interface Props {
 
 const Component: FC<Props> = props => {
   const { children, scrollable = true } = props;
-  const [opened] = useContext(AsideContext);
+  const {
+    aside: [opened]
+  } = useContext(LayoutContext);
   const {
     classes: { aside, viewport, root }
   } = useStyles();
@@ -63,5 +58,5 @@ const Component: FC<Props> = props => {
   );
 };
 
-Component.displayName = "Aside";
+Component.displayName = "Layout/Aside";
 export default Component;

@@ -47,5 +47,5 @@ const Component: FC<Props> = props => {
   );
 };
 
-Component.displayName = "LinkButton";
+Component.displayName = "Layout/Navbar/LinkButton";
 export default Component;

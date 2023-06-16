@@ -19,5 +19,5 @@ const Component: FC<Props> = () => {
   );
 };
 
-Component.displayName = "TagsButton";
+Component.displayName = "Layout/Navbar/TagsButton";
 export default Component;

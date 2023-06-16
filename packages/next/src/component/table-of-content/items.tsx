@@ -20,5 +20,5 @@ const Component: FC<Props> = props => {
   return <Stack spacing={0}>{itemList}</Stack>;
 };
 
-Component.displayName = "TableOfContentItems";
+Component.displayName = "TableOfContent/Items";
 export default Component;

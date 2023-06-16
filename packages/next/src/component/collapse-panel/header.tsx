@@ -45,5 +45,5 @@ const Component: FC<Props> = props => {
   );
 };
 
-Component.displayName = "CollapsePanelHeader";
+Component.displayName = "CollapsePanel/Header";
 export default Component;

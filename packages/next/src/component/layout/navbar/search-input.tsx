@@ -33,5 +33,5 @@ const Component: FC<Props> = () => {
   );
 };
 
-Component.displayName = "SearchInput";
+Component.displayName = "Layout/Navbar/SearchInput";
 export default Component;

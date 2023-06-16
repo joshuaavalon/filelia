@@ -51,6 +51,7 @@ const Component = forwardRef<HTMLDivElement, Props>((_props, ref) => {
   );
   return (
     <Mdx
+      id="description"
       ref={ref}
       content={description}
       onImgSrc={onImgSrc}

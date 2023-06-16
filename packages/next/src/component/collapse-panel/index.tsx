@@ -1,6 +1,6 @@
 import { Collapse, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import CollapsePanelHeader from "./header";
+import Header from "./header";
 
 import type { FC, ReactNode } from "react";
 import type { Sx } from "@mantine/core";
@@ -18,12 +18,7 @@ const Component: FC<Props> = props => {
   const [opened, { toggle }] = useDisclosure(true);
   return (
     <Stack sx={sx} spacing="sm" className={className}>
-      <CollapsePanelHeader
-        onClick={toggle}
-        label={title}
-        icon={icon}
-        opened={opened}
-      />
+      <Header onClick={toggle} label={title} icon={icon} opened={opened} />
       <Collapse in={opened}>{children}</Collapse>
     </Stack>
   );

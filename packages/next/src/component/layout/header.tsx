@@ -1,16 +1,25 @@
 import { useCallback, useContext } from "react";
-import { Burger, createStyles, Flex, Header, MediaQuery } from "@mantine/core";
-import { NavbarContext } from "./navbar";
-import { AsideContext } from "./aside";
+import { Burger, createStyles, Header } from "@mantine/core";
+import LayoutContext from "./context";
 import Logo from "./logo";
 
 import type { FC } from "react";
 
-const useStyles = createStyles({
-  root: { display: "flex", alignItems: "center" },
-  burgerLeft: { position: "absolute" },
-  burgerRight: { position: "absolute", right: 0 }
-});
+const useStyles = createStyles(theme => ({
+  root: {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    padding: theme.spacing.md
+  },
+  burger: {
+    [theme.fn.largerThan("md")]: {
+      display: "none"
+    }
+  }
+}));
 
 export interface Props {
   hasAside: boolean;
@@ -19,10 +28,10 @@ export interface Props {
 const Component: FC<Props> = props => {
   const { hasAside } = props;
   const { classes } = useStyles();
-  const [asideOpened, { close: asideClose, toggle: asideToggle }] =
-    useContext(AsideContext);
-  const [navbarOpened, { close: navbarClose, toggle: navbarToggle }] =
-    useContext(NavbarContext);
+  const {
+    aside: [asideOpened, { close: asideClose, toggle: asideToggle }],
+    navbar: [navbarOpened, { close: navbarClose, toggle: navbarToggle }]
+  } = useContext(LayoutContext);
   const onNavbarClick = useCallback(() => {
     asideClose();
     navbarToggle();
@@ -32,43 +41,25 @@ const Component: FC<Props> = props => {
     asideToggle();
   }, [navbarClose, asideToggle]);
   return (
-    <Header height={50} p="md" className={classes.root}>
-      <Flex
-        gap="xs"
-        justify="flex-start"
-        align="center"
-        direction="row"
-        wrap="wrap"
-        sx={{ width: "100%", position: "relative" }}
-      >
-        <MediaQuery largerThan="md" styles={{ display: "none" }}>
-          <Burger
-            opened={navbarOpened}
-            onClick={onNavbarClick}
-            size="sm"
-            mr="xl"
-            className={classes.burgerLeft}
-          />
-        </MediaQuery>
-        <Logo />
-      </Flex>
-      <div style={{ flex: 1 }} />
-      <MediaQuery largerThan="md" styles={{ display: "none" }}>
-        {hasAside ? (
-          <Burger
-            opened={asideOpened}
-            onClick={onAsideClick}
-            size="sm"
-            mr="xl"
-            className={classes.burgerRight}
-          />
-        ) : (
-          <></>
-        )}
-      </MediaQuery>
+    <Header height={50} className={classes.root}>
+      <Burger
+        opened={navbarOpened}
+        onClick={onNavbarClick}
+        className={classes.burger}
+      />
+      <Logo />
+      {hasAside ? (
+        <Burger
+          opened={asideOpened}
+          onClick={onAsideClick}
+          className={classes.burger}
+        />
+      ) : (
+        <></>
+      )}
     </Header>
   );
 };
 
-Component.displayName = "Header";
+Component.displayName = "Layout/Header";
 export default Component;

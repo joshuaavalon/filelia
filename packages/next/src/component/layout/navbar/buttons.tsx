@@ -29,5 +29,5 @@ const Component: FC<Props> = () => {
   );
 };
 
-Component.displayName = "Navbar";
+Component.displayName = "Layout/Navbar/Buttons";
 export default Component;

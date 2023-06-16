@@ -1,5 +1,9 @@
-import { ActionIcon, useMantineColorScheme } from "@mantine/core";
-import { IconMoonStars, IconSun } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  useMantineColorScheme,
+  useMantineTheme
+} from "@mantine/core";
+import { IconMoon, IconSun } from "@tabler/icons-react";
 
 import type { FC } from "react";
 import type { ActionIconProps, MantineNumberSize } from "@mantine/core";
@@ -14,12 +18,8 @@ export interface Props {
 const Component: FC<Props> = props => {
   const { buttonSize, variant, className, color } = props;
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const icon =
-    colorScheme === "dark" ? (
-      <IconSun size="1rem" />
-    ) : (
-      <IconMoonStars size="1rem" />
-    );
+  const theme = useMantineTheme();
+  const Icon = colorScheme === "dark" ? IconSun : IconMoon;
   return (
     <ActionIcon
       onClick={() => toggleColorScheme()}
@@ -29,7 +29,7 @@ const Component: FC<Props> = props => {
       color={color}
       title="Change color scheme"
     >
-      {icon}
+      <Icon size={theme.fontSizes.md} />
     </ActionIcon>
   );
 };

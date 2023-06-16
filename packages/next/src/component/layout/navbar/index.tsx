@@ -1,12 +1,12 @@
-import { createContext, useContext } from "react";
+import { useContext } from "react";
 import { createStyles, Navbar, ScrollArea } from "@mantine/core";
 import { useResizing } from "#hook";
+import LayoutContext from "../context";
 import SearchInput from "./search-input";
 import Buttons from "./buttons";
 import TagsButton from "./tags-button";
 
 import type { CSSProperties, FC } from "react";
-import type { Disclosure } from "../type";
 
 const useStyles = createStyles(theme => ({
   navbar: {
@@ -17,17 +17,12 @@ const useStyles = createStyles(theme => ({
   }
 }));
 
-/* eslint-disable no-empty-function, @typescript-eslint/no-empty-function */
-export const NavbarContext = createContext<Disclosure>([
-  false,
-  { open: () => {}, close: () => {}, toggle: () => {} }
-]);
-/* eslint-enable no-empty-function, @typescript-eslint/no-empty-function */
-
 export interface Props {}
 
 const Component: FC<Props> = () => {
-  const [opened] = useContext(NavbarContext);
+  const {
+    navbar: [opened]
+  } = useContext(LayoutContext);
   const { classes } = useStyles();
   const isResizing = useResizing();
   const style = {
@@ -56,5 +51,5 @@ const Component: FC<Props> = () => {
   );
 };
 
-Component.displayName = "Navbar";
+Component.displayName = "Layout/Navbar";
 export default Component;

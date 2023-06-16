@@ -1,8 +1,10 @@
+import { useCallback, useMemo } from "react";
 import { AppShell, createStyles, ScrollArea } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import Navbar, { NavbarContext } from "./navbar";
-import Aside, { AsideContext } from "./aside";
+import Navbar from "./navbar";
+import Aside from "./aside";
 import Header from "./header";
+import LayoutContext from "./context";
 
 import type { FC, ReactNode } from "react";
 
@@ -45,26 +47,34 @@ const Component: FC<Props> = props => {
   } = useStyles();
   const navbar = useDisclosure(false);
   const aside = useDisclosure(false);
+  const ctx = useMemo(() => ({ navbar, aside }), [navbar, aside]);
   const hasAside = Boolean(asideContent);
   const asideElm = hasAside ? (
     <Aside scrollable={asideScrollable}>{asideContent}</Aside>
   ) : undefined;
+  const onScroll = useCallback(
+    () => window.dispatchEvent(new Event("scroll")),
+    []
+  );
   return (
-    <NavbarContext.Provider value={navbar}>
-      <AsideContext.Provider value={aside}>
-        <AppShell
-          padding="md"
-          navbarOffsetBreakpoint="md"
-          asideOffsetBreakpoint="md"
-          aside={asideElm}
-          navbar={<Navbar />}
-          header={<Header hasAside={hasAside} />}
-          classNames={{ main, root: className }}
+    <LayoutContext.Provider value={ctx}>
+      <AppShell
+        padding="md"
+        navbarOffsetBreakpoint="md"
+        asideOffsetBreakpoint="md"
+        aside={asideElm}
+        navbar={<Navbar />}
+        header={<Header hasAside={hasAside} />}
+        classNames={{ main, root: className }}
+      >
+        <ScrollArea
+          classNames={{ root, viewport }}
+          onScrollPositionChange={onScroll}
         >
-          <ScrollArea classNames={{ root, viewport }}>{children}</ScrollArea>
-        </AppShell>
-      </AsideContext.Provider>
-    </NavbarContext.Provider>
+          {children}
+        </ScrollArea>
+      </AppShell>
+    </LayoutContext.Provider>
   );
 };
 
